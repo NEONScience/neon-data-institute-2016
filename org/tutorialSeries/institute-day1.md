@@ -17,8 +17,8 @@ Links will also appear on the LEFT side bar
 ## Afternoon
 * make this into a table
 
-[Open H5 - step by step](/institute-materials/institute/day1_monday/openNeonH5_functions.html)
+[Open H5 - step by step]({{ site.baseurl }}/institute-materials/institute/day1_monday/openNeonH5_functions.html)
 
-[Open H5 With Functions](/institute-materials/institute/day1_monday/openNeonH5_functions.html) 
+[Open H5 With Functions]({{ site.baseurl }}/institute-materials/institute/day1_monday/openNeonH5_functions.html) 
 
 ## Tutorials in Workshop Series
