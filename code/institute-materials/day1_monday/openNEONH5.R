@@ -1,22 +1,4 @@
----
-layout: post
-title: "Open NEON H5 File"
-author: "Leah A. Wasser"
-date: "April 28, 2016"
-packagesLibraries: [rgdal, raster]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, hdf5]
-tutorialSeries: [institute-day1]
-description: "."
-output: 
-  html_document: 
-    theme: readable
----
-
-First, let's load the required libraries.
-
-```{r load-libraries, warning=FALSE, echo=FALSE}
+## ----load-libraries, warning=FALSE, echo=FALSE---------------------------
 # load libraries
 library(raster)
 library(rhdf5)
@@ -24,42 +6,30 @@ library(rgdal)
 
 # set wd
 setwd("~/Documents/data/1_spectrometerData/Teakettle/testSubset")
-```
 
-## Explore File
-Next, define the file name and view the contents quickly.
-
-```{r read-file}
+## ----read-file-----------------------------------------------------------
 # define the file name as an object
 f <- "Subset1NIS1_20130614_095740_atmcor.h5"
 
 # view the structure of the file
 # reflectance is where the refl data are stored. 
 # map info contains the proj information in WKT format
-h5ls(f)
+H5close()
+h5ls(f, all = TRUE)
 
 # let's grab some attribute information to use 
 # here we have the CRS information that includes the 
 # UPPER LEFT corner coordinate in UTM (meters)
-mapInfo <- h5read(f,"map info")
+mapInfo <- h5read(f,"map info", read.attributes = TRUE)
 mapInfo
 
-```
 
-## View Wavelengths
-
-Next, let's import some wavelength information.
-
-```{r import-wavelength}
+## ----import-wavelength---------------------------------------------------
 # import the center wavelength in um of each "band"
 wavelengths<- h5read(f,"wavelength")
 
-```
 
-# Grab scale Factor
-# notice the data ignore is a character.
-
-```{r view-attr }
+## ----view-attr-----------------------------------------------------------
 
 # r  get attributes for the Reflectance dataset
 reflInfo <- h5readAttributes(f,"Reflectance")
@@ -74,16 +44,8 @@ reflInfo$`data ignore value`
 # you have to conver to num or int to ensure it is useful!
 
 
-```
 
-# Get shape of reflectance dataset
-
-Let's 
-read the data to grab the dimensions.
-note: in a future version of the data we will have the dimensions as ATTRIBUTES
-that you can automatically pull in
-
-```{r import-reflectance }
+## ----import-reflectance--------------------------------------------------
 
 # open the file for viewing
 fid <- H5Fopen(f)
@@ -102,12 +64,8 @@ H5Sclose(sid)
 H5Dclose(did)
 H5Fclose(fid)
 
-```
 
-Once we know the dimensions of the data, we can more efficient slice out chunks of it
-Let's first grab all of the data for band34
-
-```{r read-refl-data }
+## ----read-refl-data------------------------------------------------------
 # if you get an error with the file being "open" just use the generic h5 close below
 # when we are done with our attributes you can skip all of this nonsense :)
 H5close()
@@ -116,12 +74,8 @@ b56<- h5read(f,"Reflectance", index=list(1:dims[1],1:dims[2],56))
 # note the data come in as an array
 class(b56)
 
-```
 
-Next, we will convert the data to a matrix and then to a raster.
-We don't need an array because our data are only 2 dimensions at this point (1 single band).
-
-```{r view-data }
+## ----view-data-----------------------------------------------------------
 # Convert from array to matrix so we can plot and convert to a raster
 b56 <- b56[,,1]
 
@@ -133,14 +87,8 @@ image(log(b56), main="band 56 with log transformation")
 # view distribution
 hist(b56)
 
-```
 
-Ok so now we need to do a few things
-
-1. set the no data value (15000)
-2. scale the data by 10000
-
-```{r no-data-scale }
+## ----no-data-scale-------------------------------------------------------
 
 noDataVal <- as.integer(reflInfo$`data ignore value`)
 # set all values = 15,000 to NA
@@ -151,21 +99,15 @@ scaleFactor <- reflInfo$`Scale Factor`
 b56 <- b56/scaleFactor
 
 hist(b56, main="distribution with NoData Value considered\nData scaled")
-```
 
-
-Note -- there are still issues with values over 1. I need to followup with
-AOP about how to handle these. 
-```{r transpose-data }
+## ----transpose-data------------------------------------------------------
 # Because the data import column, row but we require row, column in R, 
 # We need to transpose x and y values in order for our final image to plot properly
 b56<-t(b56)
 image(log(b56), main="Transposed image")
 
-```
 
-Next, we need to create the spatial extent required to position the raster in space. 
-```{r}
+## ------------------------------------------------------------------------
 # so we can extract the lower left hand corner coordinates.
 # the numbers as position 4 and 5 are the UPPER LEFT CORNER (x,y)
 mapInfo<-unlist(strsplit(mapInfo, ","))
@@ -199,7 +141,5 @@ extent(b56r) <- rasExt
 # the raster format nativly is stored.
 b56r
 plot(b56r, main="Raster for Teakettle - B56")
-
-```
 
 
