@@ -1,13 +1,27 @@
 ---
-title: "Open NEON H5 File - Functions"
-author: "Leah A. Wasser"
-date: "April 28, 2016"
+layout: post
+title: "intro H5"
+date:   2016-06-20
+authors: [Leah A. Wasser, Kyla Dahlin]
+contributors: []
+dateCreated:  2016-05-01
+lastModified: 2016-05-02
+packagesLibraries: [rhdf5]
+categories: [self-paced-tutorial]
+mainTag: tabular-time-series
 tags: [hdf5]
-permalink: /hdf5-r/
-output: 
-  html_document: 
-    theme: readable
+tutorialSeries: [institute-day1]
+description: "Intro to HDF5"
+code1: .R
+image:
+  feature: 
+  credit: 
+  creditlink:
+permalink: /R/hdf5-R/
+comments: false
 ---
+
+{% include _toc.html %}
 
 First, let's load the required libraries.
 
