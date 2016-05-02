@@ -1,15 +1,17 @@
 ---
 layout: post
-title: "intro H5"
+title: "NEON Hyperspectral Remote Sensing Data in R - Efficient Processing Using Functions"
 date:   2016-06-20
 authors: [Leah A. Wasser, Kyla Dahlin]
+instructors: [Leah A. Wasser, Lindsay Powers]
+time: "1:00 pm"
 contributors: []
 dateCreated:  2016-05-01
 lastModified: 2016-05-02
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
-mainTag: tabular-time-series
-tags: [hdf5]
+mainTag: institute-day1
+tags: [R, HDF5]
 tutorialSeries: [institute-day1]
 description: "Intro to HDF5"
 code1: .R

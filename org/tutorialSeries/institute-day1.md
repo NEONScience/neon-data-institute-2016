@@ -2,7 +2,7 @@
 layout: tutorial-series-landing
 title: 'Day One Agenda'
 categories: [tutorial-series]
-tutorialSeriesName: intro-hdf5-r-series
+tutorialSeriesName: institute-day1
 permalink: tutorial-series/institute-day1/
 image:
   feature: hierarchy_folder.png
@@ -12,13 +12,8 @@ image:
 ## About
 
 Agenda with links to each segments materials.
+Description goes here.
+
 Links will also appear on the LEFT side bar
 
-## Afternoon
-* make this into a table
-
-[Open H5 - step by step]({{ site.baseurl }}/institute-materials/institute/day1_monday/openNeonH5_functions.html)
-
-[Open H5 With Functions]({{ site.baseurl }}/institute-materials/institute/day1_monday/openNeonH5_functions.html) 
-
-## Tutorials in Workshop Series
+## Afternoon Agenda
