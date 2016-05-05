@@ -1,42 +1,42 @@
 - slug: pre-institute1
-  name: Introduction to NEON & Reproducible Science
+  name: "Pre-Institute Wk 1: Introduction to NEON & Reproducible Science"
   description: "."
-  lastModified:  2016-05-01
+  lastModified:  2016-07-01
   
 - slug: pre-institute2
-  name: Introduction to Git & GitHub
+  name: "Pre-Institute Wk 2: Introduction to Git & GitHub"
   description: "."
-  lastModified:  2016-04-26 
+  lastModified:  2016-07-02 
    
 - slug: pre-institute3
-  name: Introduction to RMD and Knitr in R
+  name: "Pre-Institute Wk 3: Introduction to RMD and Knitr in R"
   description: "."
-  lastModified:  2016-04-26
+  lastModified:  2016-07-03
   
 - slug: institute-day1
-  name: Welcome & Hyperspectral Data in R
+  name: "Monday 20 June: Welcome & Hyperspectral Data in R"
   description: "."
-  lastModified:  2016-04-26 
+  lastModified:  2016-07-04 
    
 - slug: institute-day2
-  name: Welcome & Hyperspectral Data in R
+  name: "Tuesday 21 June: Lidar Data & Automation"
   description: "."
-  lastModified:  2016-04-26
+  lastModified:  2016-07-05
   
 - slug: institute-day3
-  name: Day 3 Agenda - Uncertainty
+  name: "Wednesday 22 June: Comparing Ground to Airborne - Uncertainty"
   description: "."
-  lastModified:  2016-04-26
+  lastModified:  2016-07-06
     
 - slug: institute-day4
-  name: Day 4 Agenda - Data Fusion
+  name: "Thursday 23 June: Lidar & Hyperspectral Data Fusion"
   description: "."
-  lastModified:  2016-04-26  
+  lastModified:  2016-07-07  
   
 - slug: institute-day5
-  name: Welcome & Hyperspectral Data in R
+  name: "Thursday 23 June: Project Work Day"
   description: "."
-  lastModified:  2016-04-26
+  lastModified:  2016-07-06
   
 
   

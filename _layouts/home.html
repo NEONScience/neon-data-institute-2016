@@ -23,7 +23,7 @@
 
 {{ content }}
 
-
+{% comment %}
 <h2>Upcoming Events</h2>
 {% for post in site.categories['workshop-event'] limit:3 %}
 {% capture nowunix %}{{'now' | date: '%s'}}{% endcapture %}
@@ -42,10 +42,11 @@
             </article>
 {% endif %}
 {% endfor %}
+{% endcomment %}
 
-<h2>Get Started With Our Data Tutorial Series!</h2>
+<h2>Agenda</h2>
 
-{% for member in site.data.tutorialSeries limit:3 %}
+{% for member in site.data.tutorialSeries %}
 {% assign counter = 0 %}
 <!-- this code counts the number of posts associated with each tutorial series member (tutorialSeries.yml -->
 {% for post in site.posts %}
@@ -58,29 +59,14 @@
             <a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" class="list-group-item">
                 <h2 class="list-group-item-heading">{{ member.name  }}</h2>
                 <span class="post-date">
+                {% comment %}
                 {% if member.lastModified %}last modified: {{ member.lastModified | date: "%b %-d, %Y" }}{% endif %}</span>
-
+				{% endcomment %}
             <p>{{ member.description }}</p>
-            <strong>Total tutorials: {{ counter }}</strong>
             </a>
    </article>         
 {% endfor %}
 
-  <h2>3 Newest Data Tutorials</h2>
-  {% for post in site.categories['self-paced-tutorial'] limit:3 %}
-  <article>
-    {% if post.link %}
-      <h2 class="link-post"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> <a href="{{ post.link }}" target="_blank" title="{{ post.title }}"><i class="icon-link"></i></h2>
-    {% else %}
-      <h2><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
-      <span class="post-date">
-      {% if post.lastModified %}Last modified: {{ post.lastModified | date: "%b %-d, %Y" }}{% endif %}
-      {% if post.packagesLibraries %} - Libraries: {{ post.packagesLibraries | join: ', ' %}}{% endif %}
-      </span>
-      <p>{% if post.description %}{{ post.description }}{% else %}{{ post.content | strip_html | strip_newlines | truncate: 120 }}{% endif %}</p>
-    {% endif %}
-  </article>
-  {% endfor %}
 </div><!-- /#index -->
 
 <div class="footer-wrap">
