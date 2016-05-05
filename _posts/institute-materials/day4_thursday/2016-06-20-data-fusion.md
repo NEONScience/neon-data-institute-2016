@@ -154,6 +154,7 @@ south facing slopes. To test this we need to
 5. look at %s for each, 
 6. do a t-test to compare all pixels.
 
+let's get started.
 
 
     # (1) calculate aspect of cropped DTM
