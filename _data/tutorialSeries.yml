@@ -1,4 +1,39 @@
+- slug: pre-institute1
+  name: Introduction to NEON & Reproducible Science
+  description: "."
+  lastModified:  2016-05-01
+  
+- slug: pre-institute2
+  name: Introduction to Git & GitHub
+  description: "."
+  lastModified:  2016-04-26 
+   
+- slug: pre-institute3
+  name: Introduction to RMD and Knitr in R
+  description: "."
+  lastModified:  2016-04-26
+  
 - slug: institute-day1
+  name: Welcome & Hyperspectral Data in R
+  description: "."
+  lastModified:  2016-04-26 
+   
+- slug: institute-day2
+  name: Welcome & Hyperspectral Data in R
+  description: "."
+  lastModified:  2016-04-26
+  
+- slug: institute-day3
+  name: Day 3 Agenda - Uncertainty
+  description: "."
+  lastModified:  2016-04-26
+    
+- slug: institute-day4
+  name: Day 4 Agenda - Data Fusion
+  description: "."
+  lastModified:  2016-04-26  
+  
+- slug: institute-day5
   name: Welcome & Hyperspectral Data in R
   description: "."
   lastModified:  2016-04-26
