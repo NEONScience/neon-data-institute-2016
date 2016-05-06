@@ -1,11 +1,11 @@
 ---
 layout: home
-description: "A site devoted to open science and open data."
+description: "A site for the NEON Data Institute 2016."
 Tags: []
 image:
-  feature: texture-feature-07.png
+  feature: dataInstitute_2016.jpg
   credit: National Ecological Observatory Network (NEON)
-  creditlink: http://www.neoninc.org
+  creditlink: http://www.neonscience.org
 ---
 
 
