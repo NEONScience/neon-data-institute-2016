@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Day Two Agenda'
+title: 'Wednesday 22 June: Comparing Ground to Airborne - Uncertainty'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day3
 permalink: tutorial-series/institute-day3/

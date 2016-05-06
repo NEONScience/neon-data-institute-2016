@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Day Two Agenda'
+title: 'Tuesday 21 June - Lidar Data & Automation'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day2
 permalink: tutorial-series/institute-day2/
