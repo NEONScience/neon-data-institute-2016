@@ -5,16 +5,16 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-setwd("~/Documents/data/1_spectrometerData/Teakettle/testSubset")
+# setwd("~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/")
 
 ## ----read-file-----------------------------------------------------------
 # define the file name as an object
-f <- "Subset1NIS1_20130614_095740_atmcor.h5"
+f <- "spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # view the structure of the file
 # reflectance is where the refl data are stored. 
 # map info contains the proj information in WKT format
-H5close()
+# H5close()
 h5ls(f, all = TRUE)
 
 # let's grab some attribute information to use 
