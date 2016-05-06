@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "NEON Hyperspectral Remote Sensing Data in R - Efficient Processing Using Functions"
-date:   2016-06-20
+date:   2016-06-19
 authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah A. Wasser, Lindsay Powers]
-time: "1:00 pm"
-contributors: []
+instructors: [Leah A. Wasser]
+time: "2:00 pm"
+contributors: [Edmund Hart]
 dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rhdf5]
@@ -19,7 +19,7 @@ image:
   feature: 
   credit: 
   creditlink:
-permalink: /R/hdf5-R/
+permalink: /R/open-NEON-hdf5-functions/
 comments: false
 ---
 
