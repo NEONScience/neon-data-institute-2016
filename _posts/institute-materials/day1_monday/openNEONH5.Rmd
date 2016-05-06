@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "intro H5"
+title: "Intro to working with Hyperspectral RS data in R -  H5"
 date:   2016-06-20
 authors: [Leah A. Wasser, Kyla Dahlin]
 contributors: []

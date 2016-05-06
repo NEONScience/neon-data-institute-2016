@@ -9,7 +9,6 @@ image:
 ---
 
 
-## Welcome to the NEON #WorkWithData Portal! 
+## Welcome to the 2016 NEON Data Institute! 
 
-This site contains data lessons, background materials and other resources that support working with large spatio-temporal datasets, like those offered by the <a href="http://www.neoninc.org" target="_blank">NEON project</a>. We welcome any comments and feedback that you have and also materials that support or expand upon what's available on this site!.  
 
