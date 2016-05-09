@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Day One Agenda'
+title: 'Thursday 23 June: Lidar & Hyperspectral Data Fusion'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day4
 permalink: tutorial-series/institute-day4/

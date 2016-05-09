@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Day One Agenda'
+title: 'Monday 20 June: Welcome & Hyperspectral Data in R'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day1
 permalink: tutorial-series/institute-day1/
