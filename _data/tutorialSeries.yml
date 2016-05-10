@@ -1,3 +1,8 @@
+- slug: pre-institute0
+  name: "Pre-Institute Wk 0: Computer Setup"
+  description: "."
+  lastModified:  2016-07-01
+
 - slug: pre-institute1
   name: "Pre-Institute Wk 1: Introduction to NEON & Reproducible Science"
   description: "."

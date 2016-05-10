@@ -23,7 +23,7 @@ owner:
   email: "neondataskills@neoninc.org"
   twitter: "leahawasser"
   github: "NEON-WorkWithData"
-  youtube: "neonbetaedu"
+  youtube: "NEONBetaEDU"
 # instagram:      ""
 # For Google Authorship https://plus.google.com/authorship
 # google_plus:    ""
@@ -43,8 +43,9 @@ links:
   - title: Institute Lessons
     url: /institute-lessons/
           
-  - title: About
-    url: /about/ 
+  - title: NEON Data Skills Website
+    url: http://neondataskills.org
+    external: true
     
   - title: NEON Website
     url: http://neonscience.org
