@@ -3,12 +3,12 @@ description: Materials for the 2016 #WorkWithData Institute.
 # Comment out url when working locally to resolve base urls correctly ok
 # use this when pushing to git for live version
 
-url:    http://NEON-WorkWithData.github.io/neon-data-institute-2016/
-baseurl: http://NEON-WorkWithData.github.io/neon-data-institute-2016/
+url:    http://NEON-WorkWithData.github.io/neon-data-institute-2016
+baseurl: http://NEON-WorkWithData.github.io/neon-data-institute-2016
 
 #use this when working locally
 #just uncomment the first localhost.
-# url: http://localhost:4000
+#url: http://localhost:4000
 #baseurl: http://localhost:4000
 
 disqus_shortname: neondataskills
