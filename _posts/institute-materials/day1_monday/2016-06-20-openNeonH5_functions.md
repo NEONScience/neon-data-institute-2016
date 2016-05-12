@@ -7,7 +7,7 @@ instructors: [Leah A. Wasser]
 time: "2:00 pm"
 contributors: [Edmund Hart]
 dateCreated:  2016-05-01
-lastModified: 2016-05-11
+lastModified: 2016-05-12
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -287,7 +287,7 @@ an attribute that would be much easier to access quickly.
     ## coord. ref. : +init=epsg:32611 +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
     ## names       : layer.1, layer.2, layer.3 
     ## min values  :  0.0194,  0.0189,  0.0030 
-    ## max values  :  1.0529,  1.1398,  0.5680
+    ## max values  :   1.053,   1.140,   0.568
 
 # Export the 3 band image as a gtif
 

@@ -3221,6 +3221,13 @@ top:.42857142857142855rem
 	width: 37.5%
 }
 }
+
+#index article:hover {
+	background-color:#e6ffff;
+}
+#index article {
+	padding: .5rem 0;
+}
 #index h3 {
 	padding-bottom: .5em;
 	margin: 0;
@@ -3229,7 +3236,7 @@ top:.42857142857142855rem
 	border-bottom: 1px solid #c3c3c3
 }
 #index article h2 {
-	margin-bottom: 4px;
+	margin: 1rem 0 .4rem 0;
 	font-size: 20px;
 	font-size: 1.25rem
 }
@@ -3239,7 +3246,8 @@ top:.42857142857142855rem
 }
 #index article p {
 	font-size: 14px;
-font-size:.875rem
+	font-size:.875rem;
+	font-style: normal;
 }
 #index article p+p {
 	text-indent: 0

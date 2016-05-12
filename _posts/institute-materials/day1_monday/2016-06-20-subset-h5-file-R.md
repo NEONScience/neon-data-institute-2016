@@ -7,7 +7,7 @@ instructors: []
 contributors: []
 time: "3:30 pm"
 dateCreated:  2016-05-10
-lastModified: 2016-05-11
+lastModified: 2016-05-12
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -323,7 +323,7 @@ Let's give it a go
     get_spectra(f, bandNum=1, epsg=32611, subset=TRUE,
                                dims=index.bounds, mask=ndvi, fun=mean)
 
-    ## [1] 0.02485417
+    ## [1] 0.02485
 
     # provide a list of bands that you wish to extract summary values for
     bands <- (1:426)

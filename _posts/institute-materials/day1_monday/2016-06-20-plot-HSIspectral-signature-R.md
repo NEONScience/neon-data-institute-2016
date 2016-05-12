@@ -7,7 +7,7 @@ instructors: [Leah A. Wasser]
 contributors: []
 time: "1:30 pm"
 dateCreated:  2016-05-01
-lastModified: 2016-05-11
+lastModified: 2016-05-12
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -233,12 +233,12 @@ dataframe for easy plotting.
     head(aPixeldf)
 
     ##   reflectance wavelength
-    ## 1         503     382.27
-    ## 2         623     387.28
-    ## 3         720     392.29
-    ## 4         692     397.30
-    ## 5         550     402.31
-    ## 6         563     407.32
+    ## 1         503      382.3
+    ## 2         623      387.3
+    ## 3         720      392.3
+    ## 4         692      397.3
+    ## 5         550      402.3
+    ## 6         563      407.3
 
 ## Scale Factor
 
@@ -261,12 +261,12 @@ by a factor of 10, 100, 10000, etc. This `scale factor` will be noted in the dat
     head(aPixeldf)
 
     ##   reflectance wavelength
-    ## 1      0.0503     382.27
-    ## 2      0.0623     387.28
-    ## 3      0.0720     392.29
-    ## 4      0.0692     397.30
-    ## 5      0.0550     402.31
-    ## 6      0.0563     407.32
+    ## 1      0.0503      382.3
+    ## 2      0.0623      387.3
+    ## 3      0.0720      392.3
+    ## 4      0.0692      397.3
+    ## 5      0.0550      402.3
+    ## 6      0.0563      407.3
 
 ## Plot Spectral Profile
 
