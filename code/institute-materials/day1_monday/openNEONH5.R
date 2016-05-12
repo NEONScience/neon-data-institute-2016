@@ -5,11 +5,11 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/")
+# setwd("~/Documents/data/1_data-institute-2016")
 
 ## ----read-file-----------------------------------------------------------
 # define the file name as an object
-f <- "spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # view the structure of the file
 # reflectance is where the refl data are stored. 

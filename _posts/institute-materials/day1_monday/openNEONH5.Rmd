@@ -10,7 +10,7 @@ dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
-mainTag: tabular-time-series
+mainTag: institute-day1
 tags: [R, HDF5]
 tutorialSeries: [institute-day1]
 description: "Learn how to open a NEON HDF5 file in R."
@@ -32,28 +32,31 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/")
+# setwd("~/Documents/data/1_data-institute-2016")
 ```
 
 ## Explore File
 Next, define the file name and view the contents quickly.
 
-```{r read-file}
+```{r read-file, results='hide'}
 # define the file name as an object
-f <- "spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
-# view the structure of the file
-# reflectance is where the refl data are stored. 
-# map info contains the proj information in WKT format
-# H5close()
+# view the structure of the H5 file
 h5ls(f, all = TRUE)
+
+```
+
+## View Data Attributes
+
+Next, let's view some of the attributes of the datasets within the H5 file.
+```{r view-attributes }
 
 # let's grab some attribute information to use 
 # here we have the CRS information that includes the 
 # UPPER LEFT corner coordinate in UTM (meters)
 mapInfo <- h5read(f,"map info", read.attributes = TRUE)
 mapInfo
-
 ```
 
 ## View Wavelengths

@@ -7,7 +7,7 @@ instructors: [Leah A. Wasser]
 time: "2:00 pm"
 contributors: [Edmund Hart]
 dateCreated:  2016-05-01
-lastModified: 2016-05-06
+lastModified: 2016-05-11
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -43,7 +43,7 @@ First, let's load the required libraries.
     
     # define the file you want to work with
     #f <- "Subset1NIS1_20130614_095740_atmcor.h5"
-    f <- "spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+    f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 ## Get Reflectance Matrix Dimensions
 
@@ -334,16 +334,21 @@ an attribute that would be much easier to access quickly.
 
 
     DSM <- raster("lidar/Teak_lidarDSM.tif")
-    
+
+    ## Error in .rasterObjectFromFile(x, band = band, objecttype = "RasterLayer", : Cannot create a RasterLayer object from this file. (file does not exist)
+
     plot(DSM,
          col=grey(1:100/100),
          main="DSM")
+
+    ## Error in plot(DSM, col = grey(1:100/100), main = "DSM"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'DSM' not found
+
     plot(ndvi_rast, 
          add=TRUE,
          alpha=.3
          )
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/openNeonH5_functions/import-lidar-1.png)
+    ## Error in graphics::rasterImage(x, e[1], e[3], e[2], e[4], interpolate = interpolate): plot.new has not been called yet
 
 
 # Other notes

@@ -12,8 +12,12 @@ image:
 ## About
 
 Agenda with links to each segments materials.
-Description goes here.
 
-Links will also appear on the LEFT side bar
+# Background Materials
+
+
+* <a href="http://neondataskills.org/HDF5/About" target="_blank">Plot Spectral Signature in R</a>
+
+* <a href="http://neondataskills.org/HDF5/About" target="_blank">Plot Spectral Signature in R</a>
 
 ## Afternoon Agenda

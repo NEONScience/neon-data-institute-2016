@@ -12,7 +12,7 @@ epsg <- 32611
 
 # define the file you want to work with
 #f <- "Subset1NIS1_20130614_095740_atmcor.h5"
-f <- "spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 
 ## ----get-data-dims-------------------------------------------------------
