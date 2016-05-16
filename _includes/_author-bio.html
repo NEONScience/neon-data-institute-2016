@@ -8,17 +8,16 @@
 {% endif %}
 
 
-<h3>{{ site.owner.name }}</h3>
-<p>{{ site.owner.bio }}</p>
+<!--<h3>{{ site.owner.name }}</h3> 
+<p>{{ site.owner.bio }}</p> -->
 
-
+<h3>&nbsp</h3>
 
 {% for member in site.data.tutorialSeries %}
 	{% if page.tutorialSeries contains  member.slug %}
-	<h2>Agenda Home:</h2>
 	  <div id="workshopLink">
-		<h4>
-			<a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" alt="{{ member.description }}" title="{{ member.description }}" class="post-link">
+		<h4 class="homeLink">
+			<a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" alt="{{ member.description }}" title="{{ member.description }}">
 			<div>{{ member.name  }}
 			 </div>
 			</a>
@@ -30,7 +29,6 @@
 <!-- If the page is a tutorial but it's a part of a series-->
 {% if page.tutorialSeries and page.layout contains 'post' %}	
 
-<h3 style="color:#1ea0c1">Lessons: </h3>
 	
 	{% for post in site.posts %}
 

@@ -16,7 +16,7 @@ gitRepoPath <-"~/Documents/GitHub/neon-data-institute-2016"
 add.date <- "2016-06-20-"
 
 # set working dir - this is where the data are located
-wd <- "~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/"
+wd <- "~/Documents/data/1_data-institute-2016"
 
 # wd <- "~/Documents/data/Spatio_TemporalWorkshop"
 
