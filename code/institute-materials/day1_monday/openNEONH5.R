@@ -1,4 +1,4 @@
-## ----load-libraries, warning=FALSE, echo=FALSE---------------------------
+## ----load-libraries, warning=FALSE---------------------------------------
 # load libraries
 library(raster)
 library(rhdf5)
@@ -7,27 +7,22 @@ library(rgdal)
 # set wd
 # setwd("~/Documents/data/1_data-institute-2016")
 
-## ----read-file-----------------------------------------------------------
+## ----read-file, results='hide'-------------------------------------------
 # define the file name as an object
 f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
-# view the structure of the file
-# reflectance is where the refl data are stored. 
-# map info contains the proj information in WKT format
-# H5close()
+# view the structure of the H5 file
 h5ls(f, all = TRUE)
 
-# let's grab some attribute information to use 
-# here we have the CRS information that includes the 
-# UPPER LEFT corner coordinate in UTM (meters)
+
+## ----view-attributes-----------------------------------------------------
+
+# View map info attributes 
+# Map Info contains some key coordinate reference system information
+# Including the UPPER LEFT corner coordinate in UTM (meters) of the Reflectance 
+# data.
 mapInfo <- h5read(f,"map info", read.attributes = TRUE)
 mapInfo
-
-
-## ----import-wavelength---------------------------------------------------
-# import the center wavelength in um of each "band"
-wavelengths<- h5read(f,"wavelength")
-
 
 ## ----view-attr-----------------------------------------------------------
 
@@ -39,9 +34,6 @@ reflInfo$`Scale Factor`
 
 # view the data ignore value
 reflInfo$`data ignore value`
-
-# the data ignore right now is a character (we are fixing this)
-# you have to conver to num or int to ensure it is useful!
 
 
 
@@ -65,12 +57,20 @@ H5Dclose(did)
 H5Fclose(fid)
 
 
+## ----import-wavelength---------------------------------------------------
+
+# import the center wavelength in um of each "band"
+wavelengths<- h5read(f,"wavelength")
+str(wavelengths)
+
+
 ## ----read-refl-data------------------------------------------------------
 # if you get an error with the file being "open" just use the generic h5 close below
 # when we are done with our attributes you can skip all of this nonsense :)
 H5close()
 # Extract or "slice" data for band 34 from the HDF5 file
 b56<- h5read(f,"Reflectance", index=list(1:dims[1],1:dims[2],56))
+
 # note the data come in as an array
 class(b56)
 
@@ -82,23 +82,35 @@ b56 <- b56[,,1]
 # plot the data
 # what happens when we plot?
 image(b56)
+
 # looks like we need to force a stretch
-image(log(b56), main="band 56 with log transformation")
-# view distribution
-hist(b56)
+image(log(b56), 
+      main="band 56 with log transformation")
+# view distribution of reflectance data
+# force non scientific notation
+options("scipen"=100, "digits"=4)
+
+hist(b56,
+     col="springgreen",
+     main="Distribution of Reflectance Values \nBand 56")
 
 
 ## ----no-data-scale-------------------------------------------------------
 
+# extract no data value from the attributes
 noDataVal <- as.integer(reflInfo$`data ignore value`)
-# set all values = 15,000 to NA
+# set all reflectance values = 15,000 to NA
 b56[b56 == noDataVal] <- NA
 
-# lets use our scale factor first
+# Extract the scale factor as an object
 scaleFactor <- reflInfo$`Scale Factor`
+# divide all values in our B56 object by the scale factor to get a range of 
+# reflectance values between 0-1 (the valid range)
 b56 <- b56/scaleFactor
 
-hist(b56, main="distribution with NoData Value considered\nData scaled")
+# view distribution of reflectance values
+hist(b56, 
+     main="distribution with NoData Value considered\nData scaled")
 
 ## ----transpose-data------------------------------------------------------
 # Because the data import column, row but we require row, column in R, 
@@ -136,10 +148,15 @@ b56r <- raster(b56,
 # assign CRS
 extent(b56r) <- rasExt
 
-# note that the raster flips the data once again.
-# i still need to sort out how to explain this but it has to do with how
-# the raster format nativly is stored.
+# view raster object attributes 
 b56r
 plot(b56r, main="Raster for Teakettle - B56")
 
+
+## ----export-tif, eval=FALSE----------------------------------------------
+## 
+## writeRaster(b56r,
+##             file="band56.tif",
+##             format="GTiff",
+##             naFlag=-9999)
 

@@ -17,28 +17,33 @@ setwd("~/Documents/data/1_data-institute-2016")
 # your file will be in your working directory! This one happens to be in a diff dir
 # than our data
 
-source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
+# source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
+
+source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
-## ----open-H5-file--------------------------------------------------------
+
+## ----open-H5-file, results='hide'----------------------------------------
 
 # Define the file name to be opened
 f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # Look at the HDF5 file structure 
-h5ls(f,all=T) 
+h5ls(f, all=T) 
 
 
 ## ----read-spatial-attributes---------------------------------------------
-epsg <- 32611
 
+# get CRS
+epsg <- 32611
+# open band
 band <- open_band(fileName=f, 
                   bandNum = 56, 
-                  epsg=epsg,
-                  subsetData=FALSE)
-
+                  epsg=epsg)
+# plot data
 plot(band,
-     main="Band 56")
+     main="NEON Hyperspectral Data\n Band 56",
+     col=grey(1:100/100))
 
 
 ## ----read-band-wavelengths-----------------------------------------------
@@ -60,8 +65,8 @@ aPixel<- h5read(f,  # the file
                 index=list(54, 36, NULL)) # the column, row and band(s)
 
 # reshape the data and turn into dataframe
-# c()
-aPixeldf <- adply(aPixel, 3) # split the data by the 3rd dimension
+# split the data by the 3rd dimension
+aPixeldf <- adply(aPixel, 3) 
 
 # we only need the second row of the df, the first row is a duplicate
 aPixeldf <- aPixeldf[2]
@@ -91,10 +96,11 @@ head(aPixeldf)
 
 ## ----plot-spectra--------------------------------------------------------
 
+# plot using GGPLOT2 
 qplot(x=aPixeldf$wavelength, 
       y=aPixeldf$reflectance,
       xlab="Wavelength (nm)",
       ylab="Reflectance",
-      main="Spectral Signature for A Pixel")
+      main="Spectral Signature for a Single Pixel")
 
 

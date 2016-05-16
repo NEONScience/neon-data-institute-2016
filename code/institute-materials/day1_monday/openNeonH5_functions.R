@@ -1,21 +1,22 @@
 ## ----load-libraries, warning=FALSE, results='hide', message=FALSE--------
+
 # load libraries
 library(raster)
 library(rhdf5)
 library(rgdal)
 
-## ----define-data-wd------------------------------------------------------
-# set wd
-# setwd("~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/")
-# define the CRS definition by EPSG code
-epsg <- 32611
-
-# define the file you want to work with
-#f <- "Subset1NIS1_20130614_095740_atmcor.h5"
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
-
 
 ## ----get-data-dims-------------------------------------------------------
+
+#' Get Data Dimensions
+#'
+#' This function grabs the x,y and z dimemsions of an H5 dataset called "Reflectance"
+#' It would be more robust IF you could pass it the dataset name / path too
+#' @param fileName a path to the H5 file that you'd like to open
+#' @keywords hdf5, dimensions
+#' @export
+#' @examples
+#' get_data_dims("filename.h5")
 
 get_data_dims <- function(fileName){
   # make sure everything is closed
@@ -39,12 +40,21 @@ get_data_dims <- function(fileName){
 
 ## ----create-function-attrs-----------------------------------------------
 
-# Create a function that grabs corner coordinates and data res
-# and returns an extent object.
+#' Create h5 file extent ####
+#'
+#' This function uses a map tie point for an h5 file and data resolution to 
+#' create and return an object of class extent. 
+#' @param filename the path to the h5 file
+#' @param res a vector of 2 objects - x resolution, y resolution
+#' @keywords hdf5, extent
+#' @export
+#' @examples
+#' create_extent(fileName, res=c(xres, yres))
 
 create_extent <- function(fileName){
   # Grab upper LEFT corner coordinate from map info dataset 
   mapInfo <- h5read(fileName, "map info")
+  
   # create object with each value in the map info dataset
   mapInfo<-unlist(strsplit(mapInfo, ","))
   # grab the XY left corner coordinate (xmin,ymax)
@@ -66,15 +76,21 @@ create_extent <- function(fileName){
 
 
 
-## ----import-wavelength---------------------------------------------------
-# import the center wavelength in um of each "band"
-wavelengths<- h5read(f,"wavelength")
-
-
 ## ----clean-refl-data-fun-------------------------------------------------
-# this function returns a RASTER with no data values
-# assigned to NA as required by R and a scale factor applied
-# and a shiny new and correct extent / CRS!
+## FUNCTION - Clean Reflectance Data ####
+
+#' Clean reflectance data
+#'
+#' This function reads in data from the "Reflecatnce" dataset, applies the data
+#' ignore value, scales the data and returns a properly "projected" raster object.
+#' @param filename the path to the h5 file.
+#' @param reflMatrix , the matrix read in to be converted to a raster.
+#' @param epsg - the epsg code for the CRS used to spatially locate the raster.
+#' @keywords hdf5, extent
+#' @export
+#' @examples
+#' clean_refl_data(fileName, reflMatrix, epsg)
+
 
 clean_refl_data <- function(fileName, reflMatrix, epsg){
   # r  get attributes for the Reflectance dataset
@@ -89,9 +105,8 @@ clean_refl_data <- function(fileName, reflMatrix, epsg){
   
   # now we can create a raster and assign its spatial extent
   reflRast <- raster(reflMatrix,
-               crs=CRS(paste0("+init=epsg:", epsg)))
-  # finally apply extent to raster, using extent function 
-  extent(reflRast) <- create_extent(fileName)
+                     crs=CRS(paste0("+init=epsg:", epsg)))
+  
   # return a scaled and "cleaned" raster object
   return(reflRast)
 }
@@ -100,40 +115,61 @@ clean_refl_data <- function(fileName, reflMatrix, epsg){
 
 ## ----read-refl-data------------------------------------------------------
 
-open_band <- function(fileName, bandNum, epsg, dims){
-  # make sure any open connections are closed
-  H5close()
-  # you don't necessarily need to get the dims but it's useful
-  dims <- get_data_dims(fileName)
+## FUNCTION - Read Band ####
+#' read band
+#'
+#' This function reads in data from the "Reflecatnce" dataset, applies the data
+#' ignore value, scales the data and returns a properly "projected" raster object.
+#' @param filename the path to the h5 file.
+#' @param index a list formated object  e.g. list(1:3, 1:6, bands)
+#' @keywords hdf5, extent
+#' @export
+#' @examples
+#' read_band(fileName, index)
+
+read_band <- function(fileName, index){
   # Extract or "slice" data for band 34 from the HDF5 file
-  aBand<- h5read(f, "Reflectance", index=list(1:dims[1],1:dims[2], bandNum))
+  aBand<- h5read(fileName, "Reflectance", index=index)
   # Convert from array to matrix so we can plot and convert to a raster
   aBand <- aBand[,,1]
   # transpose the data to account for columns being read in first
   # but R wants rows first.
   aBand<-t(aBand)
-  # clean data
-  aBand <- clean_refl_data(fileName, aBand, epsg)
-  # return matrix object
   return(aBand)
 }
   
 
 
+## ----define-data-wd, results='hide'--------------------------------------
+# set wd
+# setwd("~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/")
+# define the CRS definition by EPSG code
+epsg <- 32611
+
+# define the file you want to work with
+#f <- "Subset1NIS1_20130614_095740_atmcor.h5"
+f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+
+h5ls(f)
+
+## ----import-wavelength---------------------------------------------------
+# import the center wavelength in um of each "band"
+wavelengths<- h5read(f,"wavelength")
+
+
 ## ----open-plot-band------------------------------------------------------
 
 ### final Code ####
-H5close()
+# H5close()
 # find the dimensions of the data to help determine the slice range
 # returns cols, rows, wavelengths
 dims <- get_data_dims(fileName = f)
 
-# note this won't slicer properly yet as you'd need to create a new tie point if
-# you adjust the dims.
 # open band, return cleaned and scaled raster
-band <- open_band(fileName=f, bandNum = 56, epsg=epsg, dims=dims)
-# NOTE: might consider grabbing the dimensions of the data first and then
-# creating a slice object if you want to grab less than the full extent of the data.
+band <- open_band(fileName=f, 
+                  bandNum = 56, 
+                  epsg=epsg, 
+                  dims=dims)
 
 # plot data
 plot(band, 
@@ -162,19 +198,37 @@ plotRGB(rgb_rast,
 
 ## ----create-CIR-stack----------------------------------------------------
 
-# create a function to plot RGB data
-# inputs bands (list)
+## FUNCTION - Open Bands, Create Stack ####
+#'
+#' This function calculates an index based subset to slice out data from an H5 file
+#' using an input spatial extent. It returns a rasterStack object of bands. 
+#' @param fileName the path to the h5 file that you wish to open. 
+#' @param bandNum the band number in the reflectance data that you wish to open
+#' @param epsg the epsg code for the CRS that the data are in.
+#' @param subsetData, a boolean object. default is FALSE. If set to true, then
+#' ... subset a slice out from the h5 file. otherwise take the entire xy extent.
+#' @param dims, an optional object used if subsetData = TRUE that specifies the 
+#' index extent to slice from the h5 file
+#' @keywords hdf5, extent
+#' @export
+#' @examples
+#' open_band(fileName, bandNum, epsg, subsetData=FALSE, dims=NULL)
+#' 
+
 # 
-create_stack <- function(bands){
+create_stack <- function(file, bands, epsg, subset=FALSE, dims){
   
   # use lapply to run the band function across all three of the bands
   rgb_rast <- lapply(bands, open_band,
-                     fileName=f,
-                     epsg=epsg, 
+                     fileName=file,
+                     epsg=epsg,
+                     subset=subset,
                      dims=dims)
   
   # create a raster stack from the output
   rgb_rast <- stack(rgb_rast)
+  # reassign band names
+  names(rgb_rast) <- bands
   return(rgb_rast)
   
 } 
@@ -199,25 +253,21 @@ plot_stack <- function(aStack, title="3 band RGB Composite", theStretch='lin'){
 
 # CIR create  alist of the bands
 bands <- list(90,34,19)
-CIRStack <- create_stack(bands)
+CIRStack <- create_stack(f, bands, epsg)
 plot_stack(CIRStack,
            title="Color Infrared (CIR) Image")
 
 # create  alist of the bands
 bands <- list(152,90,58)
-aStack <- create_stack(bands)
+aStack <- create_stack(f, bands, epsg)
 plot_stack(aStack,
            title="another combo")
 
 # FALSE COLOR create  alist of the bands
 bands <- list(363, 246, 58)
-falseStack <- create_stack(bands)
+falseStack <- create_stack(f, bands, epsg)
 plot_stack(falseStack,
               title="False Color Image")
-
-
-aStack
-
 
 
 ## ----write-raster, eval=FALSE--------------------------------------------
@@ -232,7 +282,7 @@ aStack
 
 #Calculate NDVI
 #select bands to use in calculation (red, NIR)
-ndvi_bands <- c(58,90)
+ndvi_bands <- c(58, 90)
 
 #create raster list and then a stack using those two bands
 ndvi_stack <-  create_stack(ndvi_bands)
@@ -263,11 +313,19 @@ plot(ndvi_rast,
 
 ## ----import-lidar--------------------------------------------------------
 
-DSM <- raster("lidar/Teak_lidarDSM.tif")
+DSM <- raster("Teakettle/may1_subset/lidar/Teak_lidarDSM.tif")  
 
-plot(DSM,
+slope <- terrain(DSM, opt='slope')
+aspect <- terrain(DSM, opt='aspect')
+
+# create hillshade
+hill <- hillShade(slope, aspect, 40, 270)
+
+plot(hill,
      col=grey(1:100/100),
-     main="DSM")
+     main="NDVI for the Teakettle Field site",
+     legend=FALSE)
+
 plot(ndvi_rast, 
      add=TRUE,
      alpha=.3
