@@ -32,6 +32,10 @@ library(rhdf5)
 library(rgdal)
 
 setwd("~/Documents/data/1_data-institute-2016")
+
+# import functions
+source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+
 ```
 
 ## Import LiDAR data
@@ -67,43 +71,68 @@ hist(chm,
 
 
 
-```{r import-aspect }
+```{r import-aspect-data }
 
 # (1) calculate aspect of cropped DTM
 # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
 aspect <- raster("Teakettle/may1_subset/lidar/Teak_lidarAspect.tif")
+
+plot(aspect,
+     main="Aspect for Teakettle Field Site",
+     axes=F)
+
 # crop the data to the extent of the other rasters we are working with!
-aspect <- crop(aspect, overlap)
+# aspect <- crop(aspect, overlap)
+```
 
-# Create a classified intermediate product 
-# create mask -- 
-# (2) make 'dummy' (1s and 0s) layers for north facing (315 deg to 45 deg) and
-# south facing (135 deg to 225 deg) slopes
+## Threshold Based Raster Classification
 
-# the other option is to create a CLASSIFIED RASTER
-# if that is classified than you can have a nice intermediate raster
+Next, we will create a classified raster object.
+To do this we need to 
+
+1. create a matrix containing the threhold ranges and the associated "class"
+2. use the `raster::reclassify` function to create a new raster.
+
+Our range of values are as follows:
+We will assign all north facing slopes "1" and south facing "2". 
+
+**North Facing Slopes:** 0-45 degrees, 315-360 degrees; class=1
+**South Facing Slopes:** 135-225 degrees; class=2
+
+
+```{r classify-raster }
 
 # first create a matrix of values that represent the classification ranges
 # North face = 1
 # South face = 2
-class.m <- c(0, 45, 1, 45, 135, NA, 135, 225, 2,  225 , 315, NA, 315, 360, 1)
+class.m <- c(0, 45, 1, 
+             45, 135, NA, 
+             135, 225, 2,  
+             225 , 315, NA, 
+             315, 360, 1)
+class.m
+# shape the object into a matrix with columns and rows
 rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+rcl.m
+# reclassify the raster using the reclass object - rcl.m
 asp.ns <- reclassify(aspect, rcl.m)
 
 plot(asp.ns, 
      col=c("white","blue","green"),
-     axes=F,
-     main="North and South Facing Slopes \nTeakettle")
+     main="North and South Facing Slopes \nTeakettle",
+     xlim=c(326000, 526000),
+     legend=F)
 
-# all values larger than 315 and less than 45 are north facing
-# north.facing <- aspect >= 315 | aspect <= 45
-# all values bewteen 135 and 225 are south facing
-# south.facing <- aspect >= 135 & aspect <= 225
-north.facing <- asp.ns==1
-south.facing <- asp.ns==2
+legend("topright",
+       legend = c("North", "South"),
+       fill = c("blue", "green"))
 
-north.facing[north.facing == 0] <- NA
-south.facing[south.facing == 0] <- NA
+
+# north.facing <- asp.ns==1
+# south.facing <- asp.ns==2
+
+# north.facing[north.facing == 0] <- NA
+# south.facing[south.facing == 0] <- NA
 
 # export geotiff 
 writeRaster(asp.ns,
@@ -115,3 +144,49 @@ writeRaster(asp.ns,
 
 
 ```
+
+## Mask Data
+
+Once we have created a threhold classified raster, we can use it for different things.
+One application may be to mask another dataset. 
+
+Let's try to find all pixels that have an NDVI value >.6 and are north facing. 
+
+```{r mask-data }
+# w use dave's NDVI layer but for now...
+
+# Define the file name to be opened
+f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+
+# define the CRS in EPGS format for the file
+epsg <- 32611
+# create a list of bands
+bands <- c(60,83)
+
+ndvi.stack <- create_stack(f, 
+                           bands, 
+                           epsg=32611)
+
+# calculate NDVI
+ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
+names(ndvi) <- "Teak_hsiNDVI"
+
+# let's test this out
+plot(ndvi)
+
+# let's create a mask
+ndvi[ndvi<.6] <- NA
+plot(ndvi)
+
+# force the two to have the same CRS
+crs(ndvi) <- crs(asp.ns)
+# the two are different extents, crop both
+if(gIntersection(extent(ndvi), extent(asp.ns))){
+  print("they overlap")
+}
+
+# mask out only pixels that are north facing and NDVI >.6
+nFacing.ndvi <- mask(asp.ns,ndvi)
+
+```
+

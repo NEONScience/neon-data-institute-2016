@@ -7,7 +7,7 @@ instructors: [Leah A. Wasser]
 contributors: []
 time: "1:30 pm"
 dateCreated:  2016-05-01
-lastModified: 2016-05-12
+lastModified: 2016-05-13
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -64,7 +64,9 @@ open the H5 data.
     # your file will be in your working directory! This one happens to be in a diff dir
     # than our data
     
-    source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
+    # source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
+    
+    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 First, we need to access the H5 file.
 
@@ -73,117 +75,24 @@ First, we need to access the H5 file.
     f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
     
     # Look at the HDF5 file structure 
-    h5ls(f,all=T) 
-
-    ##    group                                 name         ltype corder_valid
-    ## 0      /                     ATCOR_Input_File H5L_TYPE_HARD        FALSE
-    ## 1      /                 ATCOR_Processing_Log H5L_TYPE_HARD        FALSE
-    ## 2      /                Aerosol Optical Depth H5L_TYPE_HARD        FALSE
-    ## 3      /                               Aspect H5L_TYPE_HARD        FALSE
-    ## 4      /                          Cast Shadow H5L_TYPE_HARD        FALSE
-    ## 5      / Dark Dense Vegetation Classification H5L_TYPE_HARD        FALSE
-    ## 6      /                 Haze-Cloud-Water Map H5L_TYPE_HARD        FALSE
-    ## 7      /                  Illumination Factor H5L_TYPE_HARD        FALSE
-    ## 8      /                          Path Length H5L_TYPE_HARD        FALSE
-    ## 9      /                   Processing Version H5L_TYPE_HARD        FALSE
-    ## 10     /                          Reflectance H5L_TYPE_HARD        FALSE
-    ## 11     /                Shadow_Processing_Log H5L_TYPE_HARD        FALSE
-    ## 12     /                      Sky View Factor H5L_TYPE_HARD        FALSE
-    ## 13     /               Skyview_Processing_Log H5L_TYPE_HARD        FALSE
-    ## 14     /                                Slope H5L_TYPE_HARD        FALSE
-    ## 15     /          Slope_Aspect_Processing_Log H5L_TYPE_HARD        FALSE
-    ## 16     /                  Solar Azimuth Angle H5L_TYPE_HARD        FALSE
-    ## 17     /                   Solar Zenith Angle H5L_TYPE_HARD        FALSE
-    ## 18     /                    Surface Elevation H5L_TYPE_HARD        FALSE
-    ## 19     /                 Visibility Index Map H5L_TYPE_HARD        FALSE
-    ## 20     /                   Water Vapor Column H5L_TYPE_HARD        FALSE
-    ## 21     /             coordinate system string H5L_TYPE_HARD        FALSE
-    ## 22     /                       flightAltitude H5L_TYPE_HARD        FALSE
-    ## 23     /                        flightHeading H5L_TYPE_HARD        FALSE
-    ## 24     /                           flightTime H5L_TYPE_HARD        FALSE
-    ## 25     /                                 fwhm H5L_TYPE_HARD        FALSE
-    ## 26     /                             map info H5L_TYPE_HARD        FALSE
-    ## 27     /              to-sensor azimuth angle H5L_TYPE_HARD        FALSE
-    ## 28     /               to-sensor zenith angle H5L_TYPE_HARD        FALSE
-    ## 29     /                           wavelength H5L_TYPE_HARD        FALSE
-    ##    corder cset       otype num_attrs  dclass          dtype  stype rank
-    ## 0       0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 1       0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 2       0    0 H5I_DATASET         5 INTEGER  H5T_STD_I16LE SIMPLE    3
-    ## 3       0    0 H5I_DATASET         5   FLOAT H5T_IEEE_F32LE SIMPLE    3
-    ## 4       0    0 H5I_DATASET         5 INTEGER   H5T_STD_I8LE SIMPLE    3
-    ## 5       0    0 H5I_DATASET         6 INTEGER   H5T_STD_I8LE SIMPLE    3
-    ## 6       0    0 H5I_DATASET         6 INTEGER   H5T_STD_I8LE SIMPLE    3
-    ## 7       0    0 H5I_DATASET         5 INTEGER   H5T_STD_I8LE SIMPLE    3
-    ## 8       0    0 H5I_DATASET         5   FLOAT H5T_IEEE_F32LE SIMPLE    3
-    ## 9       0    0 H5I_DATASET         0  STRING     HST_STRING SIMPLE    1
-    ## 10      0    0 H5I_DATASET         5 INTEGER  H5T_STD_I16LE SIMPLE    3
-    ## 11      0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 12      0    0 H5I_DATASET         5 INTEGER   H5T_STD_I8LE SIMPLE    3
-    ## 13      0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 14      0    0 H5I_DATASET         5   FLOAT H5T_IEEE_F32LE SIMPLE    3
-    ## 15      0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 16      0    0 H5I_DATASET         2   FLOAT H5T_IEEE_F32LE SIMPLE    2
-    ## 17      0    0 H5I_DATASET         2   FLOAT H5T_IEEE_F32LE SIMPLE    2
-    ## 18      0    0 H5I_DATASET         5   FLOAT H5T_IEEE_F32LE SIMPLE    3
-    ## 19      0    0 H5I_DATASET         5 INTEGER   H5T_STD_I8LE SIMPLE    3
-    ## 20      0    0 H5I_DATASET         5 INTEGER  H5T_STD_I16LE SIMPLE    3
-    ## 21      0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 22      0    0 H5I_DATASET         3   FLOAT H5T_IEEE_F32LE SIMPLE    1
-    ## 23      0    0 H5I_DATASET         3   FLOAT H5T_IEEE_F32LE SIMPLE    1
-    ## 24      0    0 H5I_DATASET         3   FLOAT H5T_IEEE_F32LE SIMPLE    1
-    ## 25      0    0 H5I_DATASET         2   FLOAT H5T_IEEE_F32LE SIMPLE    2
-    ## 26      0    0 H5I_DATASET         1  STRING     HST_STRING SIMPLE    1
-    ## 27      0    0 H5I_DATASET         5   FLOAT H5T_IEEE_F32LE SIMPLE    3
-    ## 28      0    0 H5I_DATASET         5   FLOAT H5T_IEEE_F32LE SIMPLE    3
-    ## 29      0    0 H5I_DATASET         2   FLOAT H5T_IEEE_F32LE SIMPLE    2
-    ##                dim          maxdim
-    ## 0                1               1
-    ## 1                1               1
-    ## 2    544 x 578 x 1   544 x 578 x 1
-    ## 3    544 x 578 x 1   544 x 578 x 1
-    ## 4    544 x 578 x 1   544 x 578 x 1
-    ## 5    544 x 578 x 1   544 x 578 x 1
-    ## 6    544 x 578 x 1   544 x 578 x 1
-    ## 7    544 x 578 x 1   544 x 578 x 1
-    ## 8    544 x 578 x 1   544 x 578 x 1
-    ## 9                1               1
-    ## 10 544 x 578 x 426 544 x 578 x 426
-    ## 11               1               1
-    ## 12   544 x 578 x 1   544 x 578 x 1
-    ## 13               1               1
-    ## 14   544 x 578 x 1   544 x 578 x 1
-    ## 15               1               1
-    ## 16           1 x 1           1 x 1
-    ## 17           1 x 1           1 x 1
-    ## 18   544 x 578 x 1   544 x 578 x 1
-    ## 19   544 x 578 x 1   544 x 578 x 1
-    ## 20   544 x 578 x 1   544 x 578 x 1
-    ## 21               1               1
-    ## 22         5732053         5732053
-    ## 23         5732053         5732053
-    ## 24         5732053         5732053
-    ## 25         426 x 1         426 x 1
-    ## 26               1               1
-    ## 27   544 x 578 x 1   544 x 578 x 1
-    ## 28   544 x 578 x 1   544 x 578 x 1
-    ## 29         426 x 1         426 x 1
+    h5ls(f, all=T) 
 
 ## Open a Band
 
 Next, we can use the `open_band` function to quickly open up a band. 
-Let's open bands 56.
+Let's open band 56.
 
 
+    # get CRS
     epsg <- 32611
-    
+    # open band
     band <- open_band(fileName=f, 
                       bandNum = 56, 
-                      epsg=epsg,
-                      subsetData=FALSE)
-    
+                      epsg=epsg)
+    # plot data
     plot(band,
-         main="Band 56")
+         main="NEON Hyperspectral Data\n Band 56",
+         col=grey(1:100/100))
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/plot-HSIspectral-signature-R/read-spatial-attributes-1.png)
 
@@ -219,8 +128,8 @@ dataframe for easy plotting.
                     index=list(54, 36, NULL)) # the column, row and band(s)
     
     # reshape the data and turn into dataframe
-    # c()
-    aPixeldf <- adply(aPixel, 3) # split the data by the 3rd dimension
+    # split the data by the 3rd dimension
+    aPixeldf <- adply(aPixel, 3) 
     
     # we only need the second row of the df, the first row is a duplicate
     aPixeldf <- aPixeldf[2]
@@ -273,11 +182,12 @@ by a factor of 10, 100, 10000, etc. This `scale factor` will be noted in the dat
 Now we're ready to plot our spectral profile!
 
 
+    # plot using GGPLOT2 
     qplot(x=aPixeldf$wavelength, 
           y=aPixeldf$reflectance,
           xlab="Wavelength (nm)",
           ylab="Reflectance",
-          main="Spectral Signature for A Pixel")
+          main="Spectral Signature for a Single Pixel")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/plot-HSIspectral-signature-R/plot-spectra-1.png)
 

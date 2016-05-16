@@ -206,9 +206,8 @@ hist(b56,
 
 ## Data Values Outside the Valid Range
 
-# tristan??
-Note -- there are still issues with values over 1. I need to followup with
-AOP about how to handle these. 
+Note -- if we notice values > 1 (outside of the valid range) we may want to assign
+those values to NA. 
 
 ```{r transpose-data }
 # Because the data import column, row but we require row, column in R, 
