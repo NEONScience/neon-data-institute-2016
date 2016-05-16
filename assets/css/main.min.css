@@ -4597,3 +4597,9 @@ a:hover.post-link > div {
 .workshop div#objectives, .tutorialSeries  div#objectives {
     background-color: #d4eff7;
 }
+
+/* Adding a side bar "home" link to take them back to the agenda home */
+.homeLink a:link {
+    color: #1ea0c1;
+    font-size: .8em;
+}
