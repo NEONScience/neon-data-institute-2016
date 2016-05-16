@@ -13,7 +13,7 @@ categories: [self-paced-tutorial]
 mainTag: institute-day2
 tags: [R, HDF5]
 tutorialSeries: [institute-day2]
-description: "Classify using threshold."
+description: "Classify raster data using ranges of values (thresholds)."
 code1: .R
 image:
   feature: 

@@ -1,19 +1,24 @@
 ---
 layout: tutorial-series-landing
-title: 'Monday 20 June: Welcome & Hyperspectral Data in R'
+title: 'Monday 20 June: Intro to NEON, HDF5 & Hyperspectral Data in R'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day1
 permalink: tutorial-series/institute-day1/
 image:
-  feature: hierarchy_folder.png
+  feature: data-institute-2016.png
   credit: 
   creditlink: 
 ---
-## About
+## Welcome to Day One of the Institute!
 
-Agenda with links to each segments materials.
-Description goes here.
+ <a href="http://neondataskills.org/HDF5/Exploring-Data-HDFView" target="_blank" class="btn btn-success">View Agenda.</a>
 
-Links will also appear on the LEFT side bar
 
-## Afternoon Agenda
+# Background Materials
+
+
+* <a href="http://neondataskills.org/HDF5/About" target="_blank">Introduction to the HDF5 file format.</a>
+
+* <a href="http://neondataskills.org/HDF5/Exploring-Data-HDFView" target="_blank">Explore HDF5 files using the HDF5 view tool.</a>
+
+## Afternoon Materials

@@ -33,6 +33,19 @@
 {{ content }}
 </div>
 
+{% if page.tutorialSeriesName contains "pre-institute" %}
+<ul>
+ {% for post in site.posts %}
+	{% if post.tutorialSeries contains page.tutorialSeriesName %}
+	{% assign counter = counter | plus: 1 %}
+		 
+		 <li> Step {{ counter }}:<a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
+					{{ post.title }} </li>
+		  
+	{% endif %}
+	</ul>
+{% endfor %}
+{% else %}
 
 <table>
   <thead>
@@ -41,6 +54,7 @@
 	  <th>Topic</th>
 	  <th>Instructor</th>
 	</tr>
+
 
 {% for post in site.posts %}
 	{% if post.tutorialSeries contains page.tutorialSeriesName %}
@@ -58,7 +72,9 @@
 	{% endif %}
 {% endfor %}
 	</tbody>
-</table>	
+</table>
+
+{% endif %}	
 </div> <!-- /#cat-tag_content -->
 
 
