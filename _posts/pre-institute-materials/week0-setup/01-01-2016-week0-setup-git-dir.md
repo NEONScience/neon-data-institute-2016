@@ -193,10 +193,10 @@ still need to check to make sure git installed correctly. One of the easiest
 ways is to check to see which version of git we have installed. 
 
 Git commands start with `git`. 
-We can use `git version` to see which version of Git is installed
+We can use `git --version` to see which version of Git is installed
 
 ```bash
-$ git version
+$ git --version
 ```
 
 ```bash
