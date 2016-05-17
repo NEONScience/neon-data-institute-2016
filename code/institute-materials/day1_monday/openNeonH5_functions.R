@@ -28,7 +28,7 @@ get_data_dims <- function(fileName){
   # grab the dimensions of the object
   sid <- H5Dget_space(did)
   dims <- H5Sget_simple_extent_dims(sid)$size
-  
+
   # close everything
   H5Sclose(sid)
   H5Dclose(did)
@@ -42,8 +42,8 @@ get_data_dims <- function(fileName){
 
 #' Create h5 file extent ####
 #'
-#' This function uses a map tie point for an h5 file and data resolution to 
-#' create and return an object of class extent. 
+#' This function uses a map tie point for an h5 file and data resolution to
+#' create and return an object of class extent.
 #' @param filename the path to the h5 file
 #' @param res a vector of 2 objects - x resolution, y resolution
 #' @keywords hdf5, extent
@@ -52,9 +52,9 @@ get_data_dims <- function(fileName){
 #' create_extent(fileName, res=c(xres, yres))
 
 create_extent <- function(fileName){
-  # Grab upper LEFT corner coordinate from map info dataset 
+  # Grab upper LEFT corner coordinate from map info dataset
   mapInfo <- h5read(fileName, "map info")
-  
+
   # create object with each value in the map info dataset
   mapInfo<-unlist(strsplit(mapInfo, ","))
   # grab the XY left corner coordinate (xmin,ymax)
@@ -67,7 +67,7 @@ create_extent <- function(fileName){
   # calculate the xMAX value and the YMIN value
   xMax <- xMin + (dims[1]*res[1])
   yMin <- yMax - (dims[2]*res[2])
-  
+
   # create extent object (left, right, top, bottom)
   rasExt <- extent(xMin, xMax, yMin, yMax)
   # return object of class extent
@@ -99,14 +99,14 @@ clean_refl_data <- function(fileName, reflMatrix, epsg){
   noData <- as.numeric(reflInfo$`data ignore value`)
   # set all values = 15,000 to NA
   reflMatrix[reflMatrix == noData] <- NA
-  
+
   # apply the scale factor
   reflMatrix <- reflMatrix/(as.numeric(reflInfo$`Scale Factor`))
-  
+
   # now we can create a raster and assign its spatial extent
   reflRast <- raster(reflMatrix,
                      crs=CRS(paste0("+init=epsg:", epsg)))
-  
+
   # return a scaled and "cleaned" raster object
   return(reflRast)
 }
@@ -137,7 +137,7 @@ read_band <- function(fileName, index){
   aBand<-t(aBand)
   return(aBand)
 }
-  
+
 
 
 ## ----define-data-wd, results='hide'--------------------------------------
@@ -166,13 +166,13 @@ wavelengths<- h5read(f,"wavelength")
 dims <- get_data_dims(fileName = f)
 
 # open band, return cleaned and scaled raster
-band <- open_band(fileName=f, 
-                  bandNum = 56, 
-                  epsg=epsg, 
+band <- open_band(fileName=f,
+                  bandNum = 56,
+                  epsg=epsg,
                   dims=dims)
 
 # plot data
-plot(band, 
+plot(band,
      main="Raster for Teakettle - B56")
 
 
@@ -185,7 +185,7 @@ bands <- list(58,34,19)
 # use lapply to run the band function across all three of the bands
 rgb_rast <- lapply(bands, open_band,
                    fileName=f,
-                   epsg=epsg, 
+                   epsg=epsg,
                    dims=dims)
 
 # create a raster stack from the output
@@ -201,37 +201,37 @@ plotRGB(rgb_rast,
 ## FUNCTION - Open Bands, Create Stack ####
 #'
 #' This function calculates an index based subset to slice out data from an H5 file
-#' using an input spatial extent. It returns a rasterStack object of bands. 
-#' @param fileName the path to the h5 file that you wish to open. 
+#' using an input spatial extent. It returns a rasterStack object of bands.
+#' @param fileName the path to the h5 file that you wish to open.
 #' @param bandNum the band number in the reflectance data that you wish to open
 #' @param epsg the epsg code for the CRS that the data are in.
 #' @param subsetData, a boolean object. default is FALSE. If set to true, then
 #' ... subset a slice out from the h5 file. otherwise take the entire xy extent.
-#' @param dims, an optional object used if subsetData = TRUE that specifies the 
+#' @param dims, an optional object used if subsetData = TRUE that specifies the
 #' index extent to slice from the h5 file
 #' @keywords hdf5, extent
 #' @export
 #' @examples
 #' open_band(fileName, bandNum, epsg, subsetData=FALSE, dims=NULL)
-#' 
+#'
 
-# 
+#
 create_stack <- function(file, bands, epsg, subset=FALSE, dims){
-  
+
   # use lapply to run the band function across all three of the bands
   rgb_rast <- lapply(bands, open_band,
                      fileName=file,
                      epsg=epsg,
                      subset=subset,
                      dims=dims)
-  
+
   # create a raster stack from the output
   rgb_rast <- stack(rgb_rast)
   # reassign band names
   names(rgb_rast) <- bands
   return(rgb_rast)
-  
-} 
+
+}
 
 
 plot_stack <- function(aStack, title="3 band RGB Composite", theStretch='lin'){
@@ -242,7 +242,7 @@ plot_stack <- function(aStack, title="3 band RGB Composite", theStretch='lin'){
   # plot the output, use a linear stretch to make it look nice
   plotRGB(aStack,
           stretch=theStretch,
-          axes=TRUE, 
+          axes=TRUE,
           main=title)
   box(col="white")
   # par(original_par) # go back to original par
@@ -277,57 +277,4 @@ plot_stack(falseStack,
 ##             file="rgbImage.tif",
 ##             format="GTiff",
 ##             overwrite=TRUE)
-
-## ----create-NDVI---------------------------------------------------------
-
-#Calculate NDVI
-#select bands to use in calculation (red, NIR)
-ndvi_bands <- c(58, 90)
-
-#create raster list and then a stack using those two bands
-ndvi_stack <-  create_stack(ndvi_bands)
-
-# calculate NDVI
-NDVI <- function(x) {
-	  (x[,2]-x[,1])/(x[,2]+x[,1])
-}
-
-ndvi_rast <- calc(ndvi_stack, NDVI)
-
-# clear out plots
-# dev.off(dev.list()["RStudioGD"])
-
-plot(ndvi_rast, 
-     main="NDVI for the NEON TEAK Field Site")
-
-
-
-## ----export-ndvi, eval=FALSE---------------------------------------------
-## 
-## # export as a gtif
-## writeRaster(ndvi_rast,
-##             file="ndvi_TEAK.tif",
-##             format="GTiff",
-##             overwrite=TRUE)
-## 
-
-## ----import-lidar--------------------------------------------------------
-
-DSM <- raster("Teakettle/may1_subset/lidar/Teak_lidarDSM.tif")  
-
-slope <- terrain(DSM, opt='slope')
-aspect <- terrain(DSM, opt='aspect')
-
-# create hillshade
-hill <- hillShade(slope, aspect, 40, 270)
-
-plot(hill,
-     col=grey(1:100/100),
-     main="NDVI for the Teakettle Field site",
-     legend=FALSE)
-
-plot(ndvi_rast, 
-     add=TRUE,
-     alpha=.3
-     )
 

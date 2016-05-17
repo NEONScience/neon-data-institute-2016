@@ -1,23 +1,23 @@
 ---
 layout: post
 title: "Extract Spectra Using Masks in R"
-date:   2016-06-17
+date:   2016-06-14
 authors: [Leah A. Wasser]
-instructors: []
-contributors: []
-time: "3:30 pm"
+instructors:
+contributors:
+time:
 dateCreated:  2016-05-10
-lastModified: 2016-05-13
+lastModified: 2016-05-17
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
 tags: [R, HDF5]
 tutorialSeries: [institute-day1]
 description: "Learn how to extract a spectra using masked regions in R."
-code1: extract-spectra-masks.R
+code1: institute-materials/day1_monday/extract-spectra-masks.R
 image:
-  feature: 
-  credit: 
+  feature:
+  credit:
   creditlink:
 permalink: /R/extract-spectra-masks-R/
 comments: false
@@ -34,11 +34,11 @@ After completing this activity, you will:
 <li>Know how to work with groups and datasets within an HDF5 file.</li>
 </ol>
 
-</div> 
+</div>
 
 ## Getting Started
 
-In this tutorial, we will extract a single-pixel's worth of reflectance values 
+In this tutorial, we will extract a single-pixel's worth of reflectance values
 from an HDF5 file and plot a spectral profile for that pixel.
 
 
@@ -57,7 +57,7 @@ from an HDF5 file and plot a spectral profile for that pixel.
 
 In this scenario, we have built a suite of FUNCTIONS that will allow us to quickly
 open and read NEON hyperspectral imagery data from an `hdf5` file. We can import
-a suite of functions from an `.R` file using the `source` function. 
+a suite of functions from an `.R` file using the `source` function.
 
 
     # your file will be in your working directory! This one happens to be in a diff dir
@@ -75,16 +75,16 @@ First, let's define the variables needed to access the H5 file.
     # Define the file name to be opened
     f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
     
-    # Look at the HDF5 file structure 
-    h5ls(f, all=T) 
+    # Look at the HDF5 file structure
+    h5ls(f, all=T)
     
     # define the CRS in EPGS format for the file
     epsg <- 32611
 
 ## Read Wavelength Values
 
-Next, let's read in the wavelength center associated with each band in the HDF5 
-file. 
+Next, let's read in the wavelength center associated with each band in the HDF5
+file.
 
 
 
@@ -101,10 +101,10 @@ file.
     # array containing the index dimensions to slice
     H5close()
     subset.h5 <- h5read(f, "Reflectance",
-                        index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row 
+                        index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row
     
     final.spectra <- data.frame(apply(subset.h5,
-                  MARGIN = c(3), # take the mean value for each z value 
+                  MARGIN = c(3), # take the mean value for each z value
                   mean)) # grab the mean value in the z dimension
     final.spectra$wavelength <- wavelengths
     
@@ -137,13 +137,12 @@ Let's give it a go
 
     # create a list of bands
     bands <- c(60,83)
-    index.bounds <- calculate_index_extent(extent(clip.extent), 
+    index.bounds <- calculate_index_extent(extent(clip.extent),
                                                 h5.ext)
-
-    ## Error in calculate_index_extent(extent(clip.extent), h5.ext): object 'ext.clip' not found
-
-    ndvi.stack <- create_stack(f, 
-                               bands, 
+    
+    
+    ndvi.stack <- create_stack(f,
+                               bands,
                                epsg=32611,
                                subset=TRUE,
                                dims=index.bounds)
@@ -169,40 +168,40 @@ Let's give it a go
     ## FUNCTION - Extract Average Reflectance
     #'
     #' This function calculates an index based subset to slice out data from an H5 file
-    #' using an input spatial extent. It returns a rasterStack object of bands. 
+    #' using an input spatial extent. It returns a rasterStack object of bands.
     #' @param aRaster REQUIRED. a raster within an H5 file that you wish to get an mean, max, min value from
-    #' @param aMask REQUIRED. a raster of the same extent with NA values for areas that you don't 
-    #' want to calculate the mean, min or max values from. 
+    #' @param aMask REQUIRED. a raster of the same extent with NA values for areas that you don't
+    #' want to calculate the mean, min or max values from.
     #' @param aFun REQUIRED. the function that you wish to use on the raster, mean, max, min etc
     #' @keywords hdf5, extent
     #' @export
     #' @examples
     #' extract_av_refl(aRaster, aMask, aFun=mean)
-    #' 
+    #'
     extract_av_refl <- function(aRaster, aMask=NULL, aFun=mean){
       # mask band
       if(!is.null(aMask)){
       aRaster <- mask(aRaster, aMask) }
       # geat mean
-      a.band.mean <- cellStats(aRaster, 
-                             aFun, 
+      a.band.mean <- cellStats(aRaster,
+                             aFun,
                              na.rm=TRUE)
       return(a.band.mean)
-    } 
+    }
     
     ## FUNCTION - Extract Average Reflectance
     #'
     #' This function calculates an index based subset to slice out data from an H5 file
-    #' using an input spatial extent. It returns a rasterStack object of bands. 
+    #' using an input spatial extent. It returns a rasterStack object of bands.
     #' @param fileName REQUIRED. The path to the h5 file that you want to open.
-    #' @param bandNum REQUIRED. The band number that you wish to open, default = 1 
+    #' @param bandNum REQUIRED. The band number that you wish to open, default = 1
     #' @param epsg the epsg code for the CRS that the data are in.
     #' @param subsetData, a boolean object. default is FALSE. If set to true, then
     #' ... subset a slice out from the h5 file. otherwise take the entire xy extent.
-    #' @param dims, an optional object used if subsetData = TRUE that specifies the 
+    #' @param dims, an optional object used if subsetData = TRUE that specifies the
     #' index extent to slice from the h5 file
-    #' @param mask a raster containg NA values for areas that should not be included in the 
-    #' output summary statistic. 
+    #' @param mask a raster containg NA values for areas that should not be included in the
+    #' output summary statistic.
     #' @param fun the summary statistic that you wish to run on the data  (e.g. mean, max, min)
     #' default = mean
     #' @keywords hdf5, extent
@@ -210,11 +209,11 @@ Let's give it a go
     #' @examples
     #' get_spectra(fileName, bandNum)
     
-    get_spectra <- function(fileName, bandNum=1, 
+    get_spectra <- function(fileName, bandNum=1,
                                epsg=32611, subset=TRUE,
                                dims=NULL, mask=NULL, fun=mean){
       # open a band
-      a.raster <- open_band(fileName, bandNum, 
+      a.raster <- open_band(fileName, bandNum,
                                epsg, subset,
                                dims)
       # extract a particular spectral value (min, max, mean from the raster)
@@ -225,9 +224,9 @@ Let's give it a go
     ## FUNCTION - Extract Average Reflectance
     #'
     #' This function calculates an index based subset to slice out data from an H5 file
-    #' using an input spatial extent. It returns a rasterStack object of bands. 
+    #' using an input spatial extent. It returns a rasterStack object of bands.
     #' @param spectra REQUIRED. a LIST of spectra returned from Lapply.
-    #' @param wavelengths REQUIRED. The vector of wavelength values of the same length as 
+    #' @param wavelengths REQUIRED. The vector of wavelength values of the same length as
     #' the spectra object
     #' @keywords hdf5, extent
     #' @export
@@ -246,10 +245,10 @@ Let's give it a go
 
 
     # if you run get_spectra on it's own, it returns a min, max or mean value for a raster
-    get_spectra(f, bandNum=1, 
-                epsg=32611, 
+    get_spectra(f, bandNum=1,
+                epsg=32611,
                 subset=TRUE,
-                dims=index.bounds, 
+                dims=index.bounds,
                 mask=ndvi, fun=mean)
 
     ## [1] 0.02485
@@ -260,7 +259,7 @@ Let's give it a go
     spectra_unmasked <- lapply(bands, FUN = get_spectra,
                   fileName=f, epsg=32611,
                   subset=TRUE,
-                  dims=index.bounds, 
+                  dims=index.bounds,
                   fun=mean)
     
     
@@ -284,7 +283,7 @@ Let's give it a go
     spectra_masked <- lapply(bands, FUN = get_spectra,
                   fileName=f, epsg=32611,
                   subset=TRUE,
-                  dims=index.bounds, 
+                  dims=index.bounds,
                   mask=ndvi, fun=mean)
     
     spectra_masked <- clean_spectra(spectra_masked, wavelengths)
@@ -298,5 +297,3 @@ Let's give it a go
           main="Spectra for just green pixels")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-2.png)
-
-

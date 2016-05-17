@@ -1,23 +1,23 @@
 ---
 layout: post
 title: "Subset HDF5 file in R"
-date:   2016-06-17
+date:   2016-06-16
 authors: [Leah A. Wasser]
-instructors: []
-contributors: []
-time: "3:30 pm"
+instructors:
+contributors:
+time:
 dateCreated:  2016-05-10
-lastModified: 2016-05-13
+lastModified: 2016-05-17
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
 tags: [R, HDF5]
 tutorialSeries: [institute-day1]
 description: "Learn how to subset an H5 file in R."
-code1: subset-h5-file-R.R
+code1: institute-materials/day1_monday/subset-h5-file-R.R
 image:
-  feature: 
-  credit: 
+  feature:
+  credit:
   creditlink:
 permalink: /R/subset-hdf5-R/
 comments: false
@@ -34,11 +34,11 @@ After completing this activity, you will:
 <li>Know how to work with groups and datasets within an HDF5 file.</li>
 </ol>
 
-</div> 
+</div>
 
 ## Getting Started
 
-In this tutorial, we will extract a single-pixel's worth of reflectance values 
+In this tutorial, we will extract a single-pixel's worth of reflectance values
 from an HDF5 file and plot a spectral profile for that pixel.
 
 
@@ -57,7 +57,7 @@ from an HDF5 file and plot a spectral profile for that pixel.
 
 In this scenario, we have built a suite of FUNCTIONS that will allow us to quickly
 open and read NEON hyperspectral imagery data from an `hdf5` file. We can import
-a suite of functions from an `.R` file using the `source` function. 
+a suite of functions from an `.R` file using the `source` function.
 
 
     # your file will be in your working directory! This one happens to be in a diff dir
@@ -75,20 +75,20 @@ Next, let's define a few variables, that we will need to access the H5 file.
     # Define the file name to be opened
     f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
     
-    # Look at the HDF5 file structure 
-    h5ls(f,all=T) 
+    # Look at the HDF5 file structure
+    h5ls(f, all=T)
     
     # define the CRS in EPGS format for the file
     epsg <- 32611
 
 ## Read Wavelength Values
 
-Next, let's read in the wavelength center associated with each band in the HDF5 
-file. 
+Next, let's read in the wavelength center associated with each band in the HDF5
+file.
 
 
 
-    #read in the wavelength information from the HDF5 file
+    # read in the wavelength information from the HDF5 file
     wavelengths<- h5read(f,"wavelength")
     # convert wavelength to nanometers (nm)
     # NOTE: this is optional!
@@ -118,7 +118,7 @@ signature. For example a plot boundary.
     # paste0("+init=epsg:", epsg) -- so it will be better to use the proj string here
     
     crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-      
+    
     
     # ensure the two extents overlap
     gIntersects(h5.ext.poly, clip.extent)
@@ -134,13 +134,11 @@ signature. For example a plot boundary.
     
     # define index extent
     # xmin.index, xmax.index, ymin.index,ymax.index
-    # all units will be rounded which means the pixel must occupy a majority (.5 or greater) 
+    # all units will be rounded which means the pixel must occupy a majority (.5 or greater)
     # within the clipping extent
-    index.bounds <- calculate_index_extent(extent(clip.extent), 
+    index.bounds <- calculate_index_extent(extent(clip.extent),
                                            h5.ext)
-
-    ## Error in calculate_index_extent(extent(clip.extent), h5.ext): object 'ext.clip' not found
-
+    
     # open a band that is subsetted using the clipping extent
     b58_clipped <- open_band(fileName=f,
               bandNum=58,
@@ -160,11 +158,8 @@ signature. For example a plot boundary.
     # create  alist of the bands
     bands <- list(19,34,58)
     # within the clipping extent
-    index.bounds <- calculate_index_extent(extent(clip.extent), 
+    index.bounds <- calculate_index_extent(extent(clip.extent),
                                                 h5.ext)
-
-    ## Error in calculate_index_extent(extent(clip.extent), h5.ext): object 'ext.clip' not found
-
     rgbRast.clip <- create_stack(file=f,
                              bands=bands,
                              epsg=epsg,
@@ -188,7 +183,7 @@ on top.
     
     plotRGB(rgbRast,
             stretch="lin")
-    plot(clip.extent, 
+    plot(clip.extent,
          add=T,
          border="yellow",
          lwd=3)
@@ -201,10 +196,10 @@ on top.
     # array containing the index dimensions to slice
     H5close()
     subset.h5 <- h5read(f, "Reflectance",
-                        index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row 
+                        index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row
     
     final.spectra <- data.frame(apply(subset.h5,
-                  MARGIN = c(3), # take the mean value for each z value 
+                  MARGIN = c(3), # take the mean value for each z value
                   mean)) # grab the mean value in the z dimension
     final.spectra$wavelength <- wavelengths
     
@@ -221,6 +216,3 @@ on top.
           main="Mean Spectral Signature for Clip Region")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/subset-h5-file-R/subset-h5-file-1.png)
-
-
-
