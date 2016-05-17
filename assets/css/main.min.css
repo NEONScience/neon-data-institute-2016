@@ -320,17 +320,9 @@ font-size:.75rem;
 
 
 /* notice2 is used for Thought Questions */
-.notice2 {
+.thought {
  /* grey is now light green! */
     background-color: #bbeeaa;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-    font-size: 0.875rem;
-    line-height: 1.71429;
-    margin-bottom: 1.4em;
-    padding: 1.618em;
-    position: relative;
 }
 
 

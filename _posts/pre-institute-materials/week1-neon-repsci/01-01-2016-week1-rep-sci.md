@@ -7,12 +7,12 @@ date: 2016-05-19
 dateCreated: 2014-05-06
 lastModified: 2016-05-18
 estimatedTime: 1.0 - 1.5 Hours
-packagesLibraries: []
-authors: []
-contributors: []
+packagesLibraries:
+authors:
+contributors:
 categories: [tutorial-series]
-tags: []
-mainTag: pre-institute0
+mainTag: pre-institute1
+tutorialSeries: pre-institute1
 code1: 
 image:
  feature: data-institute-2016.png
