@@ -11,8 +11,13 @@ packagesLibraries:
 authors:
 contributors:
 categories: [tutorial-series]
+<<<<<<< HEAD
 mainTag: pre-institute1
 tutorialSeries: pre-institute1
+=======
+tags: []
+mainTag: pre-institute1
+>>>>>>> 43af71cf6ea862bf2bb2c19f8c5f91b2063bc40a
 code1: 
 image:
  feature: data-institute-2016.png

@@ -1,8 +1,9 @@
 ---
 layout: post
 title: "Setup GitHub Working Directory - Quick Intro to Bash"
-description: "This page reviews how to check that github is installed on your computer. It also
-provides a quick overview of Bash-shell. Finally we will setup a working GitHub directory."
+description: "This page reviews how to check that github is installed on your 
+computer. It also provides a quick overview of Bash shell. Finally we will setup
+a working GitHub directory."
 date: 2016-05-19
 dateCreated: 2014-05-06
 lastModified: 2016-05-18
@@ -25,12 +26,10 @@ comments: true
 {% include _toc.html %} 
 
 ## Check List
-Once you have Git, Bash and R / R Studio Installed, you are ready to configure Git. 
+Once you have Git, Bash and R / RStudio installed, you are ready to configure Git. 
 On this page you will:
 
 *  Create a directory for all future GitHub repositories created on your computer
-*  Ensure R and RStudio work on your computer and are up to date.
-*  Ensure all required R packages are installed and up to date on your computer.
 
 To ensure Git is properly installed and to create a working directory for GitHub, 
 you will need to know a bit of shell. Please find a crash course below.
@@ -194,10 +193,10 @@ still need to check to make sure git installed correctly. One of the easiest
 ways is to check to see which version of git we have installed. 
 
 Git commands start with `git`. 
-We can use `git version` to see which version of Git is installed
+We can use `git --version` to see which version of Git is installed
 
 ```bash
-$ git version
+$ git --version
 ```
 
 ```bash
