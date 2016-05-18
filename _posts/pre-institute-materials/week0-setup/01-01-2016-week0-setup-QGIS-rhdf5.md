@@ -7,8 +7,6 @@ dateCreated: 2014-05-06
 lastModified: 2016-05-18
 estimatedTime: 1.0 - 1.5 Hours
 packagesLibraries: []
-authors: []
-contributors:
 categories: [tutorial-series]
 tutorialSeries: [pre-institute0]
 tags: []
@@ -24,17 +22,13 @@ comments: true
 
 {% include _toc.html %} 
 
-Instructions to install QGIS and HDF5 view here
-
-
-
 ## Install HDFView
 The free HDFView application allows you to explore the contents of an HDF5 file
 easily. 
 
-To install click 
-<a href="https://www.hdfgroup.org/products/java/release/download.html" target="_blank"> HERE </a>
-to go to the download page.
+Click 
+<a href="https://www.hdfgroup.org/products/java/release/download.html" target="_blank"> to go to the download page</a>.
+.
 
 From the section titled **HDF-Java 2.11 Pre-Built Binary Distributions** 
 select the HDFView download option that matches the operating system and 
