@@ -26,7 +26,9 @@ comments: true
 {% include _toc.html %} 
 
 ## Check List
-Once you have Git, Bash and R / RStudio installed, you are ready to configure Git. 
+Once you have Git, Bash and R / RStudio installed, you are ready to configure 
+Git. 
+
 On this page you will:
 
 *  Create a directory for all future GitHub repositories created on your computer
@@ -67,13 +69,17 @@ How one accesses the shell depends on the operating system being used.
 ## Bash Commands 
 
 ```bash
-$
+$ 
 ```
 
 The dollar sign is a **prompt**, which shows us that the shell is waiting for 
 input; your shell may use a different character as a prompt and may add 
-information before the prompt. When typing commands, either from these lessons 
-or from other sources, do not type the prompt, only the commands that follow it.
+information before the prompt. 
+
+When typing commands, either from these tutorials or from other sources, do not 
+type the prompt (`$`), only the commands that follow it.
+In these tutorials, subsequent lines that follow a prompt and do not start with 
+`$` are the output of the command. 
 
 ### listing contents - ls
 Next, let's find out where we are by running a command called `pwd` -- print 
@@ -84,8 +90,7 @@ computer's response is `/Users/neon`, which is NEON’s **home directory**:
 
 ```bash
 $ pwd
-``` 
-```bash
+
 /Users/neon
 ```
 
@@ -104,10 +109,9 @@ file system. We can see what's in our home directory by running `ls` --listing.
 
 ```bash
 $ ls
-```
-```bash
-Applications Documents  Library   Music    Public
-Desktop   Downloads  Movies    Pictures
+
+Applications   Documents   Library   Music   Public
+Desktop        Downloads   Movies    Pictures
 ```
 
 (Again, your results may be slightly different depending on your operating 
@@ -146,14 +150,13 @@ that's where we now are:
 
 ```bash
 $ pwd
-```
-```bash
+
 /Users/neon/Documents
 ```
 ```bash
 $ ls
-```
-```bash
+
+
 data/  elements/  animals.txt  planets.txt  sunspot.txt
 ```
 
@@ -175,9 +178,7 @@ new directory is created in the current working directory:
 
 ```bash
 $ ls
-```
 
-```bash
 data/  elements/  GitHub/  animals.txt  planets.txt  sunspot.txt
 ```
 
@@ -197,9 +198,7 @@ We can use `git --version` to see which version of Git is installed
 
 ```bash
 $ git --version
-```
 
-```bash
 git version 2.5.4 (Apple Git-61)
 ```
 
