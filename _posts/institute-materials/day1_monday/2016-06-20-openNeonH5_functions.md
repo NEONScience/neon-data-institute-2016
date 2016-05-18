@@ -5,7 +5,7 @@ description: "Intro to HDF5"
 date:   2016-06-19
 authors: [Leah]
 instructors: [Leah, Naupaka]
-time: "3:15 pm"
+time: "3:15"
 contributors: [Edmund Hart]
 dateCreated:  2016-05-01
 lastModified: 2016-05-17

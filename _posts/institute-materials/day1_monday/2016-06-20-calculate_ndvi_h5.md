@@ -4,7 +4,7 @@ title: "Calculate NDVI from NEON Hyperspectral Remote Sensing Data in R"
 date:   2016-06-17
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
-time: "4:45 pm"
+time: "4:45"
 contributors: [Edmund Hart]
 dateCreated:  2016-05-01
 lastModified: 2016-05-17
@@ -16,8 +16,8 @@ tutorialSeries: [institute-day1]
 description: "Intro to HDF5"
 code1: institute-materials/day1_monday/calculate_ndvi_h5.R
 image:
-  feature: 
-  credit: 
+  feature:
+  credit:
   creditlink:
 permalink: /R/calculate-ndvi/
 comments: false
@@ -34,7 +34,7 @@ First, let's load the required libraries.
 ## Load Functions
 
 This is a lot like loading a package in R. Except the functions for this package
-are in an R script stored locally on our computers. 
+are in an R script stored locally on our computers.
 
 Once we have done the work to build our functions, we can perform routine tasks
 over and over using those functions.
@@ -76,7 +76,7 @@ red and near-infrared bands that we need to calculate NDVI.
     # clear out plots
     # dev.off(dev.list()["RStudioGD"])
     
-    plot(ndvi_rast, 
+    plot(ndvi_rast,
          main="NDVI for the NEON TEAK Field Site")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/calculate_ndvi_h5/create-NDVI-1.png)
@@ -85,9 +85,9 @@ red and near-infrared bands that we need to calculate NDVI.
 
 
     # export as a gtif
-    writeRaster(ndvi_rast, 
-                file="ndvi_TEAK.tif", 
-                format="GTiff", 
+    writeRaster(ndvi_rast,
+                file="ndvi_TEAK.tif",
+                format="GTiff",
                 overwrite=TRUE)
 
 ## Plot NDVI
@@ -106,12 +106,9 @@ red and near-infrared bands that we need to calculate NDVI.
          main="NDVI for the Teakettle Field site",
          legend=FALSE)
     
-    plot(ndvi_rast, 
+    plot(ndvi_rast,
          add=TRUE,
          alpha=.3
          )
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/calculate_ndvi_h5/import-lidar-1.png)
-
-
-
