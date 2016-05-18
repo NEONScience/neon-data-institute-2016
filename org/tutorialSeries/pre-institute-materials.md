@@ -6,17 +6,21 @@ tutorialSeriesName: pre-institute-materials
 permalink: pre-institute-materials/
 image:
   feature: data-institute-2016.png
-  credit: 
-  creditlink: 
+  credit:
+  creditlink:
 ---
 ## Pre-Institute Materials
 
-Computer Setup
 
+{% for member in site.data.tutorialSeries %}
 
+{% if member.name contains 'Pre-Institute' %}
 
-* [Computer Setup]( {{ site.baseurl}}tutorial-series/pre-institute0/)
-* [Institute Week One - Intro to NEON]( {{ site.baseurl}}tutorial-series/pre-institute1/)
-* [Institute Week Two - Intro to NEON]( {{ site.baseurl}}tutorial-series/pre-institute2/)
-* [Institute Week Three - Intro to NEON]( {{ site.baseurl}}tutorial-series/pre-institute3/)
-
+  <article class="tutorial-series">
+            <a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" class="list-group-item">
+                <h2 class="list-group-item-heading">{{ member.name  }}</h2>
+            <p>{{ member.description }}</p>
+            </a>
+   </article>   
+   {% endif %}   
+{% endfor %}

@@ -40,7 +40,7 @@ ndvi_rast <- calc(ndvi_stack, NDVI)
 # clear out plots
 # dev.off(dev.list()["RStudioGD"])
 
-plot(ndvi_rast, 
+plot(ndvi_rast,
      main="NDVI for the NEON TEAK Field Site")
 
 
@@ -69,7 +69,7 @@ plot(hill,
      main="NDVI for the Teakettle Field site",
      legend=FALSE)
 
-plot(ndvi_rast, 
+plot(ndvi_rast,
      add=TRUE,
      alpha=.3
      )
