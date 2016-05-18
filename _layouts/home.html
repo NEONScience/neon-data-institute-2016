@@ -49,10 +49,14 @@
 {% for member in site.data.tutorialSeries %}
 {% assign counter = 0 %}
 <!-- this code counts the number of posts associated with each tutorial series member (tutorialSeries.yml -->
+
+
+
 {% for post in site.posts %}
 	{% if post.tutorialSeries contains member.slug %}
 	{% assign counter = counter | plus: 1 %}
 	{% endif %}
+
 {% endfor %}	
 
   <article class="tutorial-series">	
@@ -64,8 +68,11 @@
 				{% endcomment %}
             <p>{{ member.description }}</p>
             </a>
-   </article>         
+   </article>      
 {% endfor %}
+
+
+
 
 </div><!-- /#index -->
 

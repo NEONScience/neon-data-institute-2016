@@ -38,10 +38,10 @@
  {% for post in site.posts %}
 	{% if post.tutorialSeries contains page.tutorialSeriesName %}
 	{% assign counter = counter | plus: 1 %}
-		 
-		 <li> Step {{ counter }}:<a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
+
+		 <li> Part {{ counter }}:<a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
 					{{ post.title }} </li>
-		  
+
 	{% endif %}
 	</ul>
 {% endfor %}
@@ -58,6 +58,7 @@
 
 {% for post in site.posts %}
 	{% if post.tutorialSeries contains page.tutorialSeriesName %}
+  {% if post.time %}
 	{% assign counter = counter | plus: 1 %}
 
 	  </thead>
@@ -66,15 +67,34 @@
 		  <td>{% if post.time %}{{ post.time }}{% endif %}</td>
 		  <td><a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
 					{{ post.title }}</td>
-		  <td> {{ post.instructors }}</td>
+		  <td> {{ post.instructors | join: ', ' %}}</td>
 		</tr>
 
 	{% endif %}
+  {% endif %}
 {% endfor %}
+
 	</tbody>
 </table>
 
-{% endif %}	
+<h2>Advanced Tutorials</h2>
+{% for post in site.posts %}
+	{% if post.tutorialSeries contains page.tutorialSeriesName %}
+  {% if post.time == NULL %}
+	{% assign counter = counter | plus: 1 %}
+  <article>
+		  <a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
+					<h2>{{ post.title }}</h2>
+          <p>{% if post.description %}{{ post.description }}{% else %}{{ post.content | strip_html | strip_newlines | truncate: 120 }}{% endif %}</p>
+      </a>
+  </article>
+
+
+	{% endif %}
+  {% endif %}
+{% endfor %}
+
+{% endif %}
 </div> <!-- /#cat-tag_content -->
 
 
@@ -93,33 +113,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

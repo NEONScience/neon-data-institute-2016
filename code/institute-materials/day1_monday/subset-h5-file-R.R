@@ -28,8 +28,8 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 # Define the file name to be opened
 f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
-# Look at the HDF5 file structure 
-h5ls(f,all=T) 
+# Look at the HDF5 file structure
+h5ls(f, all=T)
 
 # define the CRS in EPGS format for the file
 epsg <- 32611
@@ -37,7 +37,7 @@ epsg <- 32611
 
 ## ----read-band-wavelengths-----------------------------------------------
 
-#read in the wavelength information from the HDF5 file
+# read in the wavelength information from the HDF5 file
 wavelengths<- h5read(f,"wavelength")
 # convert wavelength to nanometers (nm)
 # NOTE: this is optional!
@@ -59,7 +59,7 @@ clip.extent <- readOGR("Teakettle", "teak_plot")
 # paste0("+init=epsg:", epsg) -- so it will be better to use the proj string here
 
 crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-  
+
 
 # ensure the two extents overlap
 gIntersects(h5.ext.poly, clip.extent)
@@ -73,9 +73,9 @@ xscale <- 1
 
 # define index extent
 # xmin.index, xmax.index, ymin.index,ymax.index
-# all units will be rounded which means the pixel must occupy a majority (.5 or greater) 
+# all units will be rounded which means the pixel must occupy a majority (.5 or greater)
 # within the clipping extent
-index.bounds <- calculate_index_extent(extent(clip.extent), 
+index.bounds <- calculate_index_extent(extent(clip.extent),
                                        h5.ext)
 
 # open a band that is subsetted using the clipping extent
@@ -95,7 +95,7 @@ plot(b58_clipped,
 # create  alist of the bands
 bands <- list(19,34,58)
 # within the clipping extent
-index.bounds <- calculate_index_extent(extent(clip.extent), 
+index.bounds <- calculate_index_extent(extent(clip.extent),
                                             h5.ext)
 rgbRast.clip <- create_stack(file=f,
                          bands=bands,
@@ -116,7 +116,7 @@ rgbRast <- create_stack(file=f,
 
 plotRGB(rgbRast,
         stretch="lin")
-plot(clip.extent, 
+plot(clip.extent,
      add=T,
      border="yellow",
      lwd=3)
@@ -127,10 +127,10 @@ plot(clip.extent,
 # array containing the index dimensions to slice
 H5close()
 subset.h5 <- h5read(f, "Reflectance",
-                    index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row 
+                    index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row
 
 final.spectra <- data.frame(apply(subset.h5,
-              MARGIN = c(3), # take the mean value for each z value 
+              MARGIN = c(3), # take the mean value for each z value
               mean)) # grab the mean value in the z dimension
 final.spectra$wavelength <- wavelengths
 

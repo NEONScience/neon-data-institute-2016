@@ -28,8 +28,8 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 # Define the file name to be opened
 f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
-# Look at the HDF5 file structure 
-h5ls(f, all=T) 
+# Look at the HDF5 file structure
+h5ls(f, all=T)
 
 
 ## ----read-spatial-attributes---------------------------------------------
@@ -37,8 +37,8 @@ h5ls(f, all=T)
 # get CRS
 epsg <- 32611
 # open band
-band <- open_band(fileName=f, 
-                  bandNum = 56, 
+band <- open_band(fileName=f,
+                  bandNum = 56,
                   epsg=epsg)
 # plot data
 plot(band,
@@ -66,7 +66,7 @@ aPixel<- h5read(f,  # the file
 
 # reshape the data and turn into dataframe
 # split the data by the 3rd dimension
-aPixeldf <- adply(aPixel, 3) 
+aPixeldf <- adply(aPixel, 3)
 
 # we only need the second row of the df, the first row is a duplicate
 aPixeldf <- aPixeldf[2]
@@ -96,8 +96,8 @@ head(aPixeldf)
 
 ## ----plot-spectra--------------------------------------------------------
 
-# plot using GGPLOT2 
-qplot(x=aPixeldf$wavelength, 
+# plot using GGPLOT2
+qplot(x=aPixeldf$wavelength,
       y=aPixeldf$reflectance,
       xlab="Wavelength (nm)",
       ylab="Reflectance",

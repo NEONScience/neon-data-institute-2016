@@ -17,9 +17,9 @@ h5ls(f, all = TRUE)
 
 ## ----view-attributes-----------------------------------------------------
 
-# View map info attributes 
+# View map info attributes
 # Map Info contains some key coordinate reference system information
-# Including the UPPER LEFT corner coordinate in UTM (meters) of the Reflectance 
+# Including the UPPER LEFT corner coordinate in UTM (meters) of the Reflectance
 # data.
 mapInfo <- h5read(f,"map info", read.attributes = TRUE)
 mapInfo
@@ -49,7 +49,7 @@ did
 sid <- H5Dget_space(did)
 dims <- H5Sget_simple_extent_dims(sid)$size
 
-# take note that the data seem to come in ROTATED. wavelength is the 
+# take note that the data seem to come in ROTATED. wavelength is the
 # THIRD dimension rather than the first. Columns are the FIRST dimension, then rows.
 # close everything
 H5Sclose(sid)
@@ -84,7 +84,7 @@ b56 <- b56[,,1]
 image(b56)
 
 # looks like we need to force a stretch
-image(log(b56), 
+image(log(b56),
       main="band 56 with log transformation")
 # view distribution of reflectance data
 # force non scientific notation
@@ -104,16 +104,16 @@ b56[b56 == noDataVal] <- NA
 
 # Extract the scale factor as an object
 scaleFactor <- reflInfo$`Scale Factor`
-# divide all values in our B56 object by the scale factor to get a range of 
+# divide all values in our B56 object by the scale factor to get a range of
 # reflectance values between 0-1 (the valid range)
 b56 <- b56/scaleFactor
 
 # view distribution of reflectance values
-hist(b56, 
+hist(b56,
      main="distribution with NoData Value considered\nData scaled")
 
 ## ----transpose-data------------------------------------------------------
-# Because the data import column, row but we require row, column in R, 
+# Because the data import column, row but we require row, column in R,
 # We need to transpose x and y values in order for our final image to plot properly
 b56<-t(b56)
 image(log(b56), main="Transposed image")
@@ -148,7 +148,7 @@ b56r <- raster(b56,
 # assign CRS
 extent(b56r) <- rasExt
 
-# view raster object attributes 
+# view raster object attributes
 b56r
 plot(b56r, main="Raster for Teakettle - B56")
 

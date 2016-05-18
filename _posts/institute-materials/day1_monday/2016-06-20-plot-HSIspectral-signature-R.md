@@ -3,21 +3,21 @@ layout: post
 title: "Plot a Spectral Signature from Hyperspectral Remote Sensing data in R -  HDF5"
 date:   2016-06-18
 authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah A. Wasser]
+instructors: [Leah, Naupaka]
 contributors: []
-time: "1:30 pm"
+time: "4:00"
 dateCreated:  2016-05-01
-lastModified: 2016-05-13
+lastModified: 2016-05-17
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
 tags: [R, HDF5]
 tutorialSeries: [institute-day1]
 description: "Learn how to plot a spectral signature from a NEON HDF5 file in R."
-code1: plot-HSIspectral-signature-R.R
+code1: institute-materials/day1_monday/plot-HSIspectral-signature-R.R
 image:
-  feature: 
-  credit: 
+  feature:
+  credit:
   creditlink:
 permalink: /R/plot-spectral-signature/
 comments: false
@@ -34,7 +34,7 @@ After completing this activity, you will:
 <li>Know how to work with groups and datasets within an HDF5 file.</li>
 </ol>
 
-</div> 
+</div>
 
 
 In this tutorial, we will extract a single-pixel's worth of reflectance values to
@@ -56,9 +56,9 @@ plot a spectral profile for that pixel.
 
 In this scenario, we have built a suite of FUNCTIONS that will allow us to quickly
 open and read from an H5 file. Rather than code out each step to open the H5 file,
-let's open that file first using the `source` function which reads the functions into 
+let's open that file first using the `source` function which reads the functions into
 our working environment. We can then use the funtions to quickly and efficiently
-open the H5 data. 
+open the H5 data.
 
 
     # your file will be in your working directory! This one happens to be in a diff dir
@@ -74,20 +74,20 @@ First, we need to access the H5 file.
     # Define the file name to be opened
     f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
     
-    # Look at the HDF5 file structure 
-    h5ls(f, all=T) 
+    # Look at the HDF5 file structure
+    h5ls(f, all=T)
 
 ## Open a Band
 
-Next, we can use the `open_band` function to quickly open up a band. 
+Next, we can use the `open_band` function to quickly open up a band.
 Let's open band 56.
 
 
     # get CRS
     epsg <- 32611
     # open band
-    band <- open_band(fileName=f, 
-                      bandNum = 56, 
+    band <- open_band(fileName=f,
+                      bandNum = 56,
                       epsg=epsg)
     # plot data
     plot(band,
@@ -98,8 +98,8 @@ Let's open band 56.
 
 ## Read Wavelength Values
 
-Next, let's read in the wavelength center associated with each band in the HDF5 
-file. 
+Next, let's read in the wavelength center associated with each band in the HDF5
+file.
 
 
 
@@ -111,11 +111,11 @@ file.
 
 ## Extract Z-dimension data slice
 
-Next, we will extract all reflectance values for one pixel. This makes up the 
-spectral signature or profile of the pixel. To do that, we'll use the `h5read` 
+Next, we will extract all reflectance values for one pixel. This makes up the
+spectral signature or profile of the pixel. To do that, we'll use the `h5read`
 function.
 
-We will use the `adply` function to convert the data in array format, into a 
+We will use the `adply` function to convert the data in array format, into a
 dataframe for easy plotting.
 
 
@@ -129,7 +129,7 @@ dataframe for easy plotting.
     
     # reshape the data and turn into dataframe
     # split the data by the 3rd dimension
-    aPixeldf <- adply(aPixel, 3) 
+    aPixeldf <- adply(aPixel, 3)
     
     # we only need the second row of the df, the first row is a duplicate
     aPixeldf <- aPixeldf[2]
@@ -151,7 +151,7 @@ dataframe for easy plotting.
 
 ## Scale Factor
 
-Then, we can pull the spatial attributes that we'll need to adjust the reflectance 
+Then, we can pull the spatial attributes that we'll need to adjust the reflectance
 values. Often, large raster data contain floating point (values with decimals) information.
 However, floating point data consume more space (yield a larger file size) compared
 to integer values. Thus, to keep the file sizes smaller, the data will be scaled
@@ -182,14 +182,11 @@ by a factor of 10, 100, 10000, etc. This `scale factor` will be noted in the dat
 Now we're ready to plot our spectral profile!
 
 
-    # plot using GGPLOT2 
-    qplot(x=aPixeldf$wavelength, 
+    # plot using GGPLOT2
+    qplot(x=aPixeldf$wavelength,
           y=aPixeldf$reflectance,
           xlab="Wavelength (nm)",
           ylab="Reflectance",
           main="Spectral Signature for a Single Pixel")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/plot-HSIspectral-signature-R/plot-spectra-1.png)
-
-
-
