@@ -19,7 +19,7 @@ image:
   feature:
   credit:
   creditlink:
-permalink: /R/classify-by-threshold-R/
+permalink: /R/intro-lidar-data/
 comments: false
 ---
 
