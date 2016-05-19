@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "11:00"
 contributors: []
 dateCreated:  2016-05-01
-lastModified: 2016-05-18
+lastModified: 2016-05-19
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -19,7 +19,7 @@ image:
   feature: 
   credit: 
   creditlink:
-permalink: /R/classify-by-threshold-R/
+permalink: /R/mask-raster-threshold-R/
 comments: false
 ---
 
