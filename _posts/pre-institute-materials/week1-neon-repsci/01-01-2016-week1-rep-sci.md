@@ -82,7 +82,7 @@ Which of these do you know enough about right now to incorporate into your resea
 For which of these do you need to gain new skills to be able to incorporate into your research?
 {: .notice2}
 
-##Additional Readings (optional, but interesting)
+## Additional Readings (optional, but interesting)
 
 * Nature has collated/published (with open-access) a special archive on the
 <a href="http://www.nature.com/news/reproducibility-1.17552" target="_blank"> Challenges of Irreproducible Science </a>.
