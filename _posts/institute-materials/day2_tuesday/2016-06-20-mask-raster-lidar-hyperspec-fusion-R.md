@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time:
 contributors:
 dateCreated:  2016-05-01
-lastModified: 2016-05-18
+lastModified: 2016-05-19
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -85,18 +85,28 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
     ## Error in eval(expr, envir, enclos): object 'ndvi.stack' not found
 
     names(ndvi) <- "Teak_hsiNDVI"
-    
+
+    ## Error in names(ndvi) <- "Teak_hsiNDVI": object 'ndvi' not found
+
     # let's test this out
     plot(ndvi)
-    
+
+    ## Error in plot(ndvi): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ndvi' not found
+
     # let's create a mask
     ndvi[ndvi<.6] <- NA
+
+    ## Error in ndvi[ndvi < 0.6] <- NA: object 'ndvi' not found
+
     plot(ndvi)
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/mask-raster-lidar-hyperspec-fusion-R/mask-data-1.png)
+    ## Error in plot(ndvi): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'ndvi' not found
 
     # force the two to have the same CRS
     crs(ndvi) <- crs(asp.ns)
+
+    ## Error in crs(ndvi) <- crs(asp.ns): object 'ndvi' not found
+
     # the two are different extents, crop both
     if(gIntersection(extent(ndvi), extent(asp.ns))){
       print("they overlap")
@@ -106,6 +116,8 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
 
     # mask out only pixels that are north facing and NDVI >.6
     nFacing.ndvi <- mask(asp.ns,ndvi)
+
+    ## Error in mask(asp.ns, ndvi): error in evaluating the argument 'mask' in selecting a method for function 'mask': Error: object 'ndvi' not found
 
 ## Export Classified Raster
 
