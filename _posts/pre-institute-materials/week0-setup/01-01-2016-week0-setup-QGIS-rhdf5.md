@@ -56,8 +56,8 @@ operating system.
 
 #### Mac OSX
 
-1. Select **<a href="http://www.kyngchaos.com/software/qgis" target=_"blank">
-KyngChaos QGIS download page</a>**. This will take you to a new page.
+1. Select <a href="http://www.kyngchaos.com/software/qgis/" target="_blank">
+KyngChaos QGIS download page</a>. This will take you to a new page.
 
 2. Select the current version of QGIS. The download file (dmg format) should start automatically.
 3. Once downloaded, open the file and read the READ ME BEFORE INSTALLING.rtf file.
