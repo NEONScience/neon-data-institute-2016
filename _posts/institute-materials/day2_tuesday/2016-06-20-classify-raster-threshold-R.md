@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Classify a raster using threshold values in R"
-date:   2016-06-19
+date:   2016-06-17
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time: "10:15"
@@ -14,7 +14,7 @@ mainTag: institute-day2
 tags: [R, HDF5]
 tutorialSeries: [institute-day2]
 description: "Classify using threshold."
-code1: institute-materials/day2_tuesday/classify-raster-threshold.R
+code1: institute-materials/day2_tuesday/classify-raster-threshold-R.R
 image:
   feature: 
   credit: 
@@ -174,8 +174,10 @@ We will assign all north facing slopes "1" and south facing "2".
 <div id="challenge" markdown="1">
 ## Challenge
 
-Take the markdown file that you just created in this lesson. Add some additional
-documentation that describes the steps that you took to classify a raster.
+Take the markdown file that you just created in this lesson. Imagine that you are
+your future self. Add some additional documentation that describes the steps that 
+you took to classify a raster in R and "analyze" / describe the outputs. Do
+they tell you anything about vegetation structure at the field site?
 
 When you are done, add to this markdown document. Create the following threshold 
 classified outputs:
@@ -185,5 +187,8 @@ classified outputs:
 2. A raster where canopy height is classified. Explore the CHM data and chose 
 threshold values that make sense given the distribution of values in the data.
 
+Be sure to document your workflow as you go using Markdown within your R Markdown
+document.
 
+When you are done, knit your outputs to html and push them to your git directory.
 </div>

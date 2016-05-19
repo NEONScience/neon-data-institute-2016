@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mask a raster using threshold values in R"
-date:   2016-06-18
+date:   2016-06-16
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time: "11:00"
