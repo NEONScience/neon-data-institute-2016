@@ -43,7 +43,7 @@ HDFView application to your Applications directory.
 ## Install QGIS
 QGIS is a free, open-source GIS program. To install QGIS:
 
-Download the installed on the
+Download the QGIS installer on the
 <a href="http://www.qgis.org/en/site/forusers/download.html" target="_blank">
 QGIS download page here </a>. Follow the installation directions below for your
 operating system.
@@ -54,20 +54,22 @@ operating system.
 2. The download will automatically start.
 3. Open QGIS to ensure that it is properly downloaded and installed.
 
-#### Mac OSX
+### Mac OSX
 
 1. Select <a href="http://www.kyngchaos.com/software/qgis/" target="_blank">
 KyngChaos QGIS download page</a>. This will take you to a new page.
-
 2. Select the current version of QGIS. The download file (dmg format) should start automatically.
-3. Once downloaded, open the file and read the READ ME BEFORE INSTALLING.rtf file.
+3. Once downloaded, run the dmg file. When you run the DMG, it will create a
+directory of installer packages that you need to run in a particular order. IMPORTANT:
+**read the READ ME BEFORE INSTALLING.rtf file**!
 
-Install the packages in the order indicated.
+Install the packages in the directory in the order indicated.
 
 1. GDAL Complete.pkg
 2. NumPy.pkg
 3. matplotlib.pkg
-4. QGIS.pkg - The other packages must be installed first.
+4. QGIS.pkg - **NOTE: you need to install GDAL, NumPy and matplotlib in order to
+  successfully install QGIS on your mac!**
 
 <i class="fa fa-star"></i> **Data Tip:** If your computer doesn't allow you to
 open these packages because they are from an unknown developer, right click on
@@ -78,7 +80,7 @@ if you want to open the package. Select Open, and the installer will open.
 Once all of the packages are installed, open QGIS to ensure that it is properly
  installed.
 
-#### LINUX
+### LINUX
 
 1. Select the appropriate download for your computer system.
 2. Note: if you have previous versions of QGIS installed on your system, you may
