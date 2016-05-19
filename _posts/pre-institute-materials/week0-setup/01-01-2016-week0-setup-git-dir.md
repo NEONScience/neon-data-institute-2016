@@ -25,7 +25,7 @@ comments: true
 
 {% include _toc.html %} 
 
-## Check List
+## Checklist
 Once you have Git, Bash and R / RStudio installed, you are ready to configure 
 Git. 
 
@@ -103,6 +103,13 @@ In future examples, we've used Mac output as the default, Linux and Windows
 output may differ slightly, but should be generally similar. 
 {: .notice}
 
+If you are not, by default, in your home directory, you get there by typing: 
+
+```bash
+
+$ cd ~
+
+```
 
 Now let's learn the command that will let us see the contents of our own 
 file system. We can see what's in our home directory by running `ls` --listing.
@@ -265,7 +272,9 @@ same commands to choose another editor or update your email address.
 Now that Git is set up, you will be ready to start the Week 2 materials to learn 
 about version control and how Git & GitHub work. 
 
-<i class="fa fa-star"></i> **Data Tip:** GitDesktop <https://desktop.github.com/ > is a GUI (one of many) for 
+<i class="fa fa-star"></i> **Data Tip:** 
+<a href="https://desktop.github.com/" target="_blank"> GitDesktop </a>
+is a GUI (one of many) for 
 using GitHub that is free and available for both Mac and Windows operating 
 systems. We will only teach how to use Git through command line, and not 
 support use of GitDesktop (or any other GUI), however, you are welcome to 

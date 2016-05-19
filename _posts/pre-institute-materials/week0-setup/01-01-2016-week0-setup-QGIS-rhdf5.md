@@ -35,8 +35,11 @@ select the HDFView download option that matches the operating system and
 computer setup (32 bit vs 64 bit) that you have. The download will start
 automatically.
 
-3. Open the downloaded file. If you are on a MAC, you may want to add the
-HDFView application to your Applications directory.
+3. Open the downloaded file. 
+  + Mac - You may want to add the HDFView application to your Applications 
+directory. 
+  + Windows - Unzip the file, open the folder, run the .exe file, and follow 
+directions to complete installation. 
 
 4. Open HDFView to ensure that the program installed correctly.
 
@@ -45,23 +48,26 @@ QGIS is a free, open-source GIS program. To install QGIS:
 
 Download the QGIS installer on the
 <a href="http://www.qgis.org/en/site/forusers/download.html" target="_blank">
-QGIS download page here </a>. Follow the installation directions below for your
+QGIS download page here</a>. Follow the installation directions below for your
 operating system.
 
 ### Windows
 
 1. Select the appropriate **QGIS Standalone Installer Version** for your computer.
 2. The download will automatically start.
-3. Open QGIS to ensure that it is properly downloaded and installed.
+3. Open the .exe file and follow prompts to install (installation may take a 
+while). 
+4. Open QGIS to ensure that it is properly downloaded and installed.
 
-### Mac OSX
+### Mac OS X
 
 1. Select <a href="http://www.kyngchaos.com/software/qgis/" target="_blank">
 KyngChaos QGIS download page</a>. This will take you to a new page.
-2. Select the current version of QGIS. The download file (dmg format) should start automatically.
-3. Once downloaded, run the dmg file. When you run the DMG, it will create a
-directory of installer packages that you need to run in a particular order. IMPORTANT:
-**read the READ ME BEFORE INSTALLING.rtf file**!
+2. Select the current version of QGIS. The file download (.dmg format) should 
+start automatically.
+3. Once downloaded, run the .dmg file. When you run the .dmg, it will create a
+directory of installer packages that you need to run in a particular order. 
+IMPORTANT: **read the READ ME BEFORE INSTALLING.rtf file**!
 
 Install the packages in the directory in the order indicated.
 
@@ -69,7 +75,7 @@ Install the packages in the directory in the order indicated.
 2. NumPy.pkg
 3. matplotlib.pkg
 4. QGIS.pkg - **NOTE: you need to install GDAL, NumPy and matplotlib in order to
-  successfully install QGIS on your mac!**
+  successfully install QGIS on your Mac!**
 
 <i class="fa fa-star"></i> **Data Tip:** If your computer doesn't allow you to
 open these packages because they are from an unknown developer, right click on
@@ -77,8 +83,8 @@ the package and select Open With >Installer (default). You will then be asked
 if you want to open the package. Select Open, and the installer will open.
 {: .notice}
 
-Once all of the packages are installed, open QGIS to ensure that it is properly
- installed.
+Once all of the packages are installed, open QGIS to ensure that it is properly 
+installed.
 
 ### LINUX
 
