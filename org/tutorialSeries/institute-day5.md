@@ -2,8 +2,8 @@
 layout: tutorial-series-landing
 title: 'Thursday 23 June: Lidar & Hyperspectral Data Fusion'
 categories: [tutorial-series]
-tutorialSeriesName: institute-day4
-permalink: tutorial-series/institute-day4/
+tutorialSeriesName: institute-day5
+permalink: tutorial-series/institute-day5/
 image:
   feature: data-institute-2016.png
   credit:
@@ -11,9 +11,6 @@ image:
 ---
 ## About
 
-Agenda with links to each segments materials.
-Description goes here.
-
-Links will also appear on the LEFT side bar
+Friday!
 
 ## Afternoon Agenda

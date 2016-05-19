@@ -1,20 +1,20 @@
 ---
 layout: post
-title: "Classify a raster by threshold values in R"
-date:   2016-06-19
+title: "Classify a raster using threshold values in R"
+date:   2016-06-17
 authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah A. Wasser]
-time: "10:15 am"
-contributors: [Edmund Hart]
+instructors: [Leah, Naupaka]
+time: "10:15"
+contributors:
 dateCreated:  2016-05-01
-lastModified: 2016-05-06
-packagesLibraries: [rhdf5]
+lastModified: 2016-05-18
+packagesLibraries: [raster]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
 tags: [R, HDF5]
 tutorialSeries: [institute-day2]
-description: "Classify raster data using ranges of values (thresholds)."
-code1: .R
+description: "Classify using threshold."
+code1: institute-materials/day2_tuesday/classify-raster-threshold-R.R
 image:
   feature: 
   credit: 
@@ -22,6 +22,11 @@ image:
 permalink: /R/classify-by-threshold-R/
 comments: false
 ---
+
+## About
+
+In this tutorial, we will walk through how to classify a raster file using
+defined value ranges in R. 
 
 First, let's load the required libraries.
 
@@ -31,23 +36,30 @@ First, let's load the required libraries.
     library(rhdf5)
     library(rgdal)
     
+    # set your working directory
     setwd("~/Documents/data/1_data-institute-2016")
+    
+    # import functions
+    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## Import LiDAR data
 
+To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
+(DSM and DTM) which are in Geotiff format.
 
-    # note: plotting to look at things as you go is always recommmended!
-      
-    # first we read in the LiDAR data
-    
+
+    # read LiDAR data
     # dsm = digital surface model == top of canopy
-    dsm <- raster("Teakettle/may1_subset/lidar/Teak_lidarDSM.tif")
+    dsm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDSM.tif")
     # dtm = digital terrain model = elevation
-    dtm <- raster("Teakettle/may1_subset/lidar/Teak_lidarDTM.tif") 
+    dtm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDTM.tif") 
     
-    # rename to CHM
-    # chm <- dsm - dtm
-    chm <- raster("Teakettle/may1_subset/lidar/Teak_lidarCHM.tif")
+    # lets also import the canopy height model (CHM).
+    chm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarCHM.tif")
+
+## View CHM
+
+
     # assign chm values of 0 to NA
     chm[chm==0] <- NA
     
@@ -56,58 +68,101 @@ First, let's load the required libraries.
     plot(chm,
          main="Canopy Height - Teakettle \nCalifornia") 
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/import-lidar-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/explore-chm-1.png)
 
     hist(chm,
          main="Distribution of Canopy Height - Teakettle \nCalifornia",
          xlab="Tree Height (m)", 
          col="springgreen")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/import-lidar-2.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/explore-chm-2.png)
 
+## Import Aspect Data
 
+Next, we'll import an aspect dataset - one of the NEON data products.
+
+# DEFINE this data product & Make sure TRISTAN covers it.
+
+<i class="fa fa-star"></i> **Data Tip:** You can calculate aspect in R 
+using if you have a surface or elevation model as follows:  
+`terrain(your.raster.data, opt = "aspect", unit = "degrees", neighbors = 8)` .
+{: .notice}
 
 
     # (1) calculate aspect of cropped DTM
     # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
-    aspect <- raster("Teakettle/may1_subset/lidar/Teak_lidarAspect.tif")
-    # crop the data to the extent of the other rasters we are working with!
-    aspect <- crop(aspect, overlap)
-
-    ## Error in .local(x, y, ...): Cannot get an Extent object from argument y
-
-    # Create a classified intermediate product 
-    # create mask -- 
-    # (2) make 'dummy' (1s and 0s) layers for north facing (315 deg to 45 deg) and
-    # south facing (135 deg to 225 deg) slopes
+    aspect <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarAspect.tif")
     
-    # the other option is to create a CLASSIFIED RASTER
-    # if that is classified than you can have a nice intermediate raster
-    
+    plot(aspect,
+         main="Aspect for Teakettle Field Site",
+         axes=F)
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/import-aspect-data-1.png)
+
+## Threshold Based Raster Classification
+
+Next, we will create a classified raster object.
+To do this we need to:
+
+1. Create a matrix containing the threhold ranges and the associated "class"
+2. Use the `raster::reclassify` function to create a new raster.
+
+Our range of values are as follows:
+We will assign all north facing slopes "1" and south facing "2". 
+
+**North Facing Slopes:** 0-45 degrees, 315-360 degrees; class=1
+**South Facing Slopes:** 135-225 degrees; class=2
+
+
+
     # first create a matrix of values that represent the classification ranges
     # North face = 1
     # South face = 2
-    class.m <- c(0, 45, 1, 45, 135, NA, 135, 225, 2,  225 , 315, NA, 315, 360, 1)
+    class.m <- c(0, 45, 1, 
+                 45, 135, NA, 
+                 135, 225, 2,  
+                 225 , 315, NA, 
+                 315, 360, 1)
+    class.m
+
+    ##  [1]   0  45   1  45 135  NA 135 225   2 225 315  NA 315 360   1
+
+    # shape the object into a matrix with columns and rows
     rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+    rcl.m
+
+    ##      [,1] [,2] [,3]
+    ## [1,]    0   45    1
+    ## [2,]   45  135   NA
+    ## [3,]  135  225    2
+    ## [4,]  225  315   NA
+    ## [5,]  315  360    1
+
+    # reclassify the raster using the reclass object - rcl.m
     asp.ns <- reclassify(aspect, rcl.m)
+    
+    # plot outside of the plot region
+    # make room for a legend
+    par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
     
     plot(asp.ns, 
          col=c("white","blue","green"),
-         axes=F,
-         main="North and South Facing Slopes \nTeakettle")
-
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/import-aspect-1.png)
-
-    # all values larger than 315 and less than 45 are north facing
-    # north.facing <- aspect >= 315 | aspect <= 45
-    # all values bewteen 135 and 225 are south facing
-    # south.facing <- aspect >= 135 & aspect <= 225
-    north.facing <- asp.ns==1
-    south.facing <- asp.ns==2
+         main="North and South Facing Slopes \nTeakettle",
+         legend=F)
     
-    north.facing[north.facing == 0] <- NA
-    south.facing[south.facing == 0] <- NA
+    # allow legend to plot outside of bounds
+    par(xpd=TRUE)
     
+    legend((par()$usr[2] + 20), 4103300, # set xy legend location
+           legend = c("North", "South"),
+           fill = c("blue", "green"), 
+           bty="n") # turn off border
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/classify-raster-threshold-R/classify-raster-1.png)
+
+## Export Classified Raster
+
+
     # export geotiff 
     writeRaster(asp.ns,
                 filename="Teakettle/outputs/Teak_nsAspect.tif",
@@ -115,3 +170,25 @@ First, let's load the required libraries.
                 options="COMPRESS=LZW",
                 overwrite = TRUE,
                 NAflag = -9999)
+
+<div id="challenge" markdown="1">
+## Challenge
+
+Take the markdown file that you just created in this lesson. Imagine that you are
+your future self. Add some additional documentation that describes the steps that 
+you took to classify a raster in R and "analyze" / describe the outputs. Do
+they tell you anything about vegetation structure at the field site?
+
+When you are done, add to this markdown document. Create the following threshold 
+classified outputs:
+
+1. A raster where NDVI values are classified 0 (low greenness <.3),
+1 (.3-.6),2 (>.6) 
+2. A raster where canopy height is classified. Explore the CHM data and chose 
+threshold values that make sense given the distribution of values in the data.
+
+Be sure to document your workflow as you go using Markdown within your R Markdown
+document.
+
+When you are done, knit your outputs to html and push them to your git directory.
+</div>

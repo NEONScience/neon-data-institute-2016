@@ -4,22 +4,26 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
+# set your working directory
 setwd("~/Documents/data/1_data-institute-2016")
+
+# import functions
+source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+
 
 ## ----import-lidar--------------------------------------------------------
 
-# note: plotting to look at things as you go is always recommmended!
-  
-# first we read in the LiDAR data
-
+# read LiDAR data
 # dsm = digital surface model == top of canopy
-dsm <- raster("Teakettle/may1_subset/lidar/Teak_lidarDSM.tif")
+dsm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDSM.tif")
 # dtm = digital terrain model = elevation
-dtm <- raster("Teakettle/may1_subset/lidar/Teak_lidarDTM.tif") 
+dtm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDTM.tif") 
 
-# rename to CHM
-# chm <- dsm - dtm
-chm <- raster("Teakettle/may1_subset/lidar/Teak_lidarCHM.tif")
+# lets also import the canopy height model (CHM).
+chm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarCHM.tif")
+
+
+## ----explore-chm---------------------------------------------------------
 # assign chm values of 0 to NA
 chm[chm==0] <- NA
 
@@ -34,51 +38,63 @@ hist(chm,
      col="springgreen")
 
 
-## ----import-aspect-------------------------------------------------------
+
+## ----import-aspect-data--------------------------------------------------
 
 # (1) calculate aspect of cropped DTM
 # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
-aspect <- raster("Teakettle/may1_subset/lidar/Teak_lidarAspect.tif")
-# crop the data to the extent of the other rasters we are working with!
-aspect <- crop(aspect, overlap)
+aspect <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarAspect.tif")
 
-# Create a classified intermediate product 
-# create mask -- 
-# (2) make 'dummy' (1s and 0s) layers for north facing (315 deg to 45 deg) and
-# south facing (135 deg to 225 deg) slopes
+plot(aspect,
+     main="Aspect for Teakettle Field Site",
+     axes=F)
 
-# the other option is to create a CLASSIFIED RASTER
-# if that is classified than you can have a nice intermediate raster
+
+## ----classify-raster-----------------------------------------------------
 
 # first create a matrix of values that represent the classification ranges
 # North face = 1
 # South face = 2
-class.m <- c(0, 45, 1, 45, 135, NA, 135, 225, 2,  225 , 315, NA, 315, 360, 1)
+class.m <- c(0, 45, 1, 
+             45, 135, NA, 
+             135, 225, 2,  
+             225 , 315, NA, 
+             315, 360, 1)
+class.m
+
+# shape the object into a matrix with columns and rows
 rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+rcl.m
+
+# reclassify the raster using the reclass object - rcl.m
 asp.ns <- reclassify(aspect, rcl.m)
+
+# plot outside of the plot region
+# make room for a legend
+par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
 
 plot(asp.ns, 
      col=c("white","blue","green"),
-     axes=F,
-     main="North and South Facing Slopes \nTeakettle")
+     main="North and South Facing Slopes \nTeakettle",
+     legend=F)
 
-# all values larger than 315 and less than 45 are north facing
-# north.facing <- aspect >= 315 | aspect <= 45
-# all values bewteen 135 and 225 are south facing
-# south.facing <- aspect >= 135 & aspect <= 225
-north.facing <- asp.ns==1
-south.facing <- asp.ns==2
+# allow legend to plot outside of bounds
+par(xpd=TRUE)
 
-north.facing[north.facing == 0] <- NA
-south.facing[south.facing == 0] <- NA
-
-# export geotiff 
-writeRaster(asp.ns,
-            filename="Teakettle/outputs/Teak_nsAspect.tif",
-            format="GTiff",
-            options="COMPRESS=LZW",
-            overwrite = TRUE,
-            NAflag = -9999)
+legend((par()$usr[2] + 20), 4103300, # set xy legend location
+       legend = c("North", "South"),
+       fill = c("blue", "green"), 
+       bty="n") # turn off border
 
 
+## ----export-geotiff, eval=FALSE------------------------------------------
+## 
+## # export geotiff
+## writeRaster(asp.ns,
+##             filename="Teakettle/outputs/Teak_nsAspect.tif",
+##             format="GTiff",
+##             options="COMPRESS=LZW",
+##             overwrite = TRUE,
+##             NAflag = -9999)
+## 
 
