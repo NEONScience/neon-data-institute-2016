@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "10:15"
 contributors:
 dateCreated:  2016-05-01
-lastModified: 2016-05-18
+lastModified: 2016-05-19
 packagesLibraries: [raster]
 categories: [self-paced-tutorial]
 mainTag: institute-day2

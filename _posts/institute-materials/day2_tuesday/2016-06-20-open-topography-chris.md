@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Open Topograpy"
+title: "Open Topography"
 date:   2016-06-17
 authors: [Chris Crosby (UNAVCO / Open Topography)]
 instructors: [Chris]
@@ -19,7 +19,7 @@ image:
   feature:
   credit:
   creditlink:
-permalink: /R/classify-by-threshold-R/
+permalink: /R/open-topography/
 comments: false
 ---
 
