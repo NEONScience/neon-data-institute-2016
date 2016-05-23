@@ -23,7 +23,7 @@ Be sure to consider what data you will need (NEON or
 other). You will have time to refine your idea over the next few weeks.
 Save this document as you will submit it next week as a part of week 2 materials!
 
-<i class="fa fa-star"></i>**Deadline:** Please complete this by 11:59 Thursday June 2nd.
+<i class="fa fa-star"></i> **Deadline:** Please complete this by 11:59 Thursday June 2nd 2016.
 
 ## Week 1 Materials
 
