@@ -3,7 +3,7 @@ layout: post
 title: "The Importance of Reproducible Science"
 description: "This page outlines the tools and resources that you will need to
  complete the Data Institute activities."
-date: 2016-05-19
+date: 2016-05-18
 dateCreated: 2014-05-06
 lastModified: 2016-05-18
 estimatedTime: 1.0 - 1.5 Hours
@@ -25,31 +25,31 @@ comments: true
 
 {% include _toc.html %}
 
-"Verifiability and reproducibility are among the cornerstones of the scientific
-process. They are what allows scientists to "stand on the shoulder of giants".
-Maintaining reproducibility requires that all data management, analysis, and
-visualization steps behind the results presented in a paper are documented and
-available in full detail. Reproducibility here means that someone else should
-either be able to obtain the same results given all the documented inputs and
-the published instructions for processing them, or if not, the reasons why
-should be apparent."
+
+> Verifiability and reproducibility are among the cornerstones of the scientific
+> process. They are what allows scientists to "stand on the shoulder of giants".
+> Maintaining reproducibility requires that all data management, analysis, and
+> visualization steps behind the results presented in a paper are documented and
+> available in full detail. Reproducibility here means that someone else should
+> either be able to obtain the same results given all the documented inputs and
+> the published instructions for processing them, or if not, the reasons why
+> should be apparent.
 From <a href="https://github.com/Reproducible-Science-Curriculum/bosc2015/blob/master/BOSC2015-abstract-ReprSciCurriculum.pdf" target="_blank"> Reproducible Science Curriculum </a>
 
 <div id="objectives" markdown="1">
 # Learning Objectives
-At the end of this activity, you will be able to :
+At the end of this activity, you will be able to:
 
-* Explain what is meant by Reproducible Science.
-* Summarize why reproducible science is important to society, the scientific
-community, and your own research.
+* Summarize the four facets of reproducibility.
+* Describe several ways that reproducible workflows can improve your workflow and research.
 * Explain several ways you can incorporate reproducible science techniques into
 your own research.
 </div>
 
-As an introduction to Reproducible Science, please view these slides by the
-creators of the Reproducible Science Curriculum. Skip the suggested activity:
+As an introduction to Reproducible Science, please view the online slide-shows
+below which summarizes concepts taught in the Reproducible Science Curriculum.
 
-* <a href="http://reproducible-science-curriculum.github.io/2015-09-24-reproducible-science-duml/intro-slides/intro-01-slides.html#1" target="_blank">Reproducible Science Slides</a> (originally presented at Duke University Marine Laboratory).
+<a  class="btn btn-success" href="http://neon-workwithdata.github.io/slide-shows/intro-reprod-science.html" target="_blank">View Reproducible Science Slideshow</a>
 
 ## A Gap In Understanding
 
@@ -72,17 +72,19 @@ creators of the Reproducible Science Curriculum. Skip the suggested activity:
 </figure>
 
 How reproducible is your current research?
-Check out this
-<a href="https://github.com/Reproducible-Science-Curriculum/rr-intro/blob/master/checklist.md" target="_blank"> Reproducible Science Checklist </a>
-for a list of questions to apply to your own work.
 
-<i class="fa fa-star"></i> **Thought Questions:**
-Which of these do you already do?
-Which of these do you know enough about right now to incorporate into your research?
-For which of these do you need to gain new skills to be able to incorporate into your research?
-{: .notice2}
+<a class="btn btn-success" href="https://github.com/Reproducible-Science-Curriculum/rr-intro/blob/master/checklist.md" target="_blank"> View Reproducible Science Checklist </a>
 
-## Additional Readings (optional, but interesting)
+<i class="fa fa-star"></i> **Thought Questions:** Have a look at the reproducible
+science check list linked, above and answer the
+following questions:
+* Do you currently apply any of the items in the checklist to your research?
+* Are
+there elements in the list that you are interested in incorporating into your
+workflow? If so, which ones?
+{: .notice .thought }
+
+## Additional Readings (optional)
 
 * Nature has collated/published (with open-access) a special archive on the
 <a href="http://www.nature.com/news/reproducibility-1.17552" target="_blank"> Challenges of Irreproducible Science </a>.
