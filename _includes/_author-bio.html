@@ -8,7 +8,7 @@
 {% endif %}
 
 
-<!--<h3>{{ site.owner.name }}</h3> 
+<!--<h3>{{ site.owner.name }}</h3>
 <p>{{ site.owner.bio }}</p> -->
 
 <h3>&nbsp</h3>
@@ -22,27 +22,37 @@
 			 </div>
 			</a>
 		</h4>
-	   </div>         
+	   </div>
 	{% endif %}
 {% endfor %}
 
 <!-- If the page is a tutorial but it's a part of a series-->
-{% if page.tutorialSeries and page.layout contains 'post' %}	
+{% if page.tutorialSeries and page.layout contains 'post' %}
 
-	
+
 	{% for post in site.posts %}
 
 	{% if post.tutorialSeries contains page.mainTag %}
 	{% assign counter = counter | plus: 1 %}
+
+	{% if page.title contains post.title%}
+	<div id="workshopLink workshopLink-here">
+		<h4>
+			<a href="{{ site.baseurl }}{{ post.permalink }}" alt="{{ member.description }}" title="{{ member.description }}" class="post-link">
+		<div>{{ post.title }}</div>
+		</a>
+		</h4>
+		</div>
+	{% else %}
 	  <div id="workshopLink">
 		<h4>
 			<a href="{{ site.baseurl }}{{ post.permalink }}" alt="{{ member.description }}" title="{{ member.description }}" class="post-link">
-			<div>{{ post.title }}
-			 </div>
+			<div>{{ post.title }}</div>
 			</a>
-		</h4>
-	   </div>         
 
+		</h4>
+	   </div>
+	{% endif %}
 	{% endif %}
 {% endfor %}
 
@@ -56,13 +66,13 @@
 <h5>Other Data Series</h5>
 {% for member in site.data.tutorialSeries %}
   <div id="workshopLink">
-	<h4>	
+	<h4>
         <a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" class="post-link">
         <div>{{ member.name  }}
          </div>
         </a>
 	</h4>
-   </div>         
+   </div>
 {% endfor %}
 	{% endif %}
 
@@ -96,7 +106,7 @@
 
 {% else %}
 
-<!-- commenting this out for now 
+<!-- commenting this out for now
 <h3>Workshops</h3>
 -->
 {% comment %}
@@ -107,10 +117,10 @@
 	{% if post.workshopSeries contains member.slug %}
 	{% assign counter = counter | plus: 1 %}
 	{% endif %}
-{% endfor %}	
+{% endfor %}
   <h5>
   <a href="{{ site.baseurl }}/data-workshop/{{ member.slug }}">{{ member.name }} ({{ counter }})</a>
-  </h5> 
+  </h5>
 {% endfor %}
 
 
@@ -123,12 +133,12 @@
 {% assign t = tag | first %}
   {% for atag in site.data.tags %}
     {% if atag.slug == t %}
-      <h5><a href="{{ site.baseurl }}/{{ atag.slug }}">{{ atag.name }}  
+      <h5><a href="{{ site.baseurl }}/{{ atag.slug }}">{{ atag.name }}
     {% endif %}
-  {% endfor %} 
-      ({{ tag | last | size }}) 
+  {% endfor %}
+      ({{ tag | last | size }})
      </a></h5>
-{% endfor %} 
+{% endfor %}
 {% endcomment %}
 {% endif %}
 
@@ -149,5 +159,3 @@
 {% if site.owner.pinterest %}<a href="http://www.pinterest.com/{{ site.owner.pinterest }}" class="author-social" target="_blank"><i class="fa fa-pinterest"></i> Pinterest</a>{% endif %}
 {% if site.owner.foursquare %}<a href="http://foursquare.com/{{ site.owner.foursquare }}" class="author-social" target="_blank"><i class="fa fa-foursquare"></i> Foursquare</a>{% endif %}
 {% if site.owner.steam %}<a href="http://steamcommunity.com/id/{{ site.owner.steam }}" class="author-social" target="_blank"><i class="fa fa-steam-square"></i> Steam</a>{% endif %}
-
-
