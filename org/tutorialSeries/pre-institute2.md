@@ -12,7 +12,8 @@ image:
 
 ## Welcome to Pre-Institute Week 2
 
-This week our goal is to ensure that everyone comes to the Institute ready to
+The goal of the pre-institute materials is to ensure that everyone comes to the
+Institute ready to
 work in a collaborative research environment. If you recall, the four facets
 of reproducibility include:
 
@@ -21,7 +22,7 @@ of reproducibility include:
 * Automation
 * Dissemination
 
-This week we will learn git and github. The git environment supports both a
+This week we will focus on git and github. The git environment supports both a
 collaborative approach to science through code sharing and dissemination,
 and a powerful version control system that supports both efficient project organization,  
 and an effective way to save your work.
@@ -32,10 +33,12 @@ be as invaluable in your own work!
 
 ## Week 2 Activity
 
-This week you will revise
-you project summary from last week and submit it to a shared repository via GitHub. 
+The assignment for this week is to revise
+the Data Institute project summary that you developed last week. Submit your project
+summary to a shared GitHub.com repository.
 
-Please complete by 11:59 Thursday June 9th.
+Please complete this assignment by 11:59 Thursday June 9th.
 
 ## Week 2 Materials
-Please complete each of the short tutorials below:
+To prepare for the assignment above, please complete each of the short
+tutorials below:

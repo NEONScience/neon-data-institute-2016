@@ -15,7 +15,7 @@
 
 {% for member in site.data.tutorialSeries %}
 	{% if page.tutorialSeries contains  member.slug %}
-	  <div id="workshopLink">
+	  <div class="workshopLink">
 		<h4 class="homeLink">
 			<a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" alt="{{ member.description }}" title="{{ member.description }}">
 			<div>{{ member.name  }}
@@ -36,7 +36,7 @@
 	{% assign counter = counter | plus: 1 %}
 
 	{% if page.title contains post.title%}
-	<div id="workshopLink workshopLink-here">
+	<div class="workshopLink workshopLink-here">
 		<h4>
 			<a href="{{ site.baseurl }}{{ post.permalink }}" alt="{{ member.description }}" title="{{ member.description }}" class="post-link">
 		<div>{{ post.title }}</div>
@@ -44,7 +44,7 @@
 		</h4>
 		</div>
 	{% else %}
-	  <div id="workshopLink">
+	  <div class="workshopLink">
 		<h4>
 			<a href="{{ site.baseurl }}{{ post.permalink }}" alt="{{ member.description }}" title="{{ member.description }}" class="post-link">
 			<div>{{ post.title }}</div>
