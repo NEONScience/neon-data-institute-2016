@@ -1,0 +1,266 @@
+---
+title: "Git05: Git Add Changes - Commit"
+categories: tutorial-series
+date: '2016-05-15'
+output: pdf_document
+contributors: null
+code1: null
+dateCreated: '2014-05-06'
+description: This tutorial covers how to fork, or copy, an existing GitHub repository.
+estimatedTime: null
+image:
+  credit: null
+  creditlink: null
+  feature: data-institute-2016.png
+lastModified: '2016-06-02'
+layout: post
+mainTag: pre-institute2
+comments: yes
+packagesLibraries: null
+permalink: /tutorial-series/pre-institute2/git05
+tags: null
+authors: null
+tutorialSeries: pre-institute2
+---
+
+{% include _toc.html %}
+
+This tutorial reviews how to add and commit changes to a git repository.
+
+<div id="objectives" markdown="1">
+# Learning Objectives
+At the end of this activity, you will be able to:
+
+* Add new files or changes to existing files to your repository.
+* Document changes using the `commit` command with a message describing what has changed.
+* Describe the difference between `git add` and `git commit`.
+* Sync changes to your local repository with the repository stored on GitHub.com.
+* Use and interpret the output from the following commands:
+  + `git status`
+  + `git add`
+  + `git commit`
+  + `git push`
+
+
+## Additional Resources:
+
+* <a href="http://rogerdudler.github.io/git-guide/files/git_cheat_sheet.pdf" target="_blank"> Diagram of Git Commands </a>
+-- this diagram includes more commands than we will
+learn in this series but includes all that we use for our standard workflow.
+* <a href="https://help.github.com/articles/good-resources-for-learning-git-and-github/" target="_blank"> GitHub Help Learning Git resources </a>
+* <a href="https://git-scm.com/book/en/v1/Git-Branching-What-a-Branch-Is" target="_blank"> Information on branches in Git</a>
+-- we do not focus on the use of branches in Git or GitHub, however, if you want
+more information on this structure, this Git documentation may be of use.
+
+</div>
+
+In the previous lesson, we created a markdown (.md) file in our DI16-NEON repository.
+In order for Git to recognize this new file and track it, we need to:
+
+1. formally add it to the repository using `git add`
+2. commit it to the repository as a set of changes (in this case, a new document).
+3. and finally - sync the changes we made locally, to our repository hosted on github.com.
+
+
+EMBED GRAPHIC: GitHub Workflow Basic - highlighting local changes to local
+commit to push GitHub
+
+## Check Status -- git status
+
+Prior to changing anything in a repo always check the status first! This is how
+we see what has occurred in our local repository and what isn’t under version
+control yet!
+
+Open bash, navigate to the `neon-data-institute-2016` repository on your local
+computer, and check the status using `git bash`
+
+
+# desired directory
+
+cd ~/Documents/GitHub/neon-data-repository-2016
+```
+
+``` bash
+
+
+# check the status
+$ git status
+
+On branch gh-pages
+Your branch is up-to-date with 'origin/gh-pages'.
+Changes not staged for commit:
+ (use "git add <file>..." to update what will be committed)
+ (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:  _config.yml
+
+Untracked files:
+ (use "git add <file>..." to include in what will be committed)
+
+	_posts/ExampleFile.md
+
+```
+
+Understand the output:
+
+* `On branch gh-pages` - the branch we are working on is always going to be
+gh-pages (see Additional Resources section for more on branches).
+* `Changes not staged for commit:` This will be any file that is currently in the
+Git version control system but the **changes** have not yet be added into the
+Git system.
+* `Untracked file:` These are all **new files** that have never been added to or
+“watched” by Git.
+
+## Add Changes - git add
+
+Now we can add the file with our changes using the command `git add FileName.ext`.
+
+``` bash
+
+# add a file, so that changes are tracked
+$ git add ExampleFile.md
+
+# check status again
+$ git status
+
+On branch gh-pages
+Your branch is up-to-date with 'origin/gh-pages'.
+Changes to be committed:
+ (use "git reset HEAD <file>..." to unstage)
+
+	new file:  _posts/ExampleFile.md
+
+```
+
+Understand the output:
+
+*  `Changes to be committed:` These files are ready to be
+committed.
+
+## Commit Changes - git commit
+
+When we want to permanently add something into Git version control, we have to
+commit it. A single commit will work for all files that are currently added
+(anything in green when we check the status).
+We should add a commit message to describe what is occurring in this commit.
+You will see these commit messages later if reviewing old changes, they let
+you know what happened in each one. Message should be detailed but brief.
+It is often recommended to keep commit messages <50 characters.
+
+``` bash
+# commit changes with message
+$ git commit -m “new example file for demonstration”
+
+[gh-pages e3cd622] new example file for demonstration
+ 1 file changed, 56 insertions(+), 4 deletions(-)
+ create mode 100644 _posts/ExampleFile.md
+
+```
+
+Understand the output: each commit will look slightly different but the
+important parts include:
+
+*  `gh-pages xxxxxxx` this is the identification of the specific commit. You
+will always be able to track this specific commit through this number.
+* `_ file change, _ insertions(+), _ deletion (-)` this tells you what is
+actually changed.
+
+Always check it to make sure it is what you expected. If not, you might not
+have committed all the files you wanted to.
+
+## Why Add, then Commit?
+
+ <figure>
+	<a href="{{ site.baseurl }}/images/pre-institute-content/Git/SWC_git-staging-area.svg">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/Git/SWC_git-staging-area.svg"></a>
+	<figcaption> If you think of Git as taking snapshots of changes over the
+life of a project, git add specifies what will go in a snapshot (putting things
+ in the staging area), and git commit then actually takes the snapshot, and
+ makes a permanent record of it (as a commit). Image and caption source:
+<a href="http://swcarpentry.github.io/git-novice/04-changes.html" target="_blank"> Software Carpentry</a>
+	</figcaption>
+</figure>
+
+To understand what is going on with `git add` and `git commit` it is important
+to understand that Git has a staging area that we add items to with `git add`.
+Changes are not in version control until we actually commit them. This allows
+us to commit many files at the same time, if we wish.
+
+## Move from Local Repo to GitHub Repo - git push
+
+After we’ve made all the desired changes, we need to sync our current work with
+that on our forked repo (and eventually, the master repo) on GitHub. To do this
+ we need to push our changes from the local git version control to the remote
+GitHub repo.
+
+We always check the status first, to make sure nothing that we want to commit
+and push to our GitHub repo is being left behind.
+
+Then we use
+`git push origin/gh-pages`. `origin` specifies that the “push” is going to the
+Git repo that this local version was created from. The `gh-pages` is the branch
+of the repo that you are currently on -- remember we will always be on gh-pages
+for the Institute.
+
+```bash
+# always check the status
+$ git status
+
+On branch gh-pages
+Your branch is ahead of 'origin/gh-pages' by 1 commit.
+  (use "git push" to publish your local commits)
+
+# transfer committed changes to the forked repo
+git push origin/gh-pages
+
+Counting objects: 1, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 1.51 KiB | 0 bytes/s, done.
+Total 6 (delta 4), reused 0 (delta 0)
+To https://github.com/neon/neon-data-institute-2016.git
+   5022aca..e3cd622  gh-pages -> gh-pages
+
+```
+
+Understand the output: with this output an important part to pay attention to is
+which repository the commit was pushed to, here `neon-data-institute-2016`, which
+is the one that we want it to go to.
+
+## Viewing Commits in GitHub
+
+Let’s view our recent commit in our forked GitHub repo. Navigate to your forked
+Institute repo in GitHub. Look at the commits - do you see your recent commit
+message that you typed in bash?
+
+Now open the XXXX directory, is your new file there?
+
+Navigate the the master NEON-DataSkills/neon-data-institute-2016 repo from which
+ your repo is forked. (The easiest method to do this is to click the link at the
+ top of the page under your repo name).
+
+Is your new file there? Why not?
+
+Remember the structure of our workflow. You’ve synced your local repository
+with your forked version of the Institute repository. But forks are entirely
+separate from the master repository they were forked from. Changes to one do not
+affect the other unless they are synced. We will learn how to sync these two
+repos in the next tutorial *Syncing GitHub Repos with Pull Requests*.
+
+## Summary workflow - Committing Changes
+
+In local repository
+
+* Modify, create, or delete document(s) or repo structure.
+
+In shell
+
+* `git status`
+* `git add FileName`
+* `git status` - make sure everything is added and ready for commit
+* `git commit -m “messageHere”
+* `git push origin/gh-pages`
+
+In GitHub
+
+* Check to make sure commit is added.
