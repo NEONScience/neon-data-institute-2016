@@ -6,24 +6,25 @@ tutorialSeriesName: pre-institute1
 permalink: tutorial-series/pre-institute1/
 image:
   feature: data-institute-2016.png
-  credit: 
-  creditlink: 
+  credit:
+  creditlink:
 ---
-## Welcome to pre-Institute Week 1
+## Welcome to Pre-Institute Week 1
 
-In the first week of the pre-institute activities, we will review the NEON 
-project.
-We will also provide you with a general overview of reproducible science. 
+In the first week of the pre-institute activities, we will review the NEON
+project. We will also provide you with a general overview of reproducible science.
+Over the next few weeks will we ask you to review materials and submit something
+that demonstrates you have mastered the materials.
 
 ## Week 1 Activity
-The materials below will walk you through the activity. In brief, write up a 
-summary of a project that you might be interested in and what data (NEON or 
-other) would be needed to address this question. You will have time over the 
-next few weeks to refine your idea, the goal here is to get you to start 
-thinking of feasible ideas. Save this document as you will use it again next 
-week. 
+After reviewing the materials below, please write up a
+summary of a project that you are interested working on at the Data Institute.
+Be sure to consider what data you will need (NEON or
+other). You will have time to refine your idea over the next few weeks.
+Save this document as you will submit it next week as a part of week 2 materials!
 
-Please complete by 11:59 Thursday June 2nd. 
+<i class="fa fa-star"></i> **Deadline:** Please complete this by 11:59 Thursday June 2nd 2016.
 
 ## Week 1 Materials
-Please read (and watch) the materials in the two posts below.
+
+Please carefully read and review the materials below:

@@ -1,3 +1,8 @@
+---
+title: CSS stylesheet
+---
+
+
 /*! normalize.css v2.1.0 | MIT License | git.io/normalize */article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
 	display: block
 }
@@ -352,7 +357,7 @@ p+p {
 	/* margin-top: -1.625rem;
 	text-indent: 1.625rem */
 	margin-top:0rem;
-	
+
 }
 tt, code, kbd, samp, pre {
 	font-family: Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace
@@ -1077,7 +1082,7 @@ svg:not(:root) {
 	color: #fff;
 	background-color: #1ea0c1;
 	border-color: #1ea0c1;
-	/* 
+	/*
 	background-color: #5cb85c;
 	border-color: #5cb85c
 	*/
@@ -2963,7 +2968,7 @@ body {
 	display: inline;
 	float: left;
 	width: 66.66666666666667%
-	
+
 }
 }
 .top-navigation ul {
@@ -3409,7 +3414,7 @@ font-size:.875rem;
 }
 }
 .article-wrap p>a, .article-wrap li>a {
-	border-bottom: 1px dotted #b3b3b3
+	border-bottom: 1px dashed #1ea0c1;
 }
 .article-wrap p>a:hover, .article-wrap li>a:hover {
 	border-bottom-style: solid
@@ -4319,7 +4324,7 @@ tr {
 }
 
 .article-author-side p, .article-author-bottom p {
-	color:#828282; 
+	color:#828282;
 }
 .post-link {
 	font-size: 0.8rem;
@@ -4343,7 +4348,7 @@ tr {
 }
 
 #relatedCode a {
-	
+
 }
 
 div#cat_tag_content, div#objectives {
@@ -4360,12 +4365,12 @@ div.article-author-side h5 {
 	line-height:1.2rem;
 	font-size:.9rem;
 	}
-	
+
 div.article-author-side h5 a{
 	color: #707070;
 	}
-	
-	
+
+
 .related-articles h2 a {
 	font-size: 1.5rem;
 	color:#525252
@@ -4375,8 +4380,8 @@ div.article-author-side h5 a{
 	font-size: 0.85em;
 	font-style: italic;
 	}
-	
-/* GREY BOX CODE */ 
+
+/* GREY BOX CODE */
 
 #objectives > h1 {
     font-size: 1.75rem;
@@ -4386,7 +4391,7 @@ div.article-author-side h5 a{
 p .btn.btn-success {
     margin: 0;
 }
-	
+
 /* ################### table Formating ################# */
 
 tbody tr:nth-child(odd) {
@@ -4412,11 +4417,11 @@ td a {
 
 
 
-/* ################### code Formating ################# */	
-	
+/* ################### code Formating ################# */
+
 .hljs {
 	padding:1.4em;
-}	
+}
 
 
 
@@ -4433,7 +4438,7 @@ td a {
 	display:block;
 }
 
-#mainCheat { 
+#mainCheat {
 	background-color:#CCC;
 
 }
@@ -4458,7 +4463,7 @@ td a {
     margin-top: 0.3em;
     padding: 0;
     margin-bottom: .2em;
-    
+
 
 }
 
@@ -4467,7 +4472,7 @@ td a {
 	color:#928d90;
 	text-transform: uppercase;
 	font-size:.75em;
-	
+
 }
 
 .post-excerpt {
@@ -4527,11 +4532,11 @@ img.load {
 .site-name > a {
     color: #1ea0c1;
 }
-	
+
 .NEON-header {
 	/*background-color:#1ea0c1;
 	background-image: url("{{ site.baseurl }}/images/banners/topBar_tree.png");
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	height:0px; */
 	margin:0 0 .2em 0;
 	}
@@ -4578,20 +4583,41 @@ a:hover.post-link > div {
 
 }
 
-#workshopLink > h4 {
-    margin: 0;
-}
-
 #index > h1 {
     color: #1ea0c1;
 }
 
-.workshop div#objectives, .tutorialSeries  div#objectives {
+.workshopLink > h4 {
+    margin: 0;
+}
+
+.workshopLink.workshopLink-here	 {
+	background-color:#ccc;
+	margin: 0;
+}
+
+.workshop div#objectives, .tutorialSeries div#objectives {
     background-color: #d4eff7;
 }
+
+
 
 /* Adding a side bar "home" link to take them back to the agenda home */
 .homeLink a:link {
     color: #1ea0c1;
     font-size: .8em;
+}
+
+/* read me lists */
+.readme {
+	padding: 0;
+}
+
+.readme li {
+	list-style: none;
+	background-image: url("{{ site.baseurl }}/images/icons/read_me_bl.png");
+	background-repeat: no-repeat;
+	background-size: 20px auto;
+	list-style: outside none none;
+	padding: 0 0 0 2em;
 }
