@@ -46,8 +46,10 @@ At the end of this activity, you will be able to:
 your own research.
 </div>
 
-As an introduction to Reproducible Science, please view the online slide-shows
-below which summarizes concepts taught in the Reproducible Science Curriculum.
+## Getting Started with Reproducible Science
+
+Please view the online slide-show below which summarizes concepts taught in the
+Reproducible Science Curriculum.
 
 <a  class="btn btn-success" href="http://neon-workwithdata.github.io/slide-shows/intro-reprod-science.html" target="_blank">View Reproducible Science Slideshow</a>
 
@@ -75,14 +77,16 @@ How reproducible is your current research?
 
 <a class="btn btn-success" href="https://github.com/Reproducible-Science-Curriculum/rr-intro/blob/master/checklist.md" target="_blank"> View Reproducible Science Checklist </a>
 
+<div class="notice thought" markdown="1">
 <i class="fa fa-star"></i> **Thought Questions:** Have a look at the reproducible
 science check list linked, above and answer the
 following questions:
+
 * Do you currently apply any of the items in the checklist to your research?
 * Are
 there elements in the list that you are interested in incorporating into your
 workflow? If so, which ones?
-{: .notice .thought }
+</div>
 
 ## Additional Readings (optional)
 
