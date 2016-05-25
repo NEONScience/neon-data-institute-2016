@@ -4,8 +4,8 @@ title: "NEON Data Fusion"
 date:   2016-06-20
 authors: [Kyla Dahlin, Leah Wasser]
 instructors: [Kyla Dahlin, Leah Wasser]
-time: "1:00 pm"
-contributors: []
+time: "1:00"
+contributors:
 dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
@@ -16,8 +16,8 @@ tutorialSeries: [institute-day4]
 description: "Intro to HDF5"
 code1: .R
 image:
-  feature: 
-  credit: 
+  feature:
+  credit:
   creditlink:
 permalink: /R/hdf5-R/
 comments: false
@@ -45,7 +45,7 @@ http://zevross.com/blog/2014/07/09/making-use-of-external-r-code-in-knitr-and-r-
 The first thing that we can do is load the functions that we want to use into
 our environment! This makes it easy to quickly access these functions without
 having to retype the function code each time. This also makes it easy to maintain
-function code in just ONE PLACE! 
+function code in just ONE PLACE!
 
 ```{r import-h5-functions }
 
@@ -60,13 +60,13 @@ Once we have imported the functions, we can use them to explore our data.
 ```{r import-lidar }
 
 # note: plotting to look at things as you go is always recommmended!
-  
+
 # first we read in the LiDAR data
 
 # dsm = digital surface model == top of canopy
 dsm <- raster("teak_5May2016/lidar/Teak_lidarDSM.tif")
 # dtm = digital terrain model = elevation
-dtm <- raster("teak_5May2016/lidar/Teak_lidarDTM.tif") 
+dtm <- raster("teak_5May2016/lidar/Teak_lidarDTM.tif")
 
 # rename to CHM
 # chm <- dsm - dtm
@@ -76,7 +76,7 @@ chm <- raster("teak_5May2016/lidar/Teak_lidarCHM.tif")
 ### effectively changes this analysis to only consider vegetated pixels, which we
 ### don't(?) want to do... at least the question I originally had in mind was
 ### 'Across this landscape, are more pixels tall and green on north-facing than
-### south-facing slopes?' EVER so subtly different from saying 'Of the pixels that 
+### south-facing slopes?' EVER so subtly different from saying 'Of the pixels that
 ### have some vegetation structure, are they more tall and green on northfacing
 ### slopes?' plus removing it solves the 'very few pixels on south facing' problem
 ### because having all those zeros changes the s.d. a lot for the 'tall.def' parameter
@@ -85,11 +85,11 @@ chm <- raster("teak_5May2016/lidar/Teak_lidarCHM.tif")
 # do the numbers look reasonable? 60 m is tall for a tree, but
 # this is Ponderosa pine territory (I think), so not out of the question.
 plot(chm,
-     main="Canopy Height - Teakettle \nCalifornia") 
+     main="Canopy Height - Teakettle \nCalifornia")
 
 hist(chm,
      main="Distribution of Canopy Height - Teakettle \nCalifornia",
-     xlab="Tree Height (m)", 
+     xlab="Tree Height (m)",
      col="springgreen")
 
 ```
@@ -110,7 +110,7 @@ lidar.brick <- brick(dsm, dtm, chm)
 
 ```
 
-## Read Hyperspectral Data 
+## Read Hyperspectral Data
 
 Next, let's read in HSI data.
 
@@ -133,7 +133,7 @@ ndvi.stack <- create_stack(bands = bands,
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
 names(ndvi) <- "Teak_hsiNDVI"
 # check the extents of the two layers -- if they are different
-# crop both datasets 
+# crop both datasets
 if (extent(chm) == extent(ndvi)){
   } else {
   overlap <- intersect(extent(ndvi), extent(lidar.brick))
@@ -144,28 +144,28 @@ if (extent(chm) == extent(ndvi)){
   }
 
 
-# Create a brick from all of the data 
+# Create a brick from all of the data
 all.data <- brick(ndvi, lidar.brick)
 
 ```
 
 ## Consider Slope & Aspect
 
-OK! Now we're going to test a simple hypothesis. 
+OK! Now we're going to test a simple hypothesis.
 
-Because California is 
+Because California is
 
-* dry, 
+* dry,
 In the northern hemisphere
 
-We may expect to find taller, greener vegetation on north facing slopes than on 
-south facing slopes. To test this we need to 
+We may expect to find taller, greener vegetation on north facing slopes than on
+south facing slopes. To test this we need to
 
 1. Import the NEON aspect data product
-2. Isolate north and south faces, 
-3. Decide what we mean by 'tall' and 'green', 
-4. Isolate tall, green pixels on north & south facing slopes, 
-5. look at %s for each, 
+2. Isolate north and south faces,
+3. Decide what we mean by 'tall' and 'green',
+4. Isolate tall, green pixels on north & south facing slopes,
+5. look at %s for each,
 6. do a t-test to compare all pixels.
 
 let's get started.
@@ -178,8 +178,8 @@ aspect <- raster("teak_5May2016/lidar/Teak_lidarAspect.tif")
 # crop the data to the extent of the other rasters we are working with!
 aspect <- crop(aspect, overlap)
 
-# Create a classified intermediate product 
-# create mask -- 
+# Create a classified intermediate product
+# create mask --
 # (2) make 'dummy' (1s and 0s) layers for north facing (315 deg to 45 deg) and
 # south facing (135 deg to 225 deg) slopes
 
@@ -193,7 +193,7 @@ class.m <- c(0, 45, 1, 45, 135, NA, 135, 225, 2,  225 , 315, NA, 315, 360, 1)
 rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
 asp.ns <- reclassify(aspect, rcl.m)
 
-plot(asp.ns, 
+plot(asp.ns,
      col=c("white","blue","green"),
      axes=F,
      main="North and South Facing Slopes \nTeakettle")
@@ -209,8 +209,8 @@ north.facing[north.facing == 0] <- NA
 south.facing[south.facing == 0] <- NA
 
 ```
-```{r write-geotiff} 
-# export geotiff 
+```{r write-geotiff}
+# export geotiff
 
 writeRaster(asp.ns,
             filename="Teakettle/outputs/Teak_nsAspect.tif",
@@ -228,7 +228,7 @@ Now we want to determine what defines "tall" and "Green".
 
 ```{r id-veg-metrics }
 # (3) to choose what we mean by 'tall' and 'green' let's look at some histograms
-# and descriptive stats(of the whole dataset, we don't want to bias our results 
+# and descriptive stats(of the whole dataset, we don't want to bias our results
 # too much!)
 
 # histogram of tree ht
@@ -238,13 +238,13 @@ hist(all.data[[4]],
 # it's hard to tell here where the data maxes out, so we can calc the actual max
 # but to do that without converting our raster to a vector, we use 'cellStats'
 
-ht.max <- cellStats(all.data[[4]], 
+ht.max <- cellStats(all.data[[4]],
                     max)
 
 # and some more exploration - even though this is a very skewed data set...
-ht.mean <- cellStats(all.data[[4]], 
+ht.mean <- cellStats(all.data[[4]],
                      mean)
-ht.sd <- cellStats(all.data[[4]], 
+ht.sd <- cellStats(all.data[[4]],
                    sd)
 
 # so let's be semi-robust and call 'tall' trees those with mean + 1 sd
@@ -290,20 +290,20 @@ south.count <- freq(asp.ns, value =2)
 
 # note there's way more south facing area in this image than north facing
 
-# create a new layer with pixels that are north facing, 
-north.tall.green <- asp.ns == 1  & all.data[[1]] >= green.def & 
+# create a new layer with pixels that are north facing,
+north.tall.green <- asp.ns == 1  & all.data[[1]] >= green.def &
                     all.data[[4]] >= tall.def
 
 north.tall.green.count <- cellStats(north.tall.green, sum)
 
-south.tall.green <- asp.ns == 2 & all.data[[1]] >= green.def & 
+south.tall.green <- asp.ns == 2 & all.data[[1]] >= green.def &
   all.data[[4]] >= tall.def
 
 south.tall.green.count <- cellStats(south.tall.green, sum)
 
 # divide the number of pixels that are green by the total north or south facing pixels
 north.tall.green.frac <- north.tall.green.count/freq(asp.ns, value=1)
-south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2) 
+south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 ### changed this to value = 2!
 
 # if we look at these fracs, >16% of the pixels on north facing slopes should
@@ -314,7 +314,7 @@ south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 # view CIR
 ```{r view-cir }
 # before moving on, let's make a map to see what this looks like on the ground
-# first read in a green band so we can make a color infrared RGB image - let's 
+# first read in a green band so we can make a color infrared RGB image - let's
 # use ~550 nm here, or band 35
 
 
@@ -339,7 +339,7 @@ plot(north.tall.green, col = "cyan", add = T, legend = F)
 plot(south.tall.green, col = "blue", add = T, legend = F)
 
 # two side notes: I (Kyla) really don't like using R to make maps - I usually
-# export tifs and pull them into a real mapping program like Arc or QGIS for 
+# export tifs and pull them into a real mapping program like Arc or QGIS for
 # actual cartography. R is just a bit clunky, especially for legends, etc.
 # also, note here that there are clusters where 'south facing' and 'north facing'
 # pixels are very close together - this is due to the very fine resolution of the
@@ -351,12 +351,12 @@ plot(south.tall.green, col = "blue", add = T, legend = F)
 
 # Kyla - please note that in this case we have VERY VERY FEW pixels that are south facing
 is this ok for the analysis?
-### see comment at beginning about setting CHM == 0 to NA. Without doing that I'm 
+### see comment at beginning about setting CHM == 0 to NA. Without doing that I'm
 ### getting north.tall.green.count = 5508,
 ### south.tall.green.count = 2400.
 
 ```{r run-stats}
-# (5) let's do some stats! t-test and boxplots of veg height and greenness 
+# (5) let's do some stats! t-test and boxplots of veg height and greenness
 # distributions in north versus south facing parts of scene.
 
 # let's start with NDVI - isolate NDVI on north and south facing slopes
@@ -385,19 +385,19 @@ north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
 south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
 
 # now let's make a data frame with a north versus south column
-aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
+aspect.NDVI <- c(rep("north", length(north.NDVI.vec)),
                  rep("south", length(south.NDVI.vec)))
 aspect.NDVI <- as.factor(aspect.NDVI)
 
 NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
 
-# this (below) is clunky - I thought I could use cbind but 'factors' are getting the 
+# this (below) is clunky - I thought I could use cbind but 'factors' are getting the
 # best of me
 NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
 names(NDVI.dat) <- c("aspect", "NDVI")
 NDVI.dat[,1] <- aspect.NDVI
 NDVI.dat[,2] <- NDVI.vec
-boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
+boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI
         on North versus South facing slopes")
 
 # and now a t-test - note that since these aren't normally distributed, this
@@ -411,7 +411,7 @@ north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
 south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
 
 # now let's make a data frame with a north versus south column
-aspect.veght <- c(rep("north", length(north.veght.vec)), 
+aspect.veght <- c(rep("north", length(north.veght.vec)),
                  rep("south", length(south.veght.vec)))
 aspect.veght <- as.factor(aspect.veght)
 
@@ -421,7 +421,7 @@ veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
 names(veght.dat) <- c("aspect", "veght")
 veght.dat[,1] <- aspect.veght
 veght.dat[,2] <- veght.vec
-boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
+boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht
         on North versus South facing slopes")
 
 # same caution as above!
