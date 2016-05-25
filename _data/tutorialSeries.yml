@@ -1,6 +1,6 @@
 - slug: pre-institute0
   name: "Pre-Institute Wk 0: Computer Setup"
-  description: "Please review the content in this section to ensure you have all of the 
+  description: "Please review the content in this section to ensure you have all of the
   tools required to complete institute activities including: R, R studio, and associated
   R packages, and Git. We also recommend that you install QGIS - a free, open source GIS application.!"
   lastModified:  2016-07-01
@@ -9,51 +9,48 @@
   name: "Pre-Institute Wk 1: Introduction to NEON & Reproducible Science"
   description: "In week one of the pre-institute materials, we will introduce you to the
   NEON project. Content will include readings and videos about NEON and one overview
-  presentation about reproducible science. Please expect to spend 1-3 hours reviewing the 
+  presentation about reproducible science. Please expect to spend 1-3 hours reviewing the
   content."
   lastModified:  2016-07-01
-  
+
 - slug: pre-institute2
   name: "Pre-Institute Wk 2: Introduction to Git & GitHub"
   description: "In week two of the pre-institute materials, we will introduce you to
   version control and collaboration using git and the online GitHub interface. Please expect
   to spend 1-3 hours reviewing this content and doing the actual activity."
-  lastModified:  2016-07-02 
-   
+  lastModified:  2016-07-02
+
 - slug: pre-institute3
   name: "Pre-Institute Wk 3: Introduction to RMD and Knitr in R"
-  description: "In week three of the pre-institute materials, we will introduce you to 
+  description: "In week three of the pre-institute materials, we will introduce you to
   rmarkdown and knitr - 2 R packages that allow you to document your workflows in a reproducible
   way! "
   lastModified:  2016-07-03
-  
+
 - slug: institute-day1
   name: "Monday 20 June: Introduction to HDF5 & Hyperspectral Data in R"
-  description: "We will spend the morning on Week one introducing the NEON project. In the 
+  description: "We will spend the morning on Week one introducing the NEON project. In the
   afternoon, we will dive into the HDF5 file format and hyperspectral remote sensing! We
-  will finish up the day with an evening activity where we explore the benefits of a 
+  will finish up the day with an evening activity where we explore the benefits of a
   reproducible science approach. "
-  lastModified:  2016-07-04 
-   
+  lastModified:  2016-07-04
+
 - slug: institute-day2
   name: "Tuesday 21 June: Lidar Data & Automation"
   description: "."
   lastModified:  2016-07-05
-  
+
 - slug: institute-day3
   name: "Wednesday 22 June: Comparing Ground to Airborne - Uncertainty"
   description: "."
   lastModified:  2016-07-06
-    
+
 - slug: institute-day4
   name: "Thursday 23 June: Lidar & Hyperspectral Data Fusion"
   description: "."
-  lastModified:  2016-07-07  
-  
+  lastModified:  2016-07-07
+
 - slug: institute-day5
-  name: "Thursday 23 June: Project Work Day"
+  name: "Friday 24 June: Project Work Day"
   description: "."
   lastModified:  2016-07-06
-  
-
-  

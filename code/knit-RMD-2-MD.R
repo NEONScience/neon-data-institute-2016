@@ -7,13 +7,16 @@
 ##################
 
 require(knitr)
-
+dirs <- c("day1_monday","day2_tuesday","day3_wednesday","day4_thursday","day5_friday","day6_saturday")
 #################### Set up Input Variables #############################
+# set directory that  you'd like to build
+dir <- dirs[3]
+
 # Inputs - Where the git repo is on your computer
-gitRepoPath <-"~/Documents/GitHub/neon-data-institute-2016/"
+gitRepoPath <-"~/Documents/GitHub/neon-data-institute-2016"
 
 # jekyll will only render md posts that begin with a date. Add one.
-add.date <- "2016-05-20-"
+add.date <- "2016-06-20-"
 
 # set working dir - this is where the data are located
 wd <- "~/Documents/data/1_data-institute-2016"
@@ -25,11 +28,12 @@ wd <- "~/Documents/data/1_data-institute-2016"
 setwd(wd)
 
 # set series subdir
-subDir <- "institute-day1/"
+subDir <- paste0("institute-materials/", dir,"/")
+# subDir <- "institute-materials/day2_tuesday/"
 
 #don't change - this is the posts dir location required by jekyll
-postsDir <- paste0("_posts/R/", subDir)
-codeDir <- paste0("code/R/", subDir)
+postsDir <- file.path("_posts", subDir)
+codeDir <- file.path("code", subDir)
 
 # images path
 imagePath <- paste0("images/rfigs/", subDir)
@@ -42,13 +46,11 @@ opts_knit$set(base.url = base.url)
 # make sure image directory exists
 # if it doesn't exist, create it
 # note this will fail if the sub dir doesn't exist
-if (file.exists(paste0(wd,"/","images"))){
-  print("image dir exists - all good")
+if (file.exists(file.path(wd, imagePath))){
+  print("All Required Image Dirs Exist! ")
 } else {
   #create image directory structure
-  dir.create(file.path(wd, "images/"))
-  dir.create(file.path(wd, "images/rfigs"))
-  dir.create(file.path(wd, imagePath))
+  dir.create(file.path(wd, imagePath), recursive = TRUE)
   print("image directories created!")
 }
 
@@ -58,22 +60,21 @@ if (file.exists(paste0(wd,"/","images"))){
 # make sure image subdir exists in the git repo
 # then clean out image subdir on git if it exists
 # note this will fail if the sub dir doesn't exist
-if (file.exists(paste0(gitRepoPath, imagePath))){
+if (file.exists(file.path(gitRepoPath, imagePath))){
   print("image dir exists")
 } else {
   # create image directory structure
-  dir.create(file.path(gitRepoPath, "images/rfigs"))
-  dir.create(file.path(gitRepoPath, imagePath))
+  dir.create(file.path(gitRepoPath, imagePath), recursive = TRUE)
   print("git image directories created!")
 }
 
 ################# Check For / Set up / Clean out Code Dir  #################
 
-if (file.exists(paste0(gitRepoPath, codeDir))){
+if (file.exists(file.path(gitRepoPath, codeDir))){
   print("code dir exists - and has been cleaned out")
 } else {
   # create image directory structure
-  dir.create(file.path(gitRepoPath, codeDir))
+  dir.create(file.path(gitRepoPath, codeDir), recursive = TRUE)
   print("new code sub dir created.")
 }
 
@@ -97,7 +98,7 @@ unlink(paste0(gitRepoPath, imagePath,"*"), recursive = TRUE)
 
 
 # get a list of files to knit / purl
-rmd.files <- list.files(gitRepoPath, pattern="*.Rmd", full.names = TRUE )
+rmd.files <- list.files(file.path(gitRepoPath, postsDir), pattern="\\.Rmd$", full.names = TRUE )
 
 #################### Set up Image Directory #############################
 
@@ -121,7 +122,7 @@ for (files in rmd.files) {
   render_markdown(strict = TRUE)
   # create the markdown file name - add a date at the beginning to Jekyll recognizes
   # it as a post
-  mdFile <- paste0(gitRepoPath,postsDir,add.date ,sub(".Rmd$", "", input), ".md")
+  mdFile <- paste0(file.path(gitRepoPath,postsDir),add.date ,sub(".Rmd$", "", input), ".md")
   
   # knit Rmd to jekyll flavored md format 
   knit(input, output = mdFile, envir = parent.frame())
@@ -130,17 +131,17 @@ for (files in rmd.files) {
   # only copy over if there are images for the lesson
   if (dir.exists(paste0(wd,"/",fig.path))){
     # copy image directory over
-    file.copy(paste0(wd,"/",fig.path), paste0(gitRepoPath,imagePath), recursive=TRUE)
+    file.copy(paste0(wd,"/",fig.path), file.path(gitRepoPath,imagePath), recursive=TRUE)
   }
   
   # copy rmd file to the rmd directory on git
-  file.copy(paste0(wd,"/",basename(files)), gitRepoPath, recursive=TRUE)
+  # file.copy(paste0(wd,"/",basename(files)), gitRepoPath, recursive=TRUE)
   
   # delete local repo copies of RMD files just so things are cleaned up??
   
   ## OUTPUT STUFF TO R ##
   # output (purl) code in .R format
-  rCodeOutput <- paste0(gitRepoPath, codeDir, sub(".Rmd$", "", basename(files)), ".R")
+  rCodeOutput <- paste0(file.path(gitRepoPath, codeDir), sub(".Rmd$", "", basename(files)), ".R")
   
   # purl the code to R
   purl(files, output = rCodeOutput)
