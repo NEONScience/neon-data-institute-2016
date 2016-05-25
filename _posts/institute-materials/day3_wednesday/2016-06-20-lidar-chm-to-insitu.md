@@ -3,7 +3,7 @@ layout: post
 title: "R: Create a Canopy Height Model from LiDAR derived Rasters (grids) in R"
 date:   2016-05-17
 createdDate:   2016-05-17
-lastModified:   `r format(Sys.time(), "%Y-%m-%d")`
+lastModified:   2016-05-25
 time: "9:00"
 packagesLibraries: [raster, sp, dplyr, maptools, rgeos]
 authors: [Leah A. Wasser, Kyla Dahlin]
@@ -73,39 +73,45 @@ What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data</a>
 
 
 
-```{r import-plot-DSM}
 
-# Import DSM into R 
-library(raster)
-library(rgdal)
-library(ggplot2)
-library(dplyr)
-
-options(stringsAsFactors = FALSE)
-
-# set working directory
-setwd("~/Documents/data/1_data-institute-2016")
-```
+    # Import DSM into R 
+    library(raster)
+    library(rgdal)
+    library(ggplot2)
+    library(dplyr)
+    
+    options(stringsAsFactors = FALSE)
+    
+    # set working directory
+    setwd("~/Documents/data/1_data-institute-2016")
 
 ## Import NEON CHM
 
 First, we will import the NEON canopy height model. 
 
-```{r import-chm }
 
-# import canopy height model (CHM).
-SJER_chm <- raster("NEONdata/SJER/2013/lidar/SJER_lidarCHM.tif")
-SJER_chm
+    # import canopy height model (CHM).
+    SJER_chm <- raster("NEONdata/SJER/2013/lidar/SJER_lidarCHM.tif")
+    SJER_chm
 
-# set values of 0 to NA as these are not trees
-SJER_chm[SJER_chm==0] <- NA
+    ## class       : RasterLayer 
+    ## dimensions  : 5059, 4296, 21733464  (nrow, ncol, ncell)
+    ## resolution  : 1, 1  (x, y)
+    ## extent      : 254571, 258867, 4107303, 4112362  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+    ## data source : /Users/lwasser/Documents/data/1_data-institute-2016/NEONdata/SJER/2013/lidar/SJER_lidarCHM.tif 
+    ## names       : SJER_lidarCHM 
+    ## values      : 0, 45.88  (min, max)
 
-# plot the data
-hist(SJER_chm,
-     main="histogram of canopy heights\n NEON SJER Field Site",
-     col="springgreen")
+    # set values of 0 to NA as these are not trees
+    SJER_chm[SJER_chm==0] <- NA
+    
+    # plot the data
+    hist(SJER_chm,
+         main="histogram of canopy heights\n NEON SJER Field Site",
+         col="springgreen")
 
-```
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/import-chm-1.png)
 
 
 ## Part 2. How does our CHM data compare to field measured tree heights?
@@ -120,29 +126,29 @@ for each circular plot using regression.
 For this activity, we will use the a `csv` (comma separate value) file, 
 located in `SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv`.
 
-```{r read-plot-data }
 
-# import plot centroids 
-SJER_plots <- readOGR("NEONdata/SJER/vector_data",
-                      "sjer_plot_centroids")
+    # import plot centroids 
+    SJER_plots <- readOGR("NEONdata/SJER/vector_data",
+                          "sjer_plot_centroids")
 
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEONdata/SJER/vector_data", layer: "sjer_plot_centroids"
+    ## with 18 features
+    ## It has 5 fields
 
-# Overlay the centroid points and the stem locations on the CHM plot
-plot(SJER_chm,
-     main="Plot Locations",
-     col=gray.colors(100, start=.3, end=.9))
+    # Overlay the centroid points and the stem locations on the CHM plot
+    plot(SJER_chm,
+         main="Plot Locations",
+         col=gray.colors(100, start=.3, end=.9))
+    
+    # pch 0 = square
+    plot(SJER_plots,
+         pch = 0,
+         cex = 2,
+         col = 2,
+         add=TRUE)
 
-# pch 0 = square
-plot(SJER_plots,
-     pch = 0,
-     cex = 2,
-     col = 2,
-     add=TRUE)
-
-
-
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/read-plot-data-1.png)
 
 ### Extract CMH data within 20 m radius of each plot centroid.
 
@@ -166,20 +172,16 @@ extract tool will do the job!
 
 ### Extract Plot Data Using Circle: 20m Radius Plots
 
-```{r extract-plot-data }
 
-# Insitu sampling took place within 40m x 40m square plots so we use a 20m radius.	
-# Note that below will return a dataframe containing the max height
-# calculated from all pixels in the buffer for each plot
-SJER_height <- extract(SJER_chm,
-                    SJER_plots,
-                    buffer = 20, 
-                    fun=max, 
-                    sp=TRUE,
-                    stringsAsFactors=FALSE)
-
-
-```
+    # Insitu sampling took place within 40m x 40m square plots so we use a 20m radius.	
+    # Note that below will return a dataframe containing the max height
+    # calculated from all pixels in the buffer for each plot
+    SJER_height <- extract(SJER_chm,
+                        SJER_plots,
+                        buffer = 20, 
+                        fun=max, 
+                        sp=TRUE,
+                        stringsAsFactors=FALSE)
 
 #### If you want to explore The Data Distribution
 
@@ -190,15 +192,12 @@ distribution of values we've extracted for each plot. Then you could generate a
 histogram for each plot `hist(cent_ovrList[[2]])`. If we wanted, we could loop 
 through several plots and create histograms using a `for loop`.
 
-```{r explore-data-distribution, eval=FALSE }
 
-#cent_ovrList <- extract(chm,centroid_sp,buffer = 20)
-# create histograms for the first 5 plots of data
-#for (i in 1:5) {
-#  hist(cent_ovrList[[i]], main=(paste("plot",i)))
-#  }
-
-```
+    #cent_ovrList <- extract(chm,centroid_sp,buffer = 20)
+    # create histograms for the first 5 plots of data
+    #for (i in 1:5) {
+    #  hist(cent_ovrList[[i]], main=(paste("plot",i)))
+    #  }
 
 
 
@@ -222,39 +221,61 @@ We will use the `dplyr` library to do this efficiently. We'll demonstrate both b
 ### Extract stats from our data.frame using DPLYR
 
 First let's see how many plots are in the centroid folder.
-```{r unique-plots }
 
-# import the centroid data and the vegetation structure data
-SJER_insitu <- read.csv("NEONdata/SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv",
-                        stringsAsFactors = FALSE)
+    # import the centroid data and the vegetation structure data
+    SJER_insitu <- read.csv("NEONdata/SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv",
+                            stringsAsFactors = FALSE)
+    
+    # How many plots are there?
+    unique(SJER_plots$Plot_ID) 
 
-# How many plots are there?
-unique(SJER_plots$Plot_ID) 
-
-```
+    ##  [1] "SJER1068" "SJER112"  "SJER116"  "SJER117"  "SJER120"  "SJER128" 
+    ##  [7] "SJER192"  "SJER272"  "SJER2796" "SJER3239" "SJER36"   "SJER361" 
+    ## [13] "SJER37"   "SJER4"    "SJER8"    "SJER824"  "SJER916"  "SJER952"
 
 
 Next, find the maximum MEASURED stem height value for each plot. We will compare 
 this value to the max CHM value.
 
-```{r analyze-plot-dplyr }
 
-#get list of unique plot id's 
-unique(SJER_insitu$plotid) 
+    #get list of unique plot id's 
+    unique(SJER_insitu$plotid) 
 
+    ##  [1] "SJER128"  "SJER2796" "SJER272"  "SJER112"  "SJER1068" "SJER916" 
+    ##  [7] "SJER361"  "SJER3239" "SJER824"  "SJER8"    "SJER952"  "SJER116" 
+    ## [13] "SJER117"  "SJER37"   "SJER4"    "SJER192"  "SJER36"   "SJER120"
 
-#find the max stem height for each plot
-insitu_maxStemHeight <- SJER_insitu %>% 
-  group_by(plotid) %>% 
-  summarise(max = max(stemheight))
+    #find the max stem height for each plot
+    insitu_maxStemHeight <- SJER_insitu %>% 
+      group_by(plotid) %>% 
+      summarise(max = max(stemheight))
+    
+    head(insitu_maxStemHeight)
 
-head(insitu_maxStemHeight)
+    ## Source: local data frame [6 x 2]
+    ## 
+    ##     plotid   max
+    ##      (chr) (dbl)
+    ## 1 SJER1068  19.3
+    ## 2  SJER112  23.9
+    ## 3  SJER116  16.0
+    ## 4  SJER117  11.0
+    ## 5  SJER120   8.8
+    ## 6  SJER128  18.2
 
+    names(insitu_maxStemHeight) <- c("plotid","insituMaxHt")
+    head(insitu_maxStemHeight)
 
-names(insitu_maxStemHeight) <- c("plotid","insituMaxHt")
-head(insitu_maxStemHeight)
-
-```
+    ## Source: local data frame [6 x 2]
+    ## 
+    ##     plotid insituMaxHt
+    ##      (chr)       (dbl)
+    ## 1 SJER1068        19.3
+    ## 2  SJER112        23.9
+    ## 3  SJER116        16.0
+    ## 4  SJER117        11.0
+    ## 5  SJER120         8.8
+    ## 6  SJER128        18.2
 
 
 ### Merge the data into the SJER_height SP data.frame
@@ -265,60 +286,55 @@ containing the unique ID that we will merge the data on. In this case, we will
 merge the data on the plot_id column. Notice that it's spelled slightly differently 
 in both data.frames so we'll need to tell R what it's called in each data.frame.
 
-```{r merge-dataframe}
-require(sp)
 
-# merge to create a new spatial df
-SJER_height@data <- data.frame(SJER_height@data, 
-                               insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], insitu_maxStemHeight$plotid),])
-
-# merge the insitu data into the centroids data.frame
-#SJER_height <- merge(SJER_height, 
-#                     insitu_maxStemHeight, 
-#                   by.x = 'Plot_ID', 
-#                   by.y = 'plotid')
-
-
-```
+    require(sp)
+    
+    # merge to create a new spatial df
+    SJER_height@data <- data.frame(SJER_height@data, 
+                                   insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], insitu_maxStemHeight$plotid),])
+    
+    # merge the insitu data into the centroids data.frame
+    #SJER_height <- merge(SJER_height, 
+    #                     insitu_maxStemHeight, 
+    #                   by.x = 'Plot_ID', 
+    #                   by.y = 'plotid')
 
 ### Plot Data (CHM vs Measured)
 Let's create a plot that illustrates the relationship between in situ measured 
 max canopy height values and lidar derived max canopy height values.
 
 
-```{r plot-w-ggplot}
 
-# create plot
-ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) + 
-  geom_point() + 
-  theme_bw() + 
-  ylab("Maximum measured height") + 
-  xlab("Maximum LiDAR pixel")+
-  geom_abline(intercept = 0, slope=1) 
+    # create plot
+    ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) + 
+      geom_point() + 
+      theme_bw() + 
+      ylab("Maximum measured height") + 
+      xlab("Maximum LiDAR pixel")+
+      geom_abline(intercept = 0, slope=1) 
 
-```
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/plot-w-ggplot-1.png)
 
 
 We can also add a regression fit to our plot. Explore the GGPLOT options and 
 customize your plot.
 
-```{r ggplot-data }
 
-#plot with regression fit
-p <- ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) + 
-  geom_point() + 
-  ylab("Maximum Measured Height") + 
-  xlab("Maximum LiDAR Height")+
-  geom_abline(intercept = 0, slope=1)+
-  geom_smooth(method=lm)
+    #plot with regression fit
+    p <- ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) + 
+      geom_point() + 
+      ylab("Maximum Measured Height") + 
+      xlab("Maximum LiDAR Height")+
+      geom_abline(intercept = 0, slope=1)+
+      geom_smooth(method=lm)
+    
+    p + theme(panel.background = element_rect(colour = "grey")) + 
+      ggtitle("LiDAR CHM Derived vs Measured Tree Height") +
+      theme(plot.title=element_text(family="sans", face="bold", size=20, vjust=1.9)) +
+      theme(axis.title.y = element_text(family="sans", face="bold", size=14, angle=90, hjust=0.54, vjust=1)) +
+      theme(axis.title.x = element_text(family="sans", face="bold", size=14, angle=00, hjust=0.54, vjust=-.2))
 
-p + theme(panel.background = element_rect(colour = "grey")) + 
-  ggtitle("LiDAR CHM Derived vs Measured Tree Height") +
-  theme(plot.title=element_text(family="sans", face="bold", size=20, vjust=1.9)) +
-  theme(axis.title.y = element_text(family="sans", face="bold", size=14, angle=90, hjust=0.54, vjust=1)) +
-  theme(axis.title.x = element_text(family="sans", face="bold", size=14, angle=00, hjust=0.54, vjust=-.2))
-
-```
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/ggplot-data-1.png)
 
 
 
@@ -342,18 +358,15 @@ an account. Once you've setup an account, you can get your key from the plot.ly
 site to make the code below work.
 
 
-```{r create-plotly, eval=FALSE }
 
-library(plotly)
-#setup your plot.ly credentials
-set_credentials_file("yourUserName", "yourKey")
-p <- plotly(username="yourUserName", key="yourKey")
-
-#generate the plot
-py <- plotly()
-py$ggplotly()
-
-```
+    library(plotly)
+    #setup your plot.ly credentials
+    set_credentials_file("yourUserName", "yourKey")
+    p <- plotly(username="yourUserName", key="yourKey")
+    
+    #generate the plot
+    py <- plotly()
+    py$ggplotly()
 
 Check out the results! 
 

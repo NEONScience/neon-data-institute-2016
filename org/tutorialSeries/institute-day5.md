@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Thursday 23 June: Lidar & Hyperspectral Data Fusion'
+title: 'Friday 24 June: Lidar & Hyperspectral Data Fusion'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day5
 permalink: tutorial-series/institute-day5/
@@ -11,6 +11,6 @@ image:
 ---
 ## About
 
-Friday!
+Friday - Project Day.
 
 ## Afternoon Agenda
