@@ -37,20 +37,31 @@
 
 - slug: institute-day2
   name: "Tuesday 21 June: Lidar Data & Automation"
-  description: "."
+  description: "On Tuesday, we will begin the day learning about Light Detection
+  and Ranging (LiDAR) data. We will learn how to threshold and classify
+  lidar derived rasters in R. And also how to create raster masks. In the afternoon,
+  we will focus on creating efficient code through automation and effective file
+  organization."
   lastModified:  2016-07-05
 
 - slug: institute-day3
   name: "Wednesday 22 June: Comparing Ground to Airborne - Uncertainty"
-  description: "."
+  description: "We will begin the day with several short talks on the signficance
+  of uncertainty when using remote sensing data. We will them complete a short
+  exercise where we learn how to compare remote sensing metrics to on the ground
+  (in situ) collected metrics. The afternoon will be spent working on a selected
+  group project that is focused on uncertainty."
   lastModified:  2016-07-06
 
 - slug: institute-day4
   name: "Thursday 23 June: Lidar & Hyperspectral Data Fusion"
-  description: "."
+  description: "On thursday, we will focus on data fusion - using several remote
+  sensing data products together to begin to analyize and address a particular
+  science question."
   lastModified:  2016-07-07
 
 - slug: institute-day5
   name: "Friday 24 June: Project Work Day"
-  description: "."
+  description: "On Friday we will work in selected groups on a project of your
+  choice."
   lastModified:  2016-07-06
