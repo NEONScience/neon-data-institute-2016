@@ -51,10 +51,10 @@ analysis, etc.
 ## Publish from Rmd files with knitr
 Prior to starting this tutorial you need to make sure the knitr package is 
 installed, if not, go to 
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/"target="_blank"> the setup instructions</a>. 
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/ target="_blank"> the setup instructions</a>. 
 In addition you need a R Markdown script that is to be knit, if you don’t have 
 one, return to 
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03"target="_blank"> the R Markdown tutorial</a> 
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank"> the R Markdown tutorial</a> 
 to create one. 
 
 ### When to Knit? 
@@ -65,6 +65,15 @@ the document looks as a "published" report. The time required to knit depends on
 the length and complexity of the script and the amount of data. 
 
 ### How to Knit
+
+ <figure>
+	<a href="{{ site.baseurl }}/images/pre-institute-content/RMD/KnitButton-screenshot.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/RMD/KnitButton-screenshot.png"></a>
+	<figcaption> Location of the knit button in RStudio in Version 0.99.486. 
+	Source: National Ecological Observatory Network (NEON) 
+	</figcaption>
+</figure>
+
 To knit, you simply click the "knit" button at the top of the script environment. 
 
 A new windowpane will open in your Console titled R Markdown. This pane shows 
@@ -74,15 +83,16 @@ working directory. If there is an error in the code, this is also where the
 error message will occur with a line number to help you diagnose the problem. 
 
 
-<i class="fa fa-star"></i> ** Data Tip** If you want to automate knitting into 
+<i class="fa fa-star"></i> **Data Tip** If you want to automate knitting into 
 your script, you can add `render(“input.Rmd”, “all”)` to the script. 
 {: .notice}
 
  <div id="challenge" markdown="1">
 ## Activity: Knit Script
 Knit the script you started in 
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03"target="_blank">the last tutorial</a>. 
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank">the last tutorial</a>. 
 What does it look like? 
+</div>
 
 ### View the Output
 

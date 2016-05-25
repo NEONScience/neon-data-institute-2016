@@ -69,7 +69,7 @@ We can use markdown syntax in R Markdown (.rmd) files to document workflows and
 to share data cleaning, analysis and visualization results. We can also use it 
 to create reports or other materials that combine R output with text. 
 
-<i class="fa fa-star"></i> ** Data Tip:** Most of the 
+<i class="fa fa-star"></i> **Data Tip:** Most of the 
 <a href="https://github.com/NEONInc/NEON-Data-Skills" target="_blank">neondataskills.org </a> 
 and the 
 <a href="https://github.com/NEON-WorkWithData/neon-data-institute-2016" target="_blank">Data Institute </a> 
@@ -91,16 +91,21 @@ HTML, PDF, presentations and more as a summary of the analysis.
 * the code and associated data can also be shared directly with a colleague to 
 replicate the workflow. 
 
-<i class="fa fa-star"></i> ** Data Tip:** 
+<i class="fa fa-star"></i> **Data Tip:** 
 <a href="https://rpubs.com/" target= "_blank ">RPubs</a> 
 is a quick way to share and publish code. 
 {: .notice}
 
 ## Knitr
 The knitr package allows us to create easily readable documents from R Markdown 
-files. It is actually this package that reads the Rmd file and produces the html
+files. It is actually this package that reads the R Markdown file and produces the html
 or other file format. 
 
 >The knitr package was designed to be a transparent engine for dynamic report 
 generation with R -- 
 <a href="http://yihui.name/knitr/" target="_blank"> Yihui Xi -- knitr package creator</a>
+
+
+Now continue on to the 
+[next tutorial]({{site.baseurl}}/tutorial-series/pre-institute3/rmd-activity)
+to learn about this week's activity. 

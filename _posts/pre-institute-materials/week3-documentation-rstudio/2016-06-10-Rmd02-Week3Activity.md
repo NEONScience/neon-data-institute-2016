@@ -4,7 +4,7 @@ title: "Week 3 Activity"
 description: "This page details how to complete the activity for pre-Institute week 3."
 date: 2016-05-18
 dateCreated: 2016-01-01
-lastModified: 2016-05-24
+lastModified: 2016-05-25
 estimatedTime: 
 packagesLibraries: []
 authors: [Megan A. Jones, Leah Wasser]
@@ -56,9 +56,9 @@ directory in the **NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
 In the next two tutorials, we will focus on the documentation elements of the R 
 Markdown and knitr tools as applied to this activity. If you are looking for 
 assistance in plotting raster data in R, please see the NEON Data Skills tutorial 
-<a href="(http://neondataskills.org/R/Plot-Rasters-In-R/)" target="_blank">*Plot Raster Data in R*</a>. 
+<a href="http://neondataskills.org/R/Plot-Rasters-In-R/" target="_blank">*Plot Raster Data in R*</a>. 
 
-## Document Checklist
+## Submission Checklist
 This checklist is provided for you to reference after you have completed the 
 following tutorials and are ready to submit your documented workflow. 
 
@@ -69,3 +69,8 @@ Please include the following in your RMD file:
 R Markdown document. This text may include the data being used and plotted.
 * 3 or more named R code chunks
 * Code chunk options in at least 1 chunk
+
+
+Now continue on to the 
+[next tutorial]({{site.baseurl}}/tutorial-series/pre-institute3/rmd03)
+to learn about R Markdown. 
