@@ -78,6 +78,7 @@ Please do the following:
 1. Create a new R Markdown file and choose HTML as the desired output format.
 2. Enter a Title (Explore NEON LiDAR Data) and Author Name (your name). Then click OK.
 3. Save the file using the following format: **LastName-institute-week3.rmd**
+4. Hit the knit button in R studio (as is done in the video above). What happens?
 
 NOTE: The document title does not specify the filename.
 
