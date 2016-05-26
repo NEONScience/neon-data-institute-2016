@@ -44,10 +44,11 @@ Important: As you think about this project, consider what may be feasible to exp
 
 ## The Data
 You have been given a hard drive containing NEON remote sensing data. You can
-also learn more about what NEON data are currently available on the:
+also learn more about what NEON data are currently available on our website:
+
  <a class="btn btn-inverse" href="http://www.neonscience.org/data-resources/get-data" target="_blank">NEON Website Get Data Page.</a>
 
- ## Document Your Work
+## Document Your Work
 
  As you work on this project, please be sure to think about efficient workflows.
  This includes:
@@ -63,7 +64,7 @@ Please consider:
 
 We encourage you to do all of your work in .Rmd files!
 
- ## Project Presentation
+## Project Presentation
 
  You will present your project to the group on Saturday, 25 June 2016.
  You might consider creating a presentation using RMD <a href="http://rmarkdown.rstudio.com/revealjs_presentation_format.html" target="_blank">Create reveal.js presentations using R and R Studio</a>.
