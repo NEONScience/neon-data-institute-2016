@@ -102,11 +102,11 @@ The `knitr` package for R allows us to create readable documents from R Markdown
 files.
 
 <figure class="half">
-	<a href="{ { site.baseurl }}/images/pre-institute-content/RMD/rmd-file.png">
-	<img src="{ { site.baseurl }}/images/pre-institute-content/RMD/rmd-file.png">
+	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/rmd-file.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/rmd-file.png">
 	</a>
-	<a href="{ { site.baseurl }}/images/pre-institute-content/RMD/knitr-output.png">
-	<img src="{ { site.baseurl }}/images/pre-institute-content/RMD/knitr-output.png">
+	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/knitr-output.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/knitr-output.png">
 	</a>
 	<figcaption>Caption describing these two images. Source: here
 	</figcaption>

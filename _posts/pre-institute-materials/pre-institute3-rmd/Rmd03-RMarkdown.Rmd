@@ -80,13 +80,21 @@ Please do the following:
 3. Save the file using the following format: **LastName-institute-week3.rmd**
 4. Hit the knit button in R studio (as is done in the video above). What happens?
 
+<figure>
+	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/KnitButton-screenshot.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/KnitButton-screenshot.png"></a>
+	<figcaption> Location of the knit button in RStudio in Version 0.99.486.
+	Source: National Ecological Observatory Network (NEON)
+	</figcaption>
+</figure>
+
 NOTE: The document title does not specify the filename.
 
 ## Understand Structure of an R Markdown file
 
  <figure>
-	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute-3-rmd/NewRmd-html-screenshot.png">
-	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute-3-rmd/NewRmd-html-screenshot.png"></a>
+	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/NewRmd-html-screenshot.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/NewRmd-html-screenshot.png"></a>
 	<figcaption> Screenshot of a new R Markdown document in RStudio.
 	Source: National Ecological Observatory Network (NEON)  
 	</figcaption>
@@ -126,9 +134,9 @@ formatting that you’d like to add. If interested, in these options see the
 ## Activity: R Markdown YAML
 Customize the header of your RMD file as follows:
 
-title: Provide a title that fits the code that will be in your RMD. 
-author: Add your name here!
-output: This should be html. Leave this as is. we will be rendering an html file! 
+**Title:** Provide a title that fits the code that will be in your RMD. 
+**Author:** Add your name here!
+**Output:** This should be html. Leave this as is. we will be rendering an html file! 
 </div>
 
 ### R Markdown Text / Markdown Blocks
@@ -175,7 +183,9 @@ not the apostrophe.
 
 The initial line of the chunk must appear as:
 
-<pre><code> ```{r name-with-no-spaces} </code></pre>
+<pre><code> ```{r chunk-name-with-no-spaces} 
+# code goes here
+ ```</code></pre>
 
 The `r` part of the chunk header identifies this chunk as an R code chunk and is 
 mandatory. Next to the `r`, there is a chunk name. This name is not required for 
@@ -261,10 +271,10 @@ or the
 
 Update your Rmd file as follows:
 
-* Plot the dsm raster file, in a new code chunk. Experiment with colors and 
-be sure to add a title to your plot. 
+* Add code to plot the dsm raster file a new code chunk. 
+Experiment with colors in your plot. Be sure to add a title. 
 * Run the code that you've added to your document.
-* Open and plot another raster file. the Team_lidarCHM is a good option.
+* Open and plot another raster file. the Teak_lidarCHM is a good raster to plot.
 * Add code to your document to create a histogram for both rasters that you've opened. 
 
 We will knit this document to html in the next tutorial. 

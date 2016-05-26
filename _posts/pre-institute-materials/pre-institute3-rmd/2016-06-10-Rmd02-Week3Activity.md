@@ -22,7 +22,7 @@ comments: true
 ---
 
 ## About
-THis tutorial covers the NEON Pre-Institute Week 3 assignment. If you already
+This tutorial covers the NEON Pre-Institute Week 3 assignment. If you already
 are familiar with R markdown and knitr, you may be able to complete the assignment 
 without working through the next two tutorials. 
 
