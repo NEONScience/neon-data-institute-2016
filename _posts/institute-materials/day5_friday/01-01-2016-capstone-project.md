@@ -43,8 +43,9 @@ Important: As you think about this project, consider what may be feasible to exp
 
 
 ## The Data
-You have been given a hard drive containing NEON remote sensing data. You can also explore the:
- <a class="btn btn-inverse" href="http://www.neonscience.org/data-resources/get-data" target="_blank">NEON Website Get Data Page</a> to learn more about what data are available currently.
+You have been given a hard drive containing NEON remote sensing data. You can
+also learn more about what NEON data are currently available on the:
+ <a class="btn btn-inverse" href="http://www.neonscience.org/data-resources/get-data" target="_blank">NEON Website Get Data Page.</a>
 
  ## Document Your Work
 
