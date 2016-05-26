@@ -2,8 +2,8 @@
 layout: tutorial-series-landing
 title: 'Week 2 -- Version Control & Collaborative Science with Git & GitHub'
 categories: [tutorial-series]
-tutorialSeriesName: pre-institute2
-permalink: tutorial-series/pre-institute2/
+tutorialSeriesName: pre-institute2-git
+permalink: tutorial-series/pre-institute2-git/
 image:
   feature: data-institute-2016.png
   credit:

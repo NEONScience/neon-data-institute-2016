@@ -13,14 +13,14 @@
   content."
   lastModified:  2016-07-01
 
-- slug: pre-institute2
+- slug: pre-institute2-git
   name: "Pre-Institute Wk 2: Introduction to Git & GitHub"
   description: "In week two of the pre-institute materials, we will introduce you to
   version control and collaboration using git and the online GitHub interface. Please expect
   to spend 1-3 hours reviewing this content and doing the actual activity."
   lastModified:  2016-07-02
 
-- slug: pre-institute3
+- slug: pre-institute3-rmd
   name: "Pre-Institute Wk 3: Introduction to RMD and Knitr in R"
   description: "In week three of the pre-institute materials, we will introduce you to
   rmarkdown and knitr - 2 R packages that allow you to document your workflows in a reproducible

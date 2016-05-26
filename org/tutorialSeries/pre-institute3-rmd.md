@@ -2,7 +2,7 @@
 layout: tutorial-series-landing
 title: 'Week 3 - '
 categories: [tutorial-series]
-tutorialSeriesName: pre-institute3
+tutorialSeriesName: pre-institute3-rmd
 permalink: tutorial-series/pre-institute3-rmd/
 image:
   feature: data-institute-2016.png
