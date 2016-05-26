@@ -28,7 +28,7 @@ comments: true
 
 ## About
 
-The goals of the 2016 NEON data institute are to
+The goals of the 2016 NEON data institute are to:
 
 1. Provide hands-on experience with and knowledge needed to work with NEON remote
 sensing data. and,
