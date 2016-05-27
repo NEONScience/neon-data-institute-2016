@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Week 3 - '
+title: 'Week 3 - Documentation of Your Workflow'
 categories: [tutorial-series]
 tutorialSeriesName: pre-institute3-rmd
 permalink: tutorial-series/pre-institute3-rmd/
