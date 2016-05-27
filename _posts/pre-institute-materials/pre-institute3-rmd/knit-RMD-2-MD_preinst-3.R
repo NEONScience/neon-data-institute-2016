@@ -16,16 +16,16 @@ gitRepoPath <-"~/Documents/GitHub/neon-data-institute-2016"
 add.date <- "2016-06-10-"
 
 # set working dir - this is where the data are located
-# wd <- "~/Documents/data/1_data-institute-2016"
+wd <- "~/Documents/data/1_data-institute-2016"
 
-wd <- "~/Documents/data/DataInstitute16"
+# wd <- "~/Documents/data/DataInstitute16"
 
 ################### CONFIG BELOW IS REQUIRED BY JEKYLL - DON'T CHANGE ##########
 #set data working dir
 setwd(wd)
 
 # set series subdir
-subDir <- "pre-institute-materials/week3-documentation-rstudio/"
+subDir <- "pre-institute-materials/pre-institute3-rmd/"
 
 #don't change - this is the posts dir location required by jekyll
 postsDir <- file.path("_posts", subDir)
