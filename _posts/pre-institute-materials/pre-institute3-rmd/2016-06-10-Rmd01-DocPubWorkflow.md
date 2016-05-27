@@ -4,7 +4,7 @@ title: "Document & Publish Your Workflow: R Markdown & knitr"
 description: "This tutorial introduces the importance of tools supporting documenting & publishing a workflow."
 date: 2016-05-19
 dateCreated: 2016-01-01
-lastModified: 2016-05-26
+lastModified: 2016-05-27
 estimatedTime:
 packagesLibraries:
 authors: [Megan A. Jones, Leah Wasser]
@@ -108,7 +108,8 @@ files.
 	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/knitr-output.png">
 	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/knitr-output.png">
 	</a>
-	<figcaption>Caption describing these two images. Source: here
+	<figcaption>R Markdown script (left) and the HTML produced from the knit R 
+	Markdown script (right). Source: National Ecological Observatory Network (NEON)
 	</figcaption>
 </figure>  
 >The knitr package was designed to be a transparent engine for dynamic report
@@ -117,5 +118,5 @@ generation with R --
 
 
 In the
-[next tutorial]({{site.baseurl}}/tutorial-series/pre-institute3/rmd-activity)
+[next tutorial]({{site.baseurl}}/tutorial-series/pre-institute3/rmd02)
 we will review this week's activity.

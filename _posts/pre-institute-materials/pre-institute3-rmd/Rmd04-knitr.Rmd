@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Publish Code --- From R Markdown to html with knitr"
+title: "Publish Code - From R Markdown to HTML with knitr"
 description: "This tutorial introduces how to use the R knitr package to publish
 from R Markdown files to html (or other) file format."
 date: 2016-05-16
 dateCreated: 2016-01-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 estimatedTime:
-packagesLibraries: 
+packagesLibraries: [knitr, rmarkdown]
 authors: [Megan A. Jones, Leah Wasser]
 categories: [tutorial-series]
 tags:
@@ -22,10 +22,10 @@ permalink: /tutorial-series/pre-institute3/rmd04
 comments: true
 ---
 
-{% include _toc.html %}
+{% include _toc.HTML %}
 
 In this tutorial, we will cover the R `knitr` package that is used to convert
-R Markdown into a rendered document (html, pdf, etc).
+R Markdown into a rendered document (HTML, PDF, etc).
 
 <div id="objectives" markdown="1">
 
@@ -33,8 +33,19 @@ R Markdown into a rendered document (html, pdf, etc).
 
 At the end of this activity, you will:
 
-* Be able to produce (‘knit’) an html file from a R Markdown file.
-* Know how to modify chuck options to change the output in your html file.
+* Be able to produce (‘knit’) an HTML file from a R Markdown file.
+* Know how to modify chuck options to change the output in your HTML file.
+
+## Things You’ll Need To Complete This Tutorial
+
+You will need the most current version of R and, preferably, RStudio loaded on 
+your computer to complete this tutorial.
+
+### Install R Packages
+
+* **knitr:** `install.packages("knitr")`
+* **rmarkdown:** `install.packages("rmarkdown")`
+
 
 </div>
 
@@ -53,22 +64,22 @@ from our code, reducing the risk of accidental copy and paste / transcription er
 To complete this tutorial you need:
 
 1. The R `knitr` package to complete this tutorial. If it's not installed, 
-visit: <a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/" target="_blank"> the NEON Institute setup instruction page</a>.
+visit
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/" target="_blank"> the NEON Institute setup instruction page</a>.
 2. An R Markdown document that contains a YAML header, code chunks and markdown 
-segments. If you don't have an `.Rmd` file, Visit
+segments. If you don't have an `.Rmd` file, visit
 <a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank"> the R Markdown tutorial</a> to create one.
 
-<div class=".notice">
-<i class="fa fa-star"></i> **When To Knit**: Knitting is a useful exercise throughout your scientific workflow. It allows you to
-see what your outputs look like and also to test that your code runs without errors. 
-The time required to knit depends on
-the length and complexity of the script and the amount of data.
-
-</div>
+<i class="fa fa-star"></i> **When To Knit**: Knitting is a useful exercise
+throughout your scientific workflow. It allows you to see what your outputs 
+look like and also to test that your code runs without errors. 
+The time required to knit depends on the length and complexity of the script 
+and the amount of data.
+{: .notice}
 
 ### How to Knit
 
- <figure>
+<figure>
 	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/KnitButton-screenshot.png">
 	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/KnitButton-screenshot.png"></a>
 	<figcaption> Location of the knit button in RStudio in Version 0.99.486.
@@ -78,13 +89,13 @@ the length and complexity of the script and the amount of data.
 
 To knit in RStudio, click the "knit" button.
 
-When you do this, a  window will open in your Console titled R Markdown. This pane shows
-the knitting progress. The output (html in this case) file will automatically be 
-saved in the current working directory. If there is an error in the code, an
-error message will appear with a line number to help you diagnose the problem.
+When you do this, a  window will open in your Console titled R Markdown. This 
+pane shows the knitting progress. The output (HTML in this case) file will 
+automatically be saved in the current working directory. If there is an error 
+in the code, an error message will appear with a line number to help you 
+diagnose the problem.
 
-
-<i class="fa fa-star"></i> **Data Tip** You can run knitr from the command prompt
+<i class="fa fa-star"></i> **Data Tip** You can run `knitr` from the command prompt
 using: `render(“input.Rmd”, “all”)`.
 {: .notice}
 
@@ -99,29 +110,34 @@ What does it look like?
 
 ### View the Output
 
-# MISSING IMAGE EMBED GRAPHIC: Screenshot of html
+<figure>
+	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/Rmd-screenshot-html.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/Rmd-screenshot-html.png"></a>
+	<figcaption> Rmd (left) and the resultant HTML (right) after knitting.
+	Source: National Ecological Observatory Network (NEON)
+	</figcaption>
+</figure>
 
-When knitting is complete, the new (html) file produced will automatically open
-in RStudio.
+When knitting is complete, the new HTML file produced will automatically open.
 
 Notice that information from the YAML header (title, author, date) is printed
-at the top of the html document. Then the html shows the text, code, and results of
-the code that you included in the `.Rmd` document.
+at the top of the HTML document. Then the HTML shows the text, code, and 
+results of the code that you included in the `.Rmd` document.
 
 <div id="challenge" markdown="1">
 
 ## Activity: Finish up Your Assignment
 
 Read [this week’s assignment]({{ site.baseurl}}/tutorial-series/pre-institute3/rmd02) closely. 
-Edit your .Rmd document to ensure that you have completed all of the steps required
-by assignment. 
+Edit your .Rmd document to ensure that you have completed all of the steps 
+required by assignment. 
 
 Be sure to carefully check your knitr output to make sure it is rendering the
 way you think it should!
 
-When you are complete, push your .Rmd and html files to the NEON Data Institute GitHub repository --- 
-in the **/participants/pre-institute3-rmd/** directory in the
-**NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
+When you are complete, push your .Rmd and .html files to the Institute 
+participants GitHub repository (**NEON-WorkWithData/DI16-NEON-participants**) in 
+the **/participants/pre-institute3-rmd/** directory.
 
 </div>
 
