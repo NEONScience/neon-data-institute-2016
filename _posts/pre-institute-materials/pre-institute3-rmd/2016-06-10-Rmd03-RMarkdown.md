@@ -44,8 +44,26 @@ your computer to complete this tutorial.
 
 ### Install R Packages
 
+To use R Markdown and knit: 
 * **knitr:** `install.packages("knitr")`
 * **rmarkdown:** `install.packages("rmarkdown")`
+
+To complete Week 3 Assignment: 
+* **raster:** `install.packages("raster")`
+* **rgdal:** `install.packages("rgdal")`
+
+### Download Data
+
+<a class="btn btn-inverse" href="https://ndownloader.figshare.com/files/5282317" 
+target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
+
+The LiDAR and imagery data used to create this raster teaching data subset were 
+collected over the 
+<a href="http://www.neonscience.org/" target="_blank">National Ecological Observatory Network’s </a>
+<a href="http://www.neonscience.org/science-design/field-sites/lower-teakettle" target="_blank">Lower Teakettle field site </a>
+and processed at NEON 
+headquarters. The entire dataset can be accessed by request from the 
+<a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
 
 ## Additional Resources
 * <a href="http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf" target="_blank"> R Markdown Cheetsheet</a>: a very handy reference for using R
