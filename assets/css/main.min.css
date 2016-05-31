@@ -1082,8 +1082,8 @@ svg:not(:root) {
 .btn:visited, #post-content .btn:visited, #relatedCode .btn:visited {
 	color: #fff
 }
-.btn:hover, #post-content .btn:hover {
-	color: #ccc;
+.btn:hover, #post-content .btn:hover, #relatedCode .btn:hover {
+	color: #1ea0c1;
 	background-color: #fff
 }
 .btn-success {
