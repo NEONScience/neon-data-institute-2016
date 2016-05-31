@@ -4634,3 +4634,7 @@ a:hover.post-link > div {
 #post-content a{
 	color: #1ea0c1;
 }
+
+.list-group-item > p {
+    color: #000;
+}
