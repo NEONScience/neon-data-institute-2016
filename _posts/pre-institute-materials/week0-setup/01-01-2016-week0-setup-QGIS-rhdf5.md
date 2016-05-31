@@ -35,13 +35,18 @@ select the HDFView download option that matches the operating system and
 computer setup (32 bit vs 64 bit) that you have. The download will start
 automatically.
 
-3. Open the downloaded file. 
-  + Mac - You may want to add the HDFView application to your Applications 
-directory. 
-  + Windows - Unzip the file, open the folder, run the .exe file, and follow 
-directions to complete installation. 
+3. Open the downloaded file.
+  + Mac - You may want to add the HDFView application to your Applications
+directory.
+  + Windows - Unzip the file, open the folder, run the .exe file, and follow
+directions to complete installation.
 
 4. Open HDFView to ensure that the program installed correctly.
+
+<i class="fa fa-star"></i> **Data Tip:**
+The HDFView application requires JAVA to be up to date. If you are having issues
+opening HDFView, try to update JAVA first!
+{: .notice}
 
 ## Install QGIS
 QGIS is a free, open-source GIS program. To install QGIS:
@@ -55,18 +60,18 @@ operating system.
 
 1. Select the appropriate **QGIS Standalone Installer Version** for your computer.
 2. The download will automatically start.
-3. Open the .exe file and follow prompts to install (installation may take a 
-while). 
+3. Open the .exe file and follow prompts to install (installation may take a
+while).
 4. Open QGIS to ensure that it is properly downloaded and installed.
 
 ### Mac OS X
 
 1. Select <a href="http://www.kyngchaos.com/software/qgis/" target="_blank">
 KyngChaos QGIS download page</a>. This will take you to a new page.
-2. Select the current version of QGIS. The file download (.dmg format) should 
+2. Select the current version of QGIS. The file download (.dmg format) should
 start automatically.
 3. Once downloaded, run the .dmg file. When you run the .dmg, it will create a
-directory of installer packages that you need to run in a particular order. 
+directory of installer packages that you need to run in a particular order.
 IMPORTANT: **read the READ ME BEFORE INSTALLING.rtf file**!
 
 Install the packages in the directory in the order indicated.
@@ -83,7 +88,7 @@ the package and select Open With >Installer (default). You will then be asked
 if you want to open the package. Select Open, and the installer will open.
 {: .notice}
 
-Once all of the packages are installed, open QGIS to ensure that it is properly 
+Once all of the packages are installed, open QGIS to ensure that it is properly
 installed.
 
 ### LINUX

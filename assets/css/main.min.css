@@ -345,12 +345,16 @@ font-size:.875rem
 }
 p {
 	margin: 0 0 1.625rem
-	line-height: 1.2rem;
+	line-height: 1.3 em;
 }
 
 .article-wrap li {
     line-height: 1.2rem;
     margin-bottom: 0.3rem;
+}
+
+.article-wrap p {
+	line-height: 1.15rem
 }
 
 p+p {
@@ -3414,10 +3418,10 @@ font-size:.875rem;
 }
 }
 .article-wrap p>a, .article-wrap li>a {
-	border-bottom: 1px dashed #1ea0c1;
+	color: #1ea0c1;
 }
 .article-wrap p>a:hover, .article-wrap li>a:hover {
-	border-bottom-style: solid
+	border-bottom: 1px dashed #ccc;
 }
 .article-wrap p>a.reversefootnote, .article-wrap li>a.reversefootnote {
 	border-bottom-width: 0
@@ -4620,4 +4624,9 @@ a:hover.post-link > div {
 	background-size: 20px auto;
 	list-style: outside none none;
 	padding: 0 0 0 2em;
+}
+
+
+#post-content a{
+	color: #1ea0c1;
 }
