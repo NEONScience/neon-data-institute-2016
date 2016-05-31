@@ -26,7 +26,7 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 ## ----open-H5-file, results='hide'----------------------------------------
 
 # Define the file name to be opened
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # Look at the HDF5 file structure
 h5ls(f, all=T)
@@ -53,7 +53,7 @@ h5.ext <- create_extent(f)
 h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
 
 # open file clipping extent
-clip.extent <- readOGR("Teakettle", "teak_plot")
+clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", "teak_plot")
 
 # assign crs to h5 extent
 # paste0("+init=epsg:", epsg) -- so it will be better to use the proj string here

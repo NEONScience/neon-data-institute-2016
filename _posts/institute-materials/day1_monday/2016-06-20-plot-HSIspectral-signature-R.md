@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 contributors: []
 time: "4:00"
 dateCreated:  2016-05-01
-lastModified: 2016-05-17
+lastModified: 2016-05-31
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -72,7 +72,7 @@ First, we need to access the H5 file.
 
 
     # Define the file name to be opened
-    f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+    f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
     
     # Look at the HDF5 file structure
     h5ls(f, all=T)

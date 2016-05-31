@@ -9,7 +9,7 @@ library(rgdal)
 
 ## ----read-file, results='hide'-------------------------------------------
 # define the file name as an object
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # view the structure of the H5 file
 h5ls(f, all = TRUE)

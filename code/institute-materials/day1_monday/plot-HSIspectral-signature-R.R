@@ -26,7 +26,7 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 ## ----open-H5-file, results='hide'----------------------------------------
 
 # Define the file name to be opened
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # Look at the HDF5 file structure
 h5ls(f, all=T)

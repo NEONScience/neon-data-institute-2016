@@ -7,7 +7,7 @@ instructors:
 contributors:
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-05-17
+lastModified: 2016-05-31
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -73,7 +73,7 @@ Next, let's define a few variables, that we will need to access the H5 file.
 
 
     # Define the file name to be opened
-    f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+    f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
     
     # Look at the HDF5 file structure
     h5ls(f, all=T)
@@ -107,10 +107,10 @@ signature. For example a plot boundary.
     h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
     
     # open file clipping extent
-    clip.extent <- readOGR("Teakettle", "teak_plot")
+    clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", "teak_plot")
 
     ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "Teakettle", layer: "teak_plot"
+    ## Source: "NEONdata/D17-California/TEAK/vector_data", layer: "teak_plot"
     ## with 1 features
     ## It has 1 fields
 
