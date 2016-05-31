@@ -1059,7 +1059,11 @@ svg:not(:root) {
 	float: left;
 	width: 100%
 }
+
+#post-content a.btn{
+  color:#fff;
 }
+
 .btn {
 	display: inline-block;
 	padding: 8px 20px;
@@ -1075,11 +1079,11 @@ svg:not(:root) {
 	-moz-border-radius: 7px;
 	border-radius: 7px
 }
-.btn:visited {
+.btn:visited, #post-content .btn:visited {
 	color: #fff
 }
-.btn:hover {
-	color: #111;
+.btn:hover, #post-content .btn:hover {
+	color: #ccc;
 	background-color: #fff
 }
 .btn-success {
