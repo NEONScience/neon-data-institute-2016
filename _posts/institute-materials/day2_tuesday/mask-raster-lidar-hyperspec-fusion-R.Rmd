@@ -53,7 +53,7 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 
 # read LiDAR data
 # dsm = digital surface model == top of canopy
-teak_nsAspect <- raster("outputs/Teak_nsAspect.tif")
+teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
 # dtm = digital terrain model = elevation
 
 
@@ -67,10 +67,8 @@ One application is to use it as an analysis mask for another dataset.
 Let's try to find all pixels that have an NDVI value >.6 and are north facing. 
 
 ```{r mask-data }
-# w use dave's NDVI layer but for now...
-
 # Define the file name to be opened
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "/NEONdata/D17-California/TEAK/2013/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # define the CRS in EPGS format for the file
 epsg <- 32611
@@ -110,7 +108,7 @@ nFacing.ndvi <- mask(asp.ns,ndvi)
 
 # export geotiff 
 writeRaster(asp.ns,
-            filename="Teakettle/outputs/Teak_nsAspect.tif",
+            filename="outputs/TEAK/Teak_nsAspect.tif",
             format="GTiff",
             options="COMPRESS=LZW",
             overwrite = TRUE,

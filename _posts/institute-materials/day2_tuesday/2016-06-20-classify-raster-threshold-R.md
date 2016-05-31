@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "10:15"
 contributors:
 dateCreated:  2016-05-01
-lastModified: 2016-05-19
+lastModified: 2016-05-31
 packagesLibraries: [raster]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -50,12 +50,12 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 
     # read LiDAR data
     # dsm = digital surface model == top of canopy
-    dsm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDSM.tif")
+    dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
     # dtm = digital terrain model = elevation
-    dtm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDTM.tif") 
+    dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
     
     # lets also import the canopy height model (CHM).
-    chm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarCHM.tif")
+    chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
 
 ## View CHM
 
@@ -91,7 +91,7 @@ using if you have a surface or elevation model as follows:
 
     # (1) calculate aspect of cropped DTM
     # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
-    aspect <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarAspect.tif")
+    aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarAspect.tif")
     
     plot(aspect,
          main="Aspect for Teakettle Field Site",

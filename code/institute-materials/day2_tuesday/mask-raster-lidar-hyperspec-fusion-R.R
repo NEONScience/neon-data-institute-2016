@@ -15,16 +15,14 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 # read LiDAR data
 # dsm = digital surface model == top of canopy
-teak_nsAspect <- raster("outputs/Teak_nsAspect.tif")
+teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
 # dtm = digital terrain model = elevation
 
 
 
 ## ----mask-data-----------------------------------------------------------
-# w use dave's NDVI layer but for now...
-
 # Define the file name to be opened
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "/NEONdata/D17-California/TEAK/2013/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # define the CRS in EPGS format for the file
 epsg <- 32611
@@ -61,7 +59,7 @@ nFacing.ndvi <- mask(asp.ns,ndvi)
 ## 
 ## # export geotiff
 ## writeRaster(asp.ns,
-##             filename="Teakettle/outputs/Teak_nsAspect.tif",
+##             filename="outputs/TEAK/Teak_nsAspect.tif",
 ##             format="GTiff",
 ##             options="COMPRESS=LZW",
 ##             overwrite = TRUE,

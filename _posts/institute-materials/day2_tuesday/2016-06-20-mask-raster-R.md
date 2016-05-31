@@ -5,9 +5,9 @@ date:   2016-06-16
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time: "11:00"
-contributors: []
+contributors:
 dateCreated:  2016-05-01
-lastModified: 2016-05-19
+lastModified: 2016-05-31
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -49,7 +49,7 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 
 
     # import aspect data from previous lesson
-    teak_nsAspect <- raster("outputs/Teak_nsAspect.tif")
+    teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
     
     # North face = 1
     # South face = 2
@@ -81,7 +81,7 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
 
 
     # open NEON NDVI data
-    ndvi <- raster("NEONdata/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+    ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
     ndvi
 
     ## class       : RasterLayer 
@@ -89,9 +89,9 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
     ## resolution  : 1, 1  (x, y)
     ## extent      : 325963, 326506, 4102905, 4103482  (xmin, xmax, ymin, ymax)
     ## coord. ref. : +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## data source : /Users/lwasser/Documents/data/1_data-institute-2016/NEONdata/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif 
+    ## data source : /Users/lwasser/Documents/data/1_data-institute-2016/NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif 
     ## names       : NEON.D17.TEAK.DP2.20130614_100459_NDVI 
-    ## values      : -0.2380682, 0.920398  (min, max)
+    ## values      : -0.2381, 0.9204  (min, max)
 
     hist(ndvi,
          main="NDVI for Teakettle Field Site")
@@ -126,7 +126,7 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
 
     # export geotiff 
     writeRaster(nFacing.ndvi,
-                filename="Teakettle/outputs/Teak_n_ndvi6.tif",
+                filename="outputs/TEAK/Teak_n_ndvi6.tif",
                 format="GTiff",
                 options="COMPRESS=LZW",
                 overwrite = TRUE,

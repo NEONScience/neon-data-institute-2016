@@ -14,12 +14,12 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 # read LiDAR data
 # dsm = digital surface model == top of canopy
-dsm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDSM.tif")
+dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
 # dtm = digital terrain model = elevation
-dtm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDTM.tif") 
+dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
 
 # lets also import the canopy height model (CHM).
-chm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarCHM.tif")
+chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
 
 
 ## ----create-hillshade----------------------------------------------------
@@ -44,7 +44,7 @@ plot(chm,
 ## 
 ## # export geotiff
 ## writeRaster(dsm.hill,
-##             filename="Teakettle/outputs/Teak_dsm_hill.tif",
+##             filename="outputs/TEAK/Teak_dsm_hill.tif",
 ##             format="GTiff",
 ##             options="COMPRESS=LZW",
 ##             overwrite = TRUE,
