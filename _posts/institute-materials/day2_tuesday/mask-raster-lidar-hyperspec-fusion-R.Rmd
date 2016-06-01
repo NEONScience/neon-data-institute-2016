@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Data Fusion - Advanced Raster mask issues - spatial extents"
+title: "Dealing with Spatial Extents when working with Heterogeneous Data"
 date:   2016-06-10
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
@@ -68,7 +68,7 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
 
 ```{r mask-data }
 # Define the file name to be opened
-f <- "/NEONdata/D17-California/TEAK/2013/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
 # define the CRS in EPGS format for the file
 epsg <- 32611
@@ -92,13 +92,75 @@ plot(ndvi)
 
 # force the two to have the same CRS
 crs(ndvi) <- crs(asp.ns)
-# the two are different extents, crop both
-if(gIntersection(extent(ndvi), extent(asp.ns))){
-  print("they overlap")
-}
+```
+
+# Create Raster Stack
+
+Next, let's create a raster stack of ndvi and aspect.
+```{r create-stack}
+
+new.stack <- stack(asp.ns, ndvi)
+
+```
+
+Notice we get an error. Why?
+Let's compare the extents of the two objects
+
+```{r compare-extents }
+extent(ndvi)
+extent(asp.ns)
+```
+
+The extents are slightly different. They are one pixel apart in ymin and xmax.
+Thus, when we try to create a stack, we get an error. All layers in a stack
+need to be of the same extent.
+
+We can create an if statement that checks the extent and crops both rasters to the 
+overlap. Let's try it. 
+
+
+```{r check-extents }
+
+# check the extents of the two layers -- if they are different
+# crop both datasets
+if (extent(ndvi) == extent(asp.ns)){
+  print("Extents are the same, no need to crop")
+  } else {
+  # calculate overlap between the two datasets
+  overlap <- intersect(extent(ndvi), extent(asp.ns))
+  # now let's crop both datasets to the overlap region
+  ndvi <- crop(ndvi, overlap)
+  asp.ns <- crop(asp.ns, overlap)
+  print("Extents are different, cropping data")
+  }
+
+# let's try to create a stack again.
+new.stack <- stack(asp.ns,ndvi)
+
+```
+
+
+```{r create-mask}
 
 # mask out only pixels that are north facing and NDVI >.6
-nFacing.ndvi <- mask(asp.ns,ndvi)
+nsFacing.ndvi <- mask(new.stack[[1]], new.stack[[2]])
+nsFacing.ndvi[nsFacing.ndvi==0] <- NA
+# plot extent
+plot.extent <- extent(nsFacing.ndvi)
+
+# plot 
+plot(nsFacing.ndvi,
+     main="North & South Facing pixels, NDVI > .6",
+     col=c("blue","green"),
+     legend=F)
+
+# allow legend to plot outside of bounds
+par(xpd=TRUE)
+
+legend((par()$usr[2] + 20), plot.extent@ymax-200, # set xy legend location
+       legend = c("North", "South"),
+       fill = c("blue", "green"), 
+       bty="n") # turn off border
 
 ```
 
