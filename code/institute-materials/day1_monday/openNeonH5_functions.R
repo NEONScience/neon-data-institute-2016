@@ -148,7 +148,7 @@ epsg <- 32611
 
 # define the file you want to work with
 #f <- "Subset1NIS1_20130614_095740_atmcor.h5"
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
 h5ls(f)
 
@@ -273,8 +273,8 @@ plot_stack(falseStack,
 ## ----write-raster, eval=FALSE--------------------------------------------
 ## 
 ## # export as a gtif
-## writeRaster(aStackStack,
-##             file="rgbImage.tif",
+## writeRaster(CIRStack,
+##             file="Outputs/TEAK/cirImage_2013.tif",
 ##             format="GTiff",
 ##             overwrite=TRUE)
 

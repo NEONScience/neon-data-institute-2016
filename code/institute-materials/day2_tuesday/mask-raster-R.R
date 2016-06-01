@@ -14,7 +14,7 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 ## ----import-lidar--------------------------------------------------------
 
 # import aspect data from previous lesson
-teak_nsAspect <- raster("outputs/Teak_nsAspect.tif")
+teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
 
 # North face = 1
 # South face = 2
@@ -39,7 +39,7 @@ legend((par()$usr[2] + 20), 4103300, # set xy legend location
 ## ----mask-data-ndvi------------------------------------------------------
 
 # open NEON NDVI data
-ndvi <- raster("NEONdata/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
 ndvi
 
 hist(ndvi,
@@ -67,7 +67,7 @@ plot(nFacing.ndvi,
 ## 
 ## # export geotiff
 ## writeRaster(nFacing.ndvi,
-##             filename="Teakettle/outputs/Teak_n_ndvi6.tif",
+##             filename="outputs/TEAK/Teak_n_ndvi6.tif",
 ##             format="GTiff",
 ##             options="COMPRESS=LZW",
 ##             overwrite = TRUE,

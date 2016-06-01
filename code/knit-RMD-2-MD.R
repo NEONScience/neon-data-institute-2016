@@ -7,10 +7,15 @@
 ##################
 
 require(knitr)
-dirs <- c("day1_monday","day2_tuesday","day3_wednesday","day4_thursday","day5_friday","day6_saturday")
+dirs <- c("institute-materials/day1_monday",
+          "institute-materials/day2_tuesday",
+          "institute-materials/day3_wednesday",
+          "institute-materials/day4_thursday",
+          "institute-materials/day5_friday",
+          "institute-materials/day6_saturday")
 #################### Set up Input Variables #############################
 # set directory that  you'd like to build
-dir <- dirs[3]
+dir <- dirs[4]
 
 # Inputs - Where the git repo is on your computer
 gitRepoPath <-"~/Documents/GitHub/neon-data-institute-2016"
@@ -28,7 +33,7 @@ wd <- "~/Documents/data/1_data-institute-2016"
 setwd(wd)
 
 # set series subdir
-subDir <- paste0("institute-materials/", dir,"/")
+subDir <- paste0(dir,"/")
 # subDir <- "institute-materials/day2_tuesday/"
 
 #don't change - this is the posts dir location required by jekyll

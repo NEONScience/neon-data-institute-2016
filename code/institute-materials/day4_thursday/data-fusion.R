@@ -4,31 +4,31 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
+# setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016")
 setwd("~/Documents/data/1_data-institute-2016")
 
 ## ----import-h5-functions-------------------------------------------------
 
-# your file will be in your working directory! This one happens to be in a diff dir
-# than our data
+# your file will be in your working directory!
 
-source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
+# this is also an R package!
+source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## ----import-lidar--------------------------------------------------------
 
-# note: plotting to look at things as you go is always recommmended!
-  
 # first we read in the LiDAR data
 
 # dsm = digital surface model == top of canopy
-dsm <- raster("Teakettle/may1_subset/lidar/Teak_lidarDSM.tif")
-# dtm = digital terrain model = elevation
-dtm <- raster("Teakettle/may1_subset/lidar/Teak_lidarDTM.tif") 
+# import digital surface model (top of the surface - includes trees and buildings)
+dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
+# import  digital terrain model (dtm), elevation
+dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
 
-# rename to CHM
-# chm <- dsm - dtm
-chm <- raster("Teakettle/may1_subset/lidar/Teak_lidarCHM.tif")
-# assign chm values of 0 to NA
-chm[chm==0] <- NA
+# import canopy height model (height of vegetation) 
+chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
+
+
+## ------------------------------------------------------------------------
 
 # do the numbers look reasonable? 60 m is tall for a tree, but
 # this is Ponderosa pine territory (I think), so not out of the question.
@@ -41,42 +41,63 @@ hist(chm,
      col="springgreen")
 
 
+## ----remove-nonvalid-values----------------------------------------------
+# assign chm values of 0 to NA
+chm[chm < 2] <- NA
+hist(chm, 
+     main="Distribution of Canopy Height - Teakettle \nCalifornia",
+     xlab="Tree Height (m)", 
+     col="springgreen")
+
+
 ## ----create-stack--------------------------------------------------------
 # for simplicity later let's stack these rasters together
-#
 # do we need the dtm dsm??
 lidar.brick <- brick(dsm, dtm, chm)
 
 
-## ----read-hsi-data-------------------------------------------------------
+## ----read-hsi-data, eval=FALSE-------------------------------------------
+## 
+## # first identify the file of interest
+## #f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
+## # then id the projection code
+## # define the CRS definition by EPSG code
+## #epsg <- 32611
+## 
+## # create a list of bands
+## #bands <- c(60,83)
+## 
+## # Let's read in a few spectral bands as a stack using a function
+## #ndvi.stack <- create_stack(bands = bands,
+## #             epsg=epsg)
+## 
+## # calculate ndvi
+## #ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
+## #names(ndvi) <- "Teak_hsiNDVI"
+## # check the extents of the two layers -- if they are different
+## # crop both datasets
+## #if (extent(chm) == extent(ndvi)){
+## #  } else {
+## #  overlap <- intersect(extent(ndvi), extent(lidar.brick))
+##   # now let's crop the lidar data to the HSI data
+## #  lidar.brick <- crop(lidar.brick, overlap)
+## #  ndvi <- crop(ndvi, overlap)
+## #  print("Extents are different, cropping data")
+## #  }
+## 
+## 
 
-# first identify the file of interest
-f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
-# then id the projection code
-# define the CRS definition by EPSG code
-epsg <- 32611
+## ----import-NDVI---------------------------------------------------------
 
-# create a list of bands
-bands <- c(60,83)
+# import NDVI
+ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
 
-# Let's read in a few spectral bands as a stack using a function
-ndvi.stack <- create_stack(bands = bands,
-             epsg=epsg)
+# plot NDVI
+plot(ndvi,
+     main="NDVI, TEAK Field Site")
 
-# calculate ndvi
-ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-names(ndvi) <- "Teak_hsiNDVI"
-# check the extents of the two layers -- if they are different
-# crop both datasets 
-if (extent(chm) == extent(ndvi)){
-  } else {
-  overlap <- intersect(extent(ndvi), extent(lidar.brick))
-  # now let's crop the lidar data to the HSI data
-  lidar.brick <- crop(lidar.brick, overlap)
-  ndvi <- crop(ndvi, overlap)
-  print("Extents are different, cropping data")
-  }
 
+## ----create-brick--------------------------------------------------------
 
 # Create a brick from all of the data 
 all.data <- brick(ndvi, lidar.brick)
@@ -84,76 +105,78 @@ all.data <- brick(ndvi, lidar.brick)
 
 ## ----import-aspect-------------------------------------------------------
 
-# (1) calculate aspect of cropped DTM
+# 1. Import aspect data product (derived from the DTM)
+# Note - the code below is how you would produce an aspect layer in R if you didn't have one.
 # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
-aspect <- raster("Teakettle/may1_subset/lidar/Teak_lidarAspect.tif")
-# crop the data to the extent of the other rasters we are working with!
+aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarAspect.tif")
+# crop the data to the extent of the other rasters we are working with
 aspect <- crop(aspect, overlap)
 
-# Create a classified intermediate product 
-# create mask -- 
-# (2) make 'dummy' (1s and 0s) layers for north facing (315 deg to 45 deg) and
-# south facing (135 deg to 225 deg) slopes
 
-# the other option is to create a CLASSIFIED RASTER
-# if that is classified than you can have a nice intermediate raster
 
+## ----create-aspect-mask--------------------------------------------------
+
+# Create a classified aspect intermediate output 
 # first create a matrix of values that represent the classification ranges
 # North face = 1
 # South face = 2
-class.m <- c(0, 45, 1, 45, 135, NA, 135, 225, 2,  225 , 315, NA, 315, 360, 1)
+class.m <- c(0, 45, 1, 
+             45, 135, NA, 
+             135, 225, 2,  
+             225 , 315, NA, 
+             315, 360, 1)
 rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+rcl.m
+# classify the aspect product using the classification matrix
 asp.ns <- reclassify(aspect, rcl.m)
+# set 0 values to NA
+asp.ns[asp.ns==0] <- NA
 
+# plot data
 plot(asp.ns, 
-     col=c("white","blue","green"),
+     col=c("blue","green"),
      axes=F,
      main="North and South Facing Slopes \nTeakettle")
 
-# all values larger than 315 and less than 45 are north facing
-# north.facing <- aspect >= 315 | aspect <= 45
-# all values bewteen 135 and 225 are south facing
-# south.facing <- aspect >= 135 & aspect <= 225
+
 north.facing <- asp.ns==1
 south.facing <- asp.ns==2
 
 north.facing[north.facing == 0] <- NA
 south.facing[south.facing == 0] <- NA
 
-# export geotiff 
-
-writeRaster(asp.ns,
-            filename="Teakettle/outputs/Teak_nsAspect.tif",
-            format="GTiff",
-            options="COMPRESS=LZW",
-            overwrite = TRUE,
-            NAflag = -9999)
-
-
+## ----export-gtif-ns, eval=FALSE------------------------------------------
+## 
+## # export geotiff
+## writeRaster(asp.ns,
+##             filename="outputs/TEAK/Teak_nsAspect.tif",
+##             format="GTiff",
+##             options="COMPRESS=LZW",
+##             overwrite = TRUE,
+##             NAflag = -9999)
+## 
 
 ## ----id-veg-metrics------------------------------------------------------
-# (3) to choose what we mean by 'tall' and 'green' let's look at some histograms
-# and descriptive stats(of the whole dataset, we don't want to bias our results 
-# too much!)
 
 # histogram of tree ht
 hist(all.data[[4]],
-     main="Distribution of CHM values \nTeakettle")
+     main="Distribution of Canopy Height Model (CHM) values \nNEON Teakettle Field Site",
+     col="springgreen")
 
-# it's hard to tell here where the data maxes out, so we can calc the actual max
-# but to do that without converting our raster to a vector, we use 'cellStats'
-
+# calculate the data mean, max and standard deviation using 'cellStats'
 ht.max <- cellStats(all.data[[4]], 
                     max)
-
-# and some more exploration - even though this is a very skewed data set...
+print(paste0("Max Tree Height: ", ht.max))
 ht.mean <- cellStats(all.data[[4]], 
                      mean)
+print(paste0("Mean Tree Height: ", ht.mean))
 ht.sd <- cellStats(all.data[[4]], 
                    sd)
+print(paste0("SD Tree Height: ", ht.sd))
 
-# so let's be semi-robust and call 'tall' trees those with mean + 1 sd
+# let's be semi-robust and call 'tall' trees those with mean + 1 sd
 tall.def <- ht.mean + ht.sd
+print(paste0("Tall Trees: ", tall.def))
 
 
 ## ----explore-ndvi--------------------------------------------------------
@@ -165,15 +188,15 @@ hist(all.data[[1]],
 # could take the 3rd quartile
 # do this using summary stats
 stats <- summary(all.data[[1]])
-stats[["3rd Qu.",1]]
+stats[["3rd Qu.", 1]]
 
 # or manually calculate this
 green.range <- cellStats(all.data[[1]], max) - cellStats(all.data[[1]], min)
 green.def <- cellStats(all.data[[1]], max) - (green.range/3)
 
 
-# (4) compare fractions of tall & green on north and south facing slopes (since
-# our pixels are 1x1 m we can just use counts of pixels and not worry about area)
+## ----calculate-percent---------------------------------------------------
+
 # remmbe that N=1 and South facing = 2
 north.count <- freq(asp.ns, value =1)
 south.count <- freq(asp.ns, value =2)
@@ -181,7 +204,8 @@ south.count <- freq(asp.ns, value =2)
 # note there's way more south facing area in this image than north facing
 
 # create a new layer with pixels that are north facing, 
-north.tall.green <- asp.ns == 1  & all.data[[1]] >= green.def & 
+north.tall.green <- asp.ns == 1  & 
+                    all.data[[1]] >= green.def & 
                     all.data[[4]] >= tall.def
 
 north.tall.green.count <- cellStats(north.tall.green, sum)
@@ -193,7 +217,7 @@ south.tall.green.count <- cellStats(south.tall.green, sum)
 
 # divide the number of pixels that are green by the total north facing pixels
 north.tall.green.frac <- north.tall.green.count/freq(asp.ns, value=1)
-south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=1)
+south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 
 # if we look at these fracs, >11% of the pixels on north facing slopes should
 # meet our tall and green criteria, while <6% of the pixels on south facing
@@ -201,20 +225,22 @@ south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=1)
 
 
 ## ----view-cir------------------------------------------------------------
-# before moving on, let's make a map to see what this looks like on the ground
-# first read in a green band so we can make a color infrared RGB image - let's 
-# use ~550 nm here, or band 35
-
 
 # create a list of bands
 bands <- c(83, 60, 35)
 
 # Let's read in a few spectral bands as a stack using a function
-cir.stack <- create_stack(bands = bands,
-             epsg=epsg)
+cir.stack <- create_stack(file=f,
+                          bands = bands,
+                          epsg=epsg)
 
 # ignore reflectance values > 1
 cir.stack[cir.stack > 1] <- NA
+
+# plot cir image
+plotRGB(cir.stack, 
+        scale = 1, 
+        stretch = "lin")
 
 # turn your tall north and south 1/0 layers into 1/NA so NAs are transparent
 
@@ -222,7 +248,6 @@ north.tall.green[north.tall.green == 0] <- NA
 south.tall.green[south.tall.green == 0] <- NA
 
 
-plotRGB(cir.stack, scale = 1, stretch = "lin")
 plot(north.tall.green, col = "cyan", add = T, legend = F)
 plot(south.tall.green, col = "blue", add = T, legend = F)
 

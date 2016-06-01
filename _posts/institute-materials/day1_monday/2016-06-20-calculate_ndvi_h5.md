@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "4:45"
 contributors: [Edmund Hart]
 dateCreated:  2016-05-01
-lastModified: 2016-05-17
+lastModified: 2016-05-31
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -52,7 +52,7 @@ red and near-infrared bands that we need to calculate NDVI.
     # set working directory
     setwd("~/Documents/data/1_data-institute-2016")
     # Define the file name to be opened
-    f <- "Teakettle/may1_subset/spectrometer/Subset3NIS1_20130614_100459_atmcor.h5"
+    f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
     
     # define CRS
     epsg=32611
@@ -86,14 +86,14 @@ red and near-infrared bands that we need to calculate NDVI.
 
     # export as a gtif
     writeRaster(ndvi_rast,
-                file="ndvi_TEAK.tif",
+                file="outputs/TEAK/ndvi_2013.tif",
                 format="GTiff",
                 overwrite=TRUE)
 
 ## Plot NDVI
 
 
-    DSM <- raster("Teakettle/may1_subset/lidar/Teak_lidarDSM.tif")  
+    DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")  
     
     slope <- terrain(DSM, opt='slope')
     aspect <- terrain(DSM, opt='aspect')
