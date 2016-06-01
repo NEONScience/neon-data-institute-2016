@@ -1,33 +1,4 @@
----
-layout: post
-title: "NEON Data Fusion - Kyla Comments DELETE"
-date:   2016-06-18
-authors: [Kyla Dahlin, Leah Wasser]
-instructors: [Kyla Dahlin, Leah Wasser]
-time:
-contributors:
-dateCreated:  2016-05-01
-lastModified: `r format(Sys.time(), "%Y-%m-%d")`
-packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, HDF5]
-tutorialSeries: [institute-day4]
-description: "Intro to HDF5"
-code1: .R
-image:
-  feature:
-  credit:
-  creditlink:
-permalink: /R/hdf5-R-2/
-comments: false
----
-
-
-
-First, let's load the required libraries.
-
-```{r load-libraries, warning=FALSE, results='hide', message=FALSE}
+## ----load-libraries, warning=FALSE, results='hide', message=FALSE--------
 # load libraries
 library(raster)
 library(rhdf5)
@@ -35,20 +6,8 @@ library(rgdal)
 
 # setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016")
 setwd("~/Documents/data/1_data-institute-2016")
-```
 
-
-We've already created some functions to work with HSI data. Let's import them.
-
-we can also import into RMD
-http://zevross.com/blog/2014/07/09/making-use-of-external-r-code-in-knitr-and-r-markdown/
-
-The first thing that we can do is load the functions that we want to use into
-our environment! This makes it easy to quickly access these functions without
-having to retype the function code each time. This also makes it easy to maintain
-function code in just ONE PLACE!
-
-```{r import-h5-functions }
+## ----import-h5-functions-------------------------------------------------
 
 # your file will be in your working directory! This one happens to be in a diff dir
 # than our data
@@ -58,11 +17,8 @@ function code in just ONE PLACE!
 # new improved - import functions
 # this is also an R package!
 source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
-```
 
-Once we have imported the functions, we can use them to explore our data.
-
-```{r import-lidar }
+## ----import-lidar--------------------------------------------------------
 
 # note: plotting to look at things as you go is always recommmended!
 
@@ -97,29 +53,15 @@ hist(chm,
      xlab="Tree Height (m)",
      col="springgreen")
 
-```
 
-## Explore Veg Height data
-
-Have a close look at the veg height values. Do they seem reasonable?
-
-## Create LiDAR Raster Brick
-
-Next, we can stack the rasters together to create a brick.
-
-```{r create-stack }
+## ----create-stack--------------------------------------------------------
 # for simplicity later let's stack these rasters together
 #
 # do we need the dtm dsm??
 lidar.brick <- brick(dsm, dtm, chm)
 
-```
 
-## Read Hyperspectral Data
-
-Next, let's read in HSI data.
-
-```{r read-hsi-data }
+## ----read-hsi-data-------------------------------------------------------
 
 # first identify the file of interest
 f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
@@ -152,30 +94,8 @@ if (extent(chm) == extent(ndvi)){
 # Create a brick from all of the data
 all.data <- brick(ndvi, lidar.brick)
 
-```
 
-## Consider Slope & Aspect
-
-OK! Now we're going to test a simple hypothesis.
-
-Because California is
-
-* dry,
-In the northern hemisphere
-
-We may expect to find taller, greener vegetation on north facing slopes than on
-south facing slopes. To test this we need to
-
-1. Import the NEON aspect data product
-2. Isolate north and south faces,
-3. Decide what we mean by 'tall' and 'green',
-4. Isolate tall, green pixels on north & south facing slopes,
-5. look at %s for each,
-6. do a t-test to compare all pixels.
-
-let's get started.
-
-```{r import-aspect }
+## ----import-aspect-------------------------------------------------------
 
 # (1) calculate aspect of cropped DTM
 # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
@@ -217,27 +137,21 @@ south.facing <- asp.ns==2
 north.facing[north.facing == 0] <- NA
 south.facing[south.facing == 0] <- NA
 
-```
 
-```{r write-geotiff, eval=FALSE}
+## ----write-geotiff, eval=FALSE-------------------------------------------
+## 
+## # export geotiff
+## 
+## writeRaster(asp.ns,
+##             filename="outputs/TEAK/Teak_nsAspect.tif",
+##             format="GTiff",
+##             options="COMPRESS=LZW",
+##             overwrite = TRUE,
+##             NAflag = -9999)
+## 
+## 
 
-# export geotiff
-
-writeRaster(asp.ns,
-            filename="outputs/TEAK/Teak_nsAspect.tif",
-            format="GTiff",
-            options="COMPRESS=LZW",
-            overwrite = TRUE,
-            NAflag = -9999)
-
-
-```
-
-## Identify Veg Metrics
-
-Now we want to determine what defines "tall" and "Green".
-
-```{r id-veg-metrics }
+## ----id-veg-metrics------------------------------------------------------
 # (3) to choose what we mean by 'tall' and 'green' let's look at some histograms
 # and descriptive stats(of the whole dataset, we don't want to bias our results
 # too much!)
@@ -261,20 +175,8 @@ ht.sd <- cellStats(all.data[[4]],
 # so let's be semi-robust and call 'tall' trees those with mean + 1 sd
 tall.def <- ht.mean + ht.sd
 
-```
 
-Next, look at NDVI.
-
-# Leaving this comment in for the time being. 
-
-# KYLA - would taking the 3rd quartile be ok here?
-
-### I think either is fine but 3rd quartile is like 0.67, which is really high, so even
-### less data than using top third (~0.55)
-
-
-
-```{r explore-ndvi}
+## ----explore-ndvi--------------------------------------------------------
 # now let's look at ndvi
 hist(all.data[[1]],
      main="Distribution of NDVI values\n Teakettle")
@@ -318,11 +220,8 @@ south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 # meet our tall and green criteria, while <4% of the pixels on south facing
 # slopes do. So that's reassuring. (changed for new dataset, keeping chm zeros)
 
-```
 
-# view CIR
-
-```{r view-cir }
+## ----view-cir------------------------------------------------------------
 # before moving on, let's make a map to see what this looks like on the ground
 # first read in a green band so we can make a color infrared RGB image - let's
 # use ~550 nm here, or band 35
@@ -361,15 +260,8 @@ plot(south.tall.green, col = "blue", add = T, legend = F)
 # use a larger kernel to calculate slope (not possible with the terrain fxn in
 # the raster package)
 
-```
 
-# Kyla - please note that in this case we have VERY VERY FEW pixels that are south facing
-is this ok for the analysis?
-### see comment at beginning about setting CHM == 0 to NA. Without doing that I'm
-### getting north.tall.green.count = 5508,
-### south.tall.green.count = 2400.
-
-```{r run-stats}
+## ----run-stats-----------------------------------------------------------
 # (5) let's do some stats! t-test and boxplots of veg height and greenness
 # distributions in north versus south facing parts of scene.
 
@@ -442,4 +334,4 @@ boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht
 veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
 
 
-```
+

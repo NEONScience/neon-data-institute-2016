@@ -80,6 +80,9 @@ new.stack <- stack(asp.ns,ndvi)
 # mask out only pixels that are north facing and NDVI >.6
 nsFacing.ndvi <- mask(new.stack[[1]], new.stack[[2]])
 nsFacing.ndvi[nsFacing.ndvi==0] <- NA
+
+
+## ----plot-data-----------------------------------------------------------
 # plot extent
 plot.extent <- extent(nsFacing.ndvi)
 

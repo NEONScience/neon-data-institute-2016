@@ -151,6 +151,10 @@ overlap. Let's try it.
     # mask out only pixels that are north facing and NDVI >.6
     nsFacing.ndvi <- mask(new.stack[[1]], new.stack[[2]])
     nsFacing.ndvi[nsFacing.ndvi==0] <- NA
+
+## Create Final Plot
+
+
     # plot extent
     plot.extent <- extent(nsFacing.ndvi)
     
@@ -168,7 +172,7 @@ overlap. Let's try it.
            fill = c("blue", "green"), 
            bty="n") # turn off border
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/mask-raster-lidar-hyperspec-fusion-R/create-mask-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/mask-raster-lidar-hyperspec-fusion-R/plot-data-1.png)
 
 ## Export Classified Raster
 
