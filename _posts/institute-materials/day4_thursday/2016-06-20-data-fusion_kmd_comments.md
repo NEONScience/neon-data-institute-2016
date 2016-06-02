@@ -7,7 +7,7 @@ instructors: [Kyla Dahlin, Leah Wasser]
 time:
 contributors:
 dateCreated:  2016-05-01
-lastModified: 2016-05-31
+lastModified: 2016-06-01
 packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -279,7 +279,7 @@ Next, look at NDVI.
     stats <- summary(all.data[[1]])
     stats[["3rd Qu.",1]]
 
-    ## [1] 0.6767
+    ## [1] 0.6767036
 
     # or manually calculate this
     green.range <- cellStats(all.data[[1]], max) - cellStats(all.data[[1]], min)

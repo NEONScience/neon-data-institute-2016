@@ -16,10 +16,7 @@ source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## ----import-lidar--------------------------------------------------------
 
-# first we read in the LiDAR data
-
-# dsm = digital surface model == top of canopy
-# import digital surface model (top of the surface - includes trees and buildings)
+# import digital surface model (dsm) (top of the surface - includes trees and buildings)
 dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
 # import  digital terrain model (dtm), elevation
 dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
@@ -102,16 +99,16 @@ plot(ndvi,
 # Create a brick from all of the data 
 all.data <- brick(ndvi, lidar.brick)
 
+# make names nice!
+all.names <- c("NDVI", "DSM", "DTM", "CHM" )
+names(all.data) <- all.names
 
 ## ----import-aspect-------------------------------------------------------
 
 # 1. Import aspect data product (derived from the DTM)
-# Note - the code below is how you would produce an aspect layer in R if you didn't have one.
-# aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
 aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarAspect.tif")
 # crop the data to the extent of the other rasters we are working with
-aspect <- crop(aspect, overlap)
-
+aspect <- crop(aspect, extent(chm))
 
 
 ## ----create-aspect-mask--------------------------------------------------
@@ -125,18 +122,37 @@ class.m <- c(0, 45, 1,
              135, 225, 2,  
              225 , 315, NA, 
              315, 360, 1)
-rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+# reshape into a matrix
+rcl.m <- matrix(class.m, 
+                ncol=3, 
+                byrow=TRUE)
 rcl.m
 # classify the aspect product using the classification matrix
 asp.ns <- reclassify(aspect, rcl.m)
 # set 0 values to NA
 asp.ns[asp.ns==0] <- NA
 
+## ----plot-aspect-product-------------------------------------------------
+ns.extent <- extent(asp.ns)
+
 # plot data
 plot(asp.ns, 
      col=c("blue","green"),
      axes=F,
-     main="North and South Facing Slopes \nTeakettle")
+     main="North and South Facing Slopes \nNEON Teakettle FIeld Site",
+     bty="n",
+     legend=F)
+
+# allow legend to plot outside of bounds
+par(xpd=TRUE)
+
+legend((par()$usr[2] + 20), ns.extent@ymax-100, # set xy legend location
+       legend = c("North", "South"),
+       fill = c("blue", "green"), 
+       bty="n") # turn off border
+
+
+## ----ns-facing-----------------------------------------------------------
 
 
 north.facing <- asp.ns==1
@@ -144,6 +160,7 @@ south.facing <- asp.ns==2
 
 north.facing[north.facing == 0] <- NA
 south.facing[south.facing == 0] <- NA
+
 
 ## ----export-gtif-ns, eval=FALSE------------------------------------------
 ## 
@@ -163,45 +180,51 @@ hist(all.data[[4]],
      main="Distribution of Canopy Height Model (CHM) values \nNEON Teakettle Field Site",
      col="springgreen")
 
-# calculate the data mean, max and standard deviation using 'cellStats'
-ht.max <- cellStats(all.data[[4]], 
-                    max)
-print(paste0("Max Tree Height: ", ht.max))
-ht.mean <- cellStats(all.data[[4]], 
-                     mean)
-print(paste0("Mean Tree Height: ", ht.mean))
-ht.sd <- cellStats(all.data[[4]], 
-                   sd)
-print(paste0("SD Tree Height: ", ht.sd))
+# get mean, min max stats to use later
+# chm.stats <- data.frame(t(summary(all.data[[4]], na.rm=F)))
+# chm.stats$mean <- ht.mean <- cellStats(all.data[[4]], mean)
+# chm.stats$sd <- ht.mean <- cellStats(all.data[[4]], sd)
+
+
+# get mean, min max stats for all layers
+all.data.stats <- data.frame(t(summary(all.data, na.rm=T)))
+all.data.stats$mean <- ht.mean <- cellStats(all.data, mean, na.rm=T)
+all.data.stats$sd <- ht.mean <- cellStats(all.data, sd, na.rm=T)
+
+row.names(all.data.stats) <- all.names
+
+# view data.frame
+all.data.stats
 
 # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-tall.def <- ht.mean + ht.sd
-print(paste0("Tall Trees: ", tall.def))
+tall.def <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+tall.def
 
 
 ## ----explore-ndvi--------------------------------------------------------
 # now let's look at ndvi
 hist(all.data[[1]],
-     main="Distribution of NDVI values\n Teakettle")
+     main="Distribution of NDVI values\n Teakettle",
+     col="springgreen")
 
 # this is a nice bimodal data set, so let's just take the top 1/3 of the data
 # could take the 3rd quartile
 # do this using summary stats
-stats <- summary(all.data[[1]])
-stats[["3rd Qu.", 1]]
+# stats <- summary(all.data[[1]])
+# stats[["3rd Qu.", 1]]
 
-# or manually calculate this
-green.range <- cellStats(all.data[[1]], max) - cellStats(all.data[[1]], min)
-green.def <- cellStats(all.data[[1]], max) - (green.range/3)
+# or manually calculate the top third
+green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
+green.def <- all.data.stats["NDVI","Max."] - (green.range/3)
 
 
 ## ----calculate-percent---------------------------------------------------
 
-# remmbe that N=1 and South facing = 2
+#  North = 1 and South facing = 2, calculate total pixels
 north.count <- freq(asp.ns, value =1)
 south.count <- freq(asp.ns, value =2)
 
-# note there's way more south facing area in this image than north facing
+# note there's  more south facing area in this image than north facing
 
 # create a new layer with pixels that are north facing, 
 north.tall.green <- asp.ns == 1  & 
@@ -210,10 +233,15 @@ north.tall.green <- asp.ns == 1  &
 
 north.tall.green.count <- cellStats(north.tall.green, sum)
 
-south.tall.green <- asp.ns == 2 & all.data[[1]] >= green.def & 
-  all.data[[4]] >= tall.def
+south.tall.green <- asp.ns == 2 & 
+                    all.data[[1]] >= green.def & 
+                    all.data[[4]] >= tall.def
 
 south.tall.green.count <- cellStats(south.tall.green, sum)
+
+# turn your tall north and south 0 layers into NA
+north.tall.green[north.tall.green == 0] <- NA
+south.tall.green[south.tall.green == 0] <- NA
 
 # divide the number of pixels that are green by the total north facing pixels
 north.tall.green.frac <- north.tall.green.count/freq(asp.ns, value=1)
@@ -225,6 +253,11 @@ south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 
 
 ## ----view-cir------------------------------------------------------------
+
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
+
+# define the CRS definition by EPSG code
+epsg <- 32611
 
 # create a list of bands
 bands <- c(83, 60, 35)
@@ -242,14 +275,14 @@ plotRGB(cir.stack,
         scale = 1, 
         stretch = "lin")
 
-# turn your tall north and south 1/0 layers into 1/NA so NAs are transparent
-
-north.tall.green[north.tall.green == 0] <- NA
-south.tall.green[south.tall.green == 0] <- NA
-
-
-plot(north.tall.green, col = "cyan", add = T, legend = F)
-plot(south.tall.green, col = "blue", add = T, legend = F)
+plot(north.tall.green, 
+     col = "cyan", 
+     add = T, 
+     legend = F)
+plot(south.tall.green, 
+     col = "blue", 
+     add = T, 
+     legend = F)
 
 # two side notes: I (Kyla) really don't like using R to make maps - I usually
 # export tifs and pull them into a real mapping program like Arc or QGIS for 
@@ -266,13 +299,38 @@ plot(south.tall.green, col = "blue", add = T, legend = F)
 # distributions in north versus south facing parts of scene.
 
 # let's start with NDVI - isolate NDVI on north and south facing slopes
-
 north.NDVI <- all.data[[1]] * north.facing
 south.NDVI <- all.data[[1]] * south.facing
 
-# now let's do veg height
-north.veght <- all.data[[4]] * north.facing
-south.veght <- all.data[[4]] * south.facing
+
+## ----leah-solution-------------------------------------------------------
+
+
+## get values and coerce to north values to dataframe
+ndvi.df.n <- na.omit(as.data.frame(getValues(north.NDVI)))
+ndvi.df.n$aspect <- rep("north", length(north.NDVI.vec))
+names(ndvi.df.n) <- c("NDVI","aspect")
+
+ndvi.df.s <- na.omit(as.data.frame(getValues(south.NDVI)))
+ndvi.df.s$aspect <- rep("south", length(south.NDVI.vec))
+names(ndvi.df.s) <- c("NDVI","aspect")
+
+ndvi.df <- rbind(ndvi.df.n, ndvi.df.s)
+# convert aspect to factor - NOTE you don't have to do this
+ndvi.df$aspect <- as.factor(ndvi.df$aspect)
+
+boxplot(NDVI ~ aspect, 
+        data = ndvi.df, 
+        col = "cornflowerblue", 
+        main = "NDVI on North versus South facing slopes")
+
+
+# and now a t-test - note that since these aren't normally distributed, this
+# might not be the best approach, but ok for a quick assessment.
+NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
+
+
+## ----another-solution----------------------------------------------------
 
 # now to do more complicated non-spatial stats in R we need to convert our
 # raster data to vectors - for this example the spatial distribution of the
@@ -281,8 +339,6 @@ south.veght <- all.data[[4]] * south.facing
 north.NDVI.vec <- getValues(north.NDVI)
 south.NDVI.vec <- getValues(south.NDVI)
 
-north.veght.vec <- getValues(north.veght)
-south.veght.vec <- getValues(south.veght)
 
 # and get rid of NAs for simplicity (the above vectors are all the same length
 # and include all the cells in the original dataset)
@@ -311,8 +367,16 @@ boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI
 NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
 
 
+## ----veg-ht--------------------------------------------------------------
+
+# isolate veg height pixels on north and south facing slopes
+north.veght <- all.data[[4]] * north.facing
+south.veght <- all.data[[4]] * south.facing
 
 # and now for veg height
+north.veght.vec <- getValues(north.veght)
+south.veght.vec <- getValues(south.veght)
+
 north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
 south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
 

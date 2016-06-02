@@ -2,18 +2,18 @@
 layout: post
 title: "Lidar and Hyperspectral Data Product Fusion"
 date:   2016-06-20
-authors: [Kyla Dahlin, Leah Wasser]
-instructors: [Kyla Dahlin, Leah Wasser]
-time: "1:00 pm"
-contributors: []
 dateCreated:  2016-05-01
-lastModified: 2016-05-31
+lastModified: 2016-06-01
+authors: [Kyla Dahlin]
+instructors: [Kyla, Leah]
+time: "1:00"
+contributors:
 packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
 categories: [self-paced-tutorial]
-mainTag: institute-day1
+mainTag: institute-day4
 tags: [R, HDF5]
 tutorialSeries: [institute-day4]
-description: "Intro to HDF5"
+description: "Intro to data fusion"
 code1: .R
 image:
   feature: 
@@ -53,10 +53,7 @@ maintain function code that we use regularly in ONE PLACE.
 First, let's import several NEON lidar data products. 
 
 
-    # first we read in the LiDAR data
-    
-    # dsm = digital surface model == top of canopy
-    # import digital surface model (top of the surface - includes trees and buildings)
+    # import digital surface model (dsm) (top of the surface - includes trees and buildings)
     dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
     # import  digital terrain model (dtm), elevation
     dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
@@ -166,6 +163,10 @@ We can import the NEON NDVI data product next to use in our analysis.
 
     # Create a brick from all of the data 
     all.data <- brick(ndvi, lidar.brick)
+    
+    # make names nice!
+    all.names <- c("NDVI", "DSM", "DTM", "CHM" )
+    names(all.data) <- all.names
 
 
 ## Consider Slope & Aspect
@@ -189,15 +190,18 @@ south facing slopes. To test this we need to
 
 Let's get started.
 
-### Step one - Import Aspect data product
+### Step 1. Import Aspect data product
 
 
     # 1. Import aspect data product (derived from the DTM)
-    # Note - the code below is how you would produce an aspect layer in R if you didn't have one.
-    # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
     aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarAspect.tif")
     # crop the data to the extent of the other rasters we are working with
-    aspect <- crop(aspect, overlap)
+    aspect <- crop(aspect, extent(chm))
+
+
+<i class="fa fa-star"></i> **Data Tip:** You can create an aspect layer from a 
+DEM / DTM using the terrain function: `terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)`
+{: .notice}
 
 ### 2. Create Aspect Mask
 
@@ -215,7 +219,7 @@ contains the new value that we will assign that range of values to. For example:
 
 0 to 45 degrees should be classified as 1 (North Facing)
 135 to 225 degrees should be classified as 2 (South Facing)
->315 should be classified as 1 (North Facing)
+Greater than 315 should be classified as 1 (North Facing)
 
 
 
@@ -228,7 +232,10 @@ contains the new value that we will assign that range of values to. For example:
                  135, 225, 2,  
                  225 , 315, NA, 
                  315, 360, 1)
-    rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+    # reshape into a matrix
+    rcl.m <- matrix(class.m, 
+                    ncol=3, 
+                    byrow=TRUE)
     rcl.m
 
     ##      [,1] [,2] [,3]
@@ -242,14 +249,31 @@ contains the new value that we will assign that range of values to. For example:
     asp.ns <- reclassify(aspect, rcl.m)
     # set 0 values to NA
     asp.ns[asp.ns==0] <- NA
+
+
+    ns.extent <- extent(asp.ns)
     
     # plot data
     plot(asp.ns, 
          col=c("blue","green"),
          axes=F,
-         main="North and South Facing Slopes \nTeakettle")
+         main="North and South Facing Slopes \nNEON Teakettle FIeld Site",
+         bty="n",
+         legend=F)
+    
+    # allow legend to plot outside of bounds
+    par(xpd=TRUE)
+    
+    legend((par()$usr[2] + 20), ns.extent@ymax-100, # set xy legend location
+           legend = c("North", "South"),
+           fill = c("blue", "green"), 
+           bty="n") # turn off border
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/create-aspect-mask-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/plot-aspect-product-1.png)
+
+## North / South Facing Slopes
+
+
 
     north.facing <- asp.ns==1
     south.facing <- asp.ns==2
@@ -285,30 +309,38 @@ the most sense.
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/id-veg-metrics-1.png)
 
-    # calculate the data mean, max and standard deviation using 'cellStats'
-    ht.max <- cellStats(all.data[[4]], 
-                        max)
-    print(paste0("Max Tree Height: ", ht.max))
+    # get mean, min max stats to use later
+    # chm.stats <- data.frame(t(summary(all.data[[4]], na.rm=F)))
+    # chm.stats$mean <- ht.mean <- cellStats(all.data[[4]], mean)
+    # chm.stats$sd <- ht.mean <- cellStats(all.data[[4]], sd)
+    
+    
+    # get mean, min max stats for all layers
+    all.data.stats <- data.frame(t(summary(all.data, na.rm=T)))
+    all.data.stats$mean <- ht.mean <- cellStats(all.data, mean, na.rm=T)
+    all.data.stats$sd <- ht.mean <- cellStats(all.data, sd, na.rm=T)
+    
+    row.names(all.data.stats) <- all.names
+    
+    # view data.frame
+    all.data.stats
 
-    ## [1] "Max Tree Height: 55.6800003051758"
-
-    ht.mean <- cellStats(all.data[[4]], 
-                         mean)
-    print(paste0("Mean Tree Height: ", ht.mean))
-
-    ## [1] "Mean Tree Height: 17.5823954721027"
-
-    ht.sd <- cellStats(all.data[[4]], 
-                       sd)
-    print(paste0("SD Tree Height: ", ht.sd))
-
-    ## [1] "SD Tree Height: 10.3714721521816"
+    ##              Min.     X1st.Qu.       Median     X3rd.Qu.        Max.
+    ## NDVI   -0.2380682    0.1715571    0.4479272    0.6686972    0.920398
+    ## DSM  2172.8298340 2283.6398926 2310.2099609 2328.3000488 2391.829834
+    ## DTM  2172.8298340 2277.0100098 2306.5600586 2322.7900391 2385.229980
+    ## CHM     2.0100000    9.1399994   16.3099995   23.7500000   55.680000
+    ##        NA.s         mean         sd
+    ## NDVI      0    0.4303631  0.2586877
+    ## DSM       0 2305.6751544 37.6960106
+    ## DTM       0 2301.1770607 39.1300683
+    ## CHM  213322   17.5823955 10.3714722
 
     # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-    tall.def <- ht.mean + ht.sd
-    print(paste0("Tall Trees: ", tall.def))
+    tall.def <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+    tall.def
 
-    ## [1] "Tall Trees: 27.9538676242843"
+    ## [1] 27.95387
 
 Next, look at NDVI.
 
@@ -319,21 +351,20 @@ Next, look at NDVI.
 
     # now let's look at ndvi
     hist(all.data[[1]],
-         main="Distribution of NDVI values\n Teakettle")
+         main="Distribution of NDVI values\n Teakettle",
+         col="springgreen")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/explore-ndvi-1.png)
 
     # this is a nice bimodal data set, so let's just take the top 1/3 of the data
     # could take the 3rd quartile
     # do this using summary stats
-    stats <- summary(all.data[[1]])
-    stats[["3rd Qu.", 1]]
-
-    ## [1] 0.6687
-
-    # or manually calculate this
-    green.range <- cellStats(all.data[[1]], max) - cellStats(all.data[[1]], min)
-    green.def <- cellStats(all.data[[1]], max) - (green.range/3)
+    # stats <- summary(all.data[[1]])
+    # stats[["3rd Qu.", 1]]
+    
+    # or manually calculate the top third
+    green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
+    green.def <- all.data.stats["NDVI","Max."] - (green.range/3)
 
 ## 4. Calculate Percent of tall and green pixels 
 
@@ -345,11 +376,11 @@ Remember that 1 = North Facing and 2 = South Facing in our classified aspect
 object `asp.ns`.
 
 
-    # remmbe that N=1 and South facing = 2
+    #  North = 1 and South facing = 2, calculate total pixels
     north.count <- freq(asp.ns, value =1)
     south.count <- freq(asp.ns, value =2)
     
-    # note there's way more south facing area in this image than north facing
+    # note there's  more south facing area in this image than north facing
     
     # create a new layer with pixels that are north facing, 
     north.tall.green <- asp.ns == 1  & 
@@ -358,10 +389,15 @@ object `asp.ns`.
     
     north.tall.green.count <- cellStats(north.tall.green, sum)
     
-    south.tall.green <- asp.ns == 2 & all.data[[1]] >= green.def & 
-      all.data[[4]] >= tall.def
+    south.tall.green <- asp.ns == 2 & 
+                        all.data[[1]] >= green.def & 
+                        all.data[[4]] >= tall.def
     
     south.tall.green.count <- cellStats(south.tall.green, sum)
+    
+    # turn your tall north and south 0 layers into NA
+    north.tall.green[north.tall.green == 0] <- NA
+    south.tall.green[south.tall.green == 0] <- NA
     
     # divide the number of pixels that are green by the total north facing pixels
     north.tall.green.frac <- north.tall.green.count/freq(asp.ns, value=1)
@@ -390,6 +426,11 @@ of functions to quickly import the three bands. Then we can use `plotRGB` to
 plot the bands as an RGB image. 
 
 
+    f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
+    
+    # define the CRS definition by EPSG code
+    epsg <- 32611
+    
     # create a list of bands
     bands <- c(83, 60, 35)
     
@@ -406,14 +447,14 @@ plot the bands as an RGB image.
             scale = 1, 
             stretch = "lin")
     
-    # turn your tall north and south 1/0 layers into 1/NA so NAs are transparent
-    
-    north.tall.green[north.tall.green == 0] <- NA
-    south.tall.green[south.tall.green == 0] <- NA
-    
-    
-    plot(north.tall.green, col = "cyan", add = T, legend = F)
-    plot(south.tall.green, col = "blue", add = T, legend = F)
+    plot(north.tall.green, 
+         col = "cyan", 
+         add = T, 
+         legend = F)
+    plot(south.tall.green, 
+         col = "blue", 
+         add = T, 
+         legend = F)
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/view-cir-1.png)
 
@@ -429,19 +470,46 @@ plot the bands as an RGB image.
 # Kyla - please note that in this case we have VERY VERY FEW pixels that are south facing
 is this ok for the analysis?
 
+## is the chunk BELOW a MASK? if so we should use the mask function
+
 
     # (5) let's do some stats! t-test and boxplots of veg height and greenness 
     # distributions in north versus south facing parts of scene.
     
     # let's start with NDVI - isolate NDVI on north and south facing slopes
-    
     north.NDVI <- all.data[[1]] * north.facing
     south.NDVI <- all.data[[1]] * south.facing
+
+## Grab Values
+
+
+    ## get values and coerce to north values to dataframe
+    ndvi.df.n <- na.omit(as.data.frame(getValues(north.NDVI)))
+    ndvi.df.n$aspect <- rep("north", length(north.NDVI.vec))
+    names(ndvi.df.n) <- c("NDVI","aspect")
     
-    # now let's do veg height
-    north.veght <- all.data[[4]] * north.facing
-    south.veght <- all.data[[4]] * south.facing
+    ndvi.df.s <- na.omit(as.data.frame(getValues(south.NDVI)))
+    ndvi.df.s$aspect <- rep("south", length(south.NDVI.vec))
+    names(ndvi.df.s) <- c("NDVI","aspect")
     
+    ndvi.df <- rbind(ndvi.df.n, ndvi.df.s)
+    # convert aspect to factor - NOTE you don't have to do this
+    ndvi.df$aspect <- as.factor(ndvi.df$aspect)
+    
+    boxplot(NDVI ~ aspect, 
+            data = ndvi.df, 
+            col = "cornflowerblue", 
+            main = "NDVI on North versus South facing slopes")
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/leah-solution-1.png)
+
+    # and now a t-test - note that since these aren't normally distributed, this
+    # might not be the best approach, but ok for a quick assessment.
+    NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
+
+# I suggest that we remove the code below as it's very complex
+
+
     # now to do more complicated non-spatial stats in R we need to convert our
     # raster data to vectors - for this example the spatial distribution of the
     # data doesn't matter.
@@ -449,8 +517,6 @@ is this ok for the analysis?
     north.NDVI.vec <- getValues(north.NDVI)
     south.NDVI.vec <- getValues(south.NDVI)
     
-    north.veght.vec <- getValues(north.veght)
-    south.veght.vec <- getValues(south.veght)
     
     # and get rid of NAs for simplicity (the above vectors are all the same length
     # and include all the cells in the original dataset)
@@ -474,15 +540,25 @@ is this ok for the analysis?
     boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
             on North versus South facing slopes")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/run-stats-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/another-solution-1.png)
 
     # and now a t-test - note that since these aren't normally distributed, this
     # might not be the best approach, but ok for a quick assessment.
     NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
-    
-    
+
+##Veg Height
+
+We can fix this code as we did above as well. 
+
+
+    # isolate veg height pixels on north and south facing slopes
+    north.veght <- all.data[[4]] * north.facing
+    south.veght <- all.data[[4]] * south.facing
     
     # and now for veg height
+    north.veght.vec <- getValues(north.veght)
+    south.veght.vec <- getValues(south.veght)
+    
     north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
     south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
     
@@ -500,7 +576,7 @@ is this ok for the analysis?
     boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
             on North versus South facing slopes")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/run-stats-2.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/veg-ht-1.png)
 
     # same caution as above!
     veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
