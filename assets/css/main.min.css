@@ -1060,7 +1060,7 @@ svg:not(:root) {
 	width: 100%
 }
 
-#post-content a.btn, #relatedCode a.btn{
+#post-content a.btn, #relatedCode a.btn, #objectives a.btn{
   color:#fff;
 }
 
@@ -1079,10 +1079,12 @@ svg:not(:root) {
 	-moz-border-radius: 7px;
 	border-radius: 7px
 }
-.btn:visited, #post-content .btn:visited, #relatedCode .btn:visited {
+.btn:visited, #post-content .btn:visited, #relatedCode .btn:visited,
+#objectives .btn:visited, {
 	color: #fff
 }
-.btn:hover, #post-content .btn:hover, #relatedCode .btn:hover {
+.btn:hover, #post-content .btn:hover, #relatedCode .btn:hover,
+#objectives .btn:hover {
 	color: #1ea0c1;
 	background-color: #fff
 }
