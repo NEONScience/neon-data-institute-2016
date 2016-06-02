@@ -1,13 +1,11 @@
 ---
 layout: tutorial-series-list
-title: 'Self Paced Data Tutorial Series - Landing Page'
+title: 'Data Institute Content - Landing Page'
 category: tutorial-series
-tutorialSeriesName: vector-data-series
+tutorialSeriesName: 
 permalink: tutorial-series/
 image:
-  feature: workshop.png
+  feature: data-institute-2016.png
   credit: 
 ---
 
-NEONDataSkills self-paced tutorial series are sets of data themed self-paced tutorials that
- can be worked through on your own time. 

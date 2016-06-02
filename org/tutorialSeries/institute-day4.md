@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Thursday 23 June: Lidar & Hyperspectral Data Fusion'
+title: 'Thursday 23 June: LiDAR & Hyperspectral Data Fusion'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day4
 permalink: tutorial-series/institute-day4/
@@ -12,7 +12,7 @@ image:
 ## About
 
 On Thursday, we will begin to think about the different types of analysis
-that we can do, fusing Lidar and Hyperspectral data products.
+that we can do by fusing LiDAR and hyperspectral data products.
 
 
 ## Agenda
