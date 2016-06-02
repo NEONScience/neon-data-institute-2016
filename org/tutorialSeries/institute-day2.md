@@ -10,21 +10,34 @@ image:
   creditlink:
 ---
 
-Learning Objectives
-Data Download
-
-## About
+# About
 Today, we will review the basics of discrete return and full waveform lidar data.
 We will then work with some NEON lidar derived raster data products in R.
 
 In the afternoon we will focus on automation as a means to write more efficient,
 usable code.
 
-### Additional Raster Tutorial Resources
+<div id="objectives" markdown="1">
+
+# Learning objectives
+
+* One
+* Two
+* Three
+
+<a class="btn btn-success" href="#"> Get Morning Data Subset</a>
+
+****
+
+**Additional Raster Tutorial Resources:**
+
 * <a href="http://neondataskills.org/R/Raster-Calculations-In-R/Overlay" target="_blank">
 Overlay function - perform efficient raster processing tasks</a>
 * <a href="http://neondataskills.org/raster/" target="_blank">
 Other NEON Data Skills Raster Tutorials</a>
+</div>
+
+
 
 
 ##  Agenda
