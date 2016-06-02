@@ -11,9 +11,8 @@ image:
 ---
 ## About
 
-Agenda with links to each segments materials.
-Description goes here.
+On Thursday, we will begin to think about the different types of analysis
+that we can do, fusing Lidar and Hyperspectral data products.
 
-Links will also appear on the LEFT side bar
 
-## Afternoon Agenda
+## Agenda
