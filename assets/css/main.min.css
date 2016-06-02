@@ -323,6 +323,9 @@ font-size:.75rem;
     position: relative;
 }
 
+.notice > h2 {
+    margin-top: 0.5em;
+}
 
 /* notice2 is used for Thought Questions */
 .thought {
@@ -4639,4 +4642,9 @@ a:hover.post-link > div {
 
 .list-group-item > p {
     color: #000;
+}
+
+#site-nav a:hover {
+	border-bottom: 2px solid #ccc;
+	color: #1ea0c1;
 }
