@@ -1,12 +1,10 @@
 ---
 layout: post_by_category
-title: 'All Self-paced #WorkWithData Tutorials'
+title: 'Data Institute Content'
 category: self-paced-tutorial
 permalink: self-paced-tutorial/
 image:
-  feature: codedpoints2.png
+  feature: data-institute-2016.png
   credit: 
 ---
 
-Below you will find a list of self-paced-data-tutorials that you can complete on your own
-time.
