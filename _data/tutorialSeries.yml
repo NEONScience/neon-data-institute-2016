@@ -16,30 +16,30 @@
 - slug: pre-institute2-git
   name: "Pre-Institute Wk 2: Introduction to Git & GitHub"
   description: "In week two of the pre-institute materials, we will introduce you to
-  version control and collaboration using git and the online GitHub interface. Please expect
+  version control and collaboration using Git and the online GitHub interface. Please expect
   to spend 1-3 hours reviewing this content and doing the actual activity."
   lastModified:  2016-07-02
 
 - slug: pre-institute3-rmd
   name: "Pre-Institute Wk 3: Introduction to RMD and Knitr in R"
   description: "In week three of the pre-institute materials, we will introduce you to
-  rmarkdown and knitr - 2 R packages that allow you to document your workflows in a reproducible
+  rmarkdown and knitr - two R packages that allow you to document your workflows in a reproducible
   way! "
   lastModified:  2016-07-03
 
 - slug: institute-day1
   name: "Monday 20 June: Introduction to HDF5 & Hyperspectral Data in R"
-  description: "We will spend the morning on Week one introducing the NEON project. In the
+  description: "We will spend the morning introducing the NEON project. In the
   afternoon, we will dive into the HDF5 file format and hyperspectral remote sensing! We
   will finish up the day with an evening activity where we explore the benefits of a
   reproducible science approach. "
   lastModified:  2016-07-04
 
 - slug: institute-day2
-  name: "Tuesday 21 June: Lidar Data & Automation"
+  name: "Tuesday 21 June: LiDAR Data & Automation"
   description: "On Tuesday, we will begin the day learning about Light Detection
   and Ranging (LiDAR) data. We will learn how to threshold and classify
-  lidar derived rasters in R. And also how to create raster masks. In the afternoon,
+  LiDAR derived rasters in R and also how to create raster masks. In the afternoon,
   we will focus on creating efficient code through automation and effective file
   organization."
   lastModified:  2016-07-05
@@ -47,21 +47,27 @@
 - slug: institute-day3
   name: "Wednesday 22 June: Comparing Ground to Airborne - Uncertainty"
   description: "We will begin the day with several short talks on the signficance
-  of uncertainty when using remote sensing data. We will them complete a short
+  of uncertainty when using remote sensing data. We will then complete a short
   exercise where we learn how to compare remote sensing metrics to on the ground
   (in situ) collected metrics. The afternoon will be spent working on a selected
   group project that is focused on uncertainty."
   lastModified:  2016-07-06
 
 - slug: institute-day4
-  name: "Thursday 23 June: Lidar & Hyperspectral Data Fusion"
-  description: "On thursday, we will focus on data fusion - using several remote
+  name: "Thursday 23 June: LiDAR & Hyperspectral Data Fusion"
+  description: "On Thursday, we will focus on data fusion - using several remote
   sensing data products together to begin to analyize and address a particular
   science question."
   lastModified:  2016-07-07
 
 - slug: institute-day5
   name: "Friday 24 June: Project Work Day"
-  description: "On Friday we will work in selected groups on a project of your
+  description: "On Friday, we will work in selected groups on a project of your
   choice."
   lastModified:  2016-07-06
+
+- slug: institute-day6
+  name: "Saturday 25 June: Project Presentation Day"
+  description: "On Saturday, we will present our group projects to all Institute 
+  attendees. There is no additional web content for Saturday."
+  lastModified:  2016-07-07
