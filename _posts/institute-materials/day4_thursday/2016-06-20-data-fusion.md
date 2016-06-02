@@ -3,7 +3,7 @@ layout: post
 title: "Lidar and Hyperspectral Data Product Fusion"
 date:   2016-06-20
 dateCreated:  2016-05-01
-lastModified: 2016-06-01
+lastModified: 2016-06-02
 authors: [Kyla Dahlin]
 instructors: [Kyla, Leah]
 time: "1:00"
@@ -14,7 +14,7 @@ mainTag: institute-day4
 tags: [R, HDF5]
 tutorialSeries: [institute-day4]
 description: "Intro to data fusion"
-code1: .R
+code1: institute-materials/day4_thursday/data-fusion.R
 image:
   feature: 
   credit: 
@@ -52,6 +52,8 @@ maintain function code that we use regularly in ONE PLACE.
 
 First, let's import several NEON lidar data products. 
 
+# KYLA - Do we need the DSM and DTM now that we have a CHM pre-processed?
+
 
     # import digital surface model (dsm) (top of the surface - includes trees and buildings)
     dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
@@ -88,14 +90,19 @@ Next, let's explore our CHM data.
 The valid range of data for a NEON CHM is >= 2m. This is because the lidar system
 is not sensitive enough to distinguish objects that are closer than ~2m apart vertically.
 
+# Kyla- i've commented this out for the time being. Just note that there are no values between 0 and 2.
+# if you think we should leave chm values of 0, let's leave them. They just mean no vegetation.
 
 
     # assign chm values of 0 to NA
-    chm[chm < 2] <- NA
+    # chm[chm < 2] <- NA
     hist(chm, 
          main="Distribution of Canopy Height - Teakettle \nCalifornia",
          xlab="Tree Height (m)", 
          col="springgreen")
+
+    ## Warning in .hist1(x, maxpixels = maxpixels, main = main, plot = plot, ...):
+    ## 32% of the raster cells were used. 100000 values used.
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/remove-nonvalid-values-1.png)
 
@@ -107,6 +114,8 @@ Have a close look at the veg height values. Do they seem reasonable?
 
 Next, we can stack the rasters together to create a brick.
 
+# Kyla - we can skip this step here IF we don't need the dtm, dsm.
+
 
     # for simplicity later let's stack these rasters together
     # do we need the dtm dsm??
@@ -115,6 +124,9 @@ Next, we can stack the rasters together to create a brick.
 ## Read Hyperspectral Data 
 
 Next, let's read in HSI data.
+
+# KYLA - we can skip this too if you are OK with using our NDVI data product
+# we also have EVI! We could use that too for greenness?
 
 
     # first identify the file of interest
@@ -251,13 +263,16 @@ Greater than 315 should be classified as 1 (North Facing)
     asp.ns[asp.ns==0] <- NA
 
 
+    # define the extetn of the map -
+    # this is used to place the legend on the plot.
     ns.extent <- extent(asp.ns)
     
     # plot data
+    
     plot(asp.ns, 
          col=c("blue","green"),
          axes=F,
-         main="North and South Facing Slopes \nNEON Teakettle FIeld Site",
+         main="North and South Facing Slopes \nNEON Teakettle Field Site",
          bty="n",
          legend=F)
     
@@ -273,12 +288,17 @@ Greater than 315 should be classified as 1 (North Facing)
 
 ## North / South Facing Slopes
 
+Next, we can create a north and south facing mask object. A mask is a layer where
+the pixels that you want to EXCLUDE are set to NA. The pixels that you wish to 
+include in your analysis have a value. In this case, that value is 1.
 
 
+    # create north facing mask object
     north.facing <- asp.ns==1
-    south.facing <- asp.ns==2
-    
     north.facing[north.facing == 0] <- NA
+    
+    # Create south facing mask object
+    south.facing <- asp.ns==2
     south.facing[south.facing == 0] <- NA
 
 ## Export North South Aspect Geotiff
@@ -300,6 +320,9 @@ analysis.
 Now we want to determine what defines "tall" and "green". We can explore histograms
 of our data and use descriptive statistics to determine what values might make
 the most sense. 
+
+# kyla i've used the summary command to create a data.frame of summar stats rather than
+# creating each individually. I think it is a bit more efficient. Are you ok with that?
 
 
     # histogram of tree ht
@@ -325,28 +348,36 @@ the most sense.
     # view data.frame
     all.data.stats
 
-    ##              Min.     X1st.Qu.       Median     X3rd.Qu.        Max.
-    ## NDVI   -0.2380682    0.1715571    0.4479272    0.6686972    0.920398
-    ## DSM  2172.8298340 2283.6398926 2310.2099609 2328.3000488 2391.829834
-    ## DTM  2172.8298340 2277.0100098 2306.5600586 2322.7900391 2385.229980
-    ## CHM     2.0100000    9.1399994   16.3099995   23.7500000   55.680000
-    ##        NA.s         mean         sd
-    ## NDVI      0    0.4303631  0.2586877
-    ## DSM       0 2305.6751544 37.6960106
-    ## DTM       0 2301.1770607 39.1300683
-    ## CHM  213322   17.5823955 10.3714722
+    ##              Min.     X1st.Qu.       Median     X3rd.Qu.        Max. NA.s
+    ## NDVI   -0.2380682    0.1715571    0.4479272    0.6686972    0.920398    0
+    ## DSM  2172.8298340 2283.6398926 2310.2099609 2328.3000488 2391.829834    0
+    ## DTM  2172.8298340 2277.0100098 2306.5600586 2322.7900391 2385.229980    0
+    ## CHM     0.0000000    0.0000000    0.0000000    8.2100000   55.680000  855
+    ##              mean         sd
+    ## NDVI    0.4303631  0.2586877
+    ## DSM  2305.6751544 37.6960106
+    ## DTM  2301.1770607 39.1300683
+    ## CHM     5.6265399 10.0842808
 
     # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-    tall.def <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
-    tall.def
+    ht.threshold <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+    ht.threshold
 
-    ## [1] 27.95387
+    ## [1] 15.71082
+
+# Kyla -- note that because we included CHM values of 0 in our analysis
+# the tall. ht.threhold is actually LOWER. the 0's are included in our
+# threshold which i think skews the mean because there are a LOT of 0's. 
+# something to note.
 
 Next, look at NDVI.
 
 # KYLA - would taking the 3rd quartile be ok here? 
 ### I think either is fine but 3rd quartile is like 0.67, which is really high, so even
 ### less data than using top third (~0.55)
+
+## OK - well let m eknow what you think. the nice thing with the quartile is that
+## it's a calculate statistic - however i'm open to whatever you think is best.
 
 
     # now let's look at ndvi
@@ -364,7 +395,12 @@ Next, look at NDVI.
     
     # or manually calculate the top third
     green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
-    green.def <- all.data.stats["NDVI","Max."] - (green.range/3)
+    green.threshold <- all.data.stats["NDVI","Max."] - (green.range/3)
+
+# KYLA - please note that we have NDVI values that are negative because there is
+# rock -- so the green range may not be ideal for this type of analysis
+# do we want to floor NDVI to 0 because of this as we are focused on veg in this 
+# analysis?
 
 ## 4. Calculate Percent of tall and green pixels 
 
@@ -376,27 +412,32 @@ Remember that 1 = North Facing and 2 = South Facing in our classified aspect
 object `asp.ns`.
 
 
-    #  North = 1 and South facing = 2, calculate total pixels
+    # North = 1 and South facing = 2, calculate total pixels
     north.count <- freq(asp.ns, value =1)
     south.count <- freq(asp.ns, value =2)
     
     # note there's  more south facing area in this image than north facing
     
-    # create a new layer with pixels that are north facing, 
+    # create a new layer with pixels that are north facing, above the green threshold and
+    # above the CHM height threshold
     north.tall.green <- asp.ns == 1  & 
-                        all.data[[1]] >= green.def & 
-                        all.data[[4]] >= tall.def
+                        all.data[[1]] >= green.threshold & 
+                        all.data[[4]] >= ht.threshold
     
-    north.tall.green.count <- cellStats(north.tall.green, sum)
-    
-    south.tall.green <- asp.ns == 2 & 
-                        all.data[[1]] >= green.def & 
-                        all.data[[4]] >= tall.def
-    
-    south.tall.green.count <- cellStats(south.tall.green, sum)
-    
-    # turn your tall north and south 0 layers into NA
+    # assign values of 0 to NA so this becomes a mask
     north.tall.green[north.tall.green == 0] <- NA
+    
+    # how many pixels fit the "north, tall green" criteria?
+    north.tall.green.count <- freq(north.tall.green, value =1)
+    
+    
+    # repeat the same steps for south facing slopes. Note
+    # we are repeating code - this could become a nice function!
+    south.tall.green <- asp.ns == 2 & 
+                        all.data[[1]] >= green.threshold & 
+                        all.data[[4]] >= ht.threshold
+    
+    south.tall.green.count <- freq(south.tall.green, value=1)
     south.tall.green[south.tall.green == 0] <- NA
     
     # divide the number of pixels that are green by the total north facing pixels
@@ -406,6 +447,12 @@ object `asp.ns`.
     # if we look at these fracs, >11% of the pixels on north facing slopes should
     # meet our tall and green criteria, while <6% of the pixels on south facing
     # slopes do. So that's reassuring. (using original data set)
+
+# Kyla - what's happening in this code is we are generating a lot of small r objects.
+# green.def, thresholds, etc
+# i'd probably create a data.frame with them all in there which will be much
+# easier to keep track of. so maybe a dataframe with all of the pixel counts for
+# north and south tall green and asp.ns would be nice. Then maybe a threshold data.frame
 
 ## Plot Color Infrared (CIR) Image
 
@@ -458,41 +505,35 @@ plot the bands as an RGB image.
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/view-cir-1.png)
 
-    # two side notes: I (Kyla) really don't like using R to make maps - I usually
-    # export tifs and pull them into a real mapping program like Arc or QGIS for 
-    # actual cartography. R is just a bit clunky, especially for legends, etc.
-    # also, note here that there are clusters where 'south facing' and 'north facing'
-    # pixels are very close together - this is due to the very fine resolution of the
-    # topo data. One might want to either smooth this data (low-pass filter) or
-    # use a larger kernel to calculate slope (not possible with the terrain fxn in
-    # the raster package)
+# KYLA - i appreciate your comment below! Should we expand on this?
+# Note here that there are clusters where 'south facing' and 'north facing'
+# pixels are very close together - this is due to the very fine resolution of the
+# topo data. One might want to either smooth this data (low-pass filter) or
+# use a larger kernel to calculate slope (not possible with the terrain fxn in
+# the raster package)
 
-# Kyla - please note that in this case we have VERY VERY FEW pixels that are south facing
-is this ok for the analysis?
-
-## is the chunk BELOW a MASK? if so we should use the mask function
 
 
     # (5) let's do some stats! t-test and boxplots of veg height and greenness 
     # distributions in north versus south facing parts of scene.
     
     # let's start with NDVI - isolate NDVI on north and south facing slopes
-    north.NDVI <- all.data[[1]] * north.facing
-    south.NDVI <- all.data[[1]] * south.facing
+    north.NDVI <- mask(all.data[[1]], north.facing)
+    south.NDVI <- mask(all.data[[1]], south.facing)
 
 ## Grab Values
 
 
     ## get values and coerce to north values to dataframe
-    ndvi.df.n <- na.omit(as.data.frame(getValues(north.NDVI)))
-    ndvi.df.n$aspect <- rep("north", length(north.NDVI.vec))
-    names(ndvi.df.n) <- c("NDVI","aspect")
+    north.ndvi.df <- na.omit(as.data.frame(getValues(north.NDVI)))
+    north.ndvi.df$aspect <- rep("north", length(north.ndvi.df[,1]))
+    names(north.ndvi.df) <- c("NDVI","aspect")
     
-    ndvi.df.s <- na.omit(as.data.frame(getValues(south.NDVI)))
-    ndvi.df.s$aspect <- rep("south", length(south.NDVI.vec))
-    names(ndvi.df.s) <- c("NDVI","aspect")
+    south.ndvi.df <- na.omit(as.data.frame(getValues(south.NDVI)))
+    south.ndvi.df$aspect <- rep("south", length(south.ndvi.df[,1]))
+    names(south.ndvi.df) <- c("NDVI","aspect")
     
-    ndvi.df <- rbind(ndvi.df.n, ndvi.df.s)
+    ndvi.df <- rbind(north.ndvi.df, south.ndvi.df)
     # convert aspect to factor - NOTE you don't have to do this
     ndvi.df$aspect <- as.factor(ndvi.df$aspect)
     
@@ -501,82 +542,121 @@ is this ok for the analysis?
             col = "cornflowerblue", 
             main = "NDVI on North versus South facing slopes")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/leah-solution-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/compare-aspect-NDVI-1.png)
 
     # and now a t-test - note that since these aren't normally distributed, this
     # might not be the best approach, but ok for a quick assessment.
-    NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
+    NDVI.ttest <- t.test(north.ndvi.df$NDVI, 
+                         south.ndvi.df$NDVI, 
+                         alternative = "greater")
 
-# I suggest that we remove the code below as it's very complex
+# KYLA - I suggest that we remove the code below as it's it's more challenging to replicate.
+# are you ok with that?
 
 
     # now to do more complicated non-spatial stats in R we need to convert our
     # raster data to vectors - for this example the spatial distribution of the
     # data doesn't matter.
     
-    north.NDVI.vec <- getValues(north.NDVI)
-    south.NDVI.vec <- getValues(south.NDVI)
+    #north.NDVI.vec <- getValues(north.NDVI)
+    #south.NDVI.vec <- getValues(south.NDVI)
     
     
     # and get rid of NAs for simplicity (the above vectors are all the same length
     # and include all the cells in the original dataset)
     
-    north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
-    south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
+    #north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
+    #south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
     
     # now let's make a data frame with a north versus south column
-    aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
-                     rep("south", length(south.NDVI.vec)))
-    aspect.NDVI <- as.factor(aspect.NDVI)
+    #aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
+    #                 rep("south", length(south.NDVI.vec)))
+    #aspect.NDVI <- as.factor(aspect.NDVI)
     
-    NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
+    #NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
     
     # this (below) is clunky - I thought I could use cbind but 'factors' are getting the 
     # best of me
-    NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
-    names(NDVI.dat) <- c("aspect", "NDVI")
-    NDVI.dat[,1] <- aspect.NDVI
-    NDVI.dat[,2] <- NDVI.vec
-    boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
-            on North versus South facing slopes")
+    #NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
+    #names(NDVI.dat) <- c("aspect", "NDVI")
+    #NDVI.dat[,1] <- aspect.NDVI
+    #NDVI.dat[,2] <- NDVI.vec
+    #boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
+    #        on North versus South facing slopes")
+    
+    # and now a t-test - note that since these aren't normally distributed, this
+    # might not be the best approach, but ok for a quick assessment.
+    # NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/another-solution-1.png)
+## Veg Height
+
+Run the same analysis but use veg height!
+Once again we are repeating code. This would make for a nice function! If it's a 
+set of functions, we can change the methods in ONE PLACE and then re run the code!
+
+# KYLA - id suggest that we hide this code and have them do this
+# part as a hands-on challenge!
+
+
+
+    # mask tall pixels on north and south facing slopes 
+    north.veght <- mask(all.data[[4]], north.facing)
+    south.veght <- mask(all.data[[4]], south.facing)
+    
+    ## get values and coerce to north values to dataframe
+    north.veght.df <- na.omit(as.data.frame(getValues(north.veght)))
+    north.veght.df$aspect <- rep("north", length(north.veght.df[,1]))
+    names(north.veght.df) <- c("veght","aspect")
+    
+    south.veght.df <- na.omit(as.data.frame(getValues(south.veght)))
+    south.veght.df$aspect <- rep("south", length(south.veght.df[,1]))
+    names(south.veght.df) <- c("veght","aspect")
+    
+    veght.df <- rbind(north.veght.df, south.veght.df)
+    # convert aspect to factor - NOTE you don't have to do this
+    veght.df$aspect <- as.factor(veght.df$aspect)
+    
+    boxplot(veght ~ aspect, 
+            data = veght.df, 
+            col = "cornflowerblue", 
+            main = "veght on North versus South facing slopes")
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/veght-aspect-compare-1.png)
 
     # and now a t-test - note that since these aren't normally distributed, this
     # might not be the best approach, but ok for a quick assessment.
-    NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
-
-##Veg Height
-
-We can fix this code as we did above as well. 
+    veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = "greater")
 
 
-    # isolate veg height pixels on north and south facing slopes
-    north.veght <- all.data[[4]] * north.facing
-    south.veght <- all.data[[4]] * south.facing
-    
-    # and now for veg height
-    north.veght.vec <- getValues(north.veght)
-    south.veght.vec <- getValues(south.veght)
-    
-    north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
-    south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
-    
-    # now let's make a data frame with a north versus south column
-    aspect.veght <- c(rep("north", length(north.veght.vec)), 
-                     rep("south", length(south.veght.vec)))
-    aspect.veght <- as.factor(aspect.veght)
-    
-    veght.vec <- c(north.veght.vec, south.veght.vec)
-    
-    veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
-    names(veght.dat) <- c("aspect", "veght")
-    veght.dat[,1] <- aspect.veght
-    veght.dat[,2] <- veght.vec
-    boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
-            on North versus South facing slopes")
+# KYLA - if you are OK with the above code, i'd remove the code below.
+# please note the skew in the results. this is because we are using values =0 which
+# dominate the data due to the rock.
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/veg-ht-1.png)
 
-    # same caution as above!
-    veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
+    # # isolate veg height pixels on north and south facing slopes
+    # north.veght <- all.data[[4]] * north.facing
+    # south.veght <- all.data[[4]] * south.facing
+    # 
+    # # and now for veg height
+    # north.veght.vec <- getValues(north.veght)
+    # south.veght.vec <- getValues(south.veght)
+    # 
+    # north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
+    # south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
+    # 
+    # # now let's make a data frame with a north versus south column
+    # aspect.veght <- c(rep("north", length(north.veght.vec)), 
+    #                  rep("south", length(south.veght.vec)))
+    # aspect.veght <- as.factor(aspect.veght)
+    # 
+    # veght.vec <- c(north.veght.vec, south.veght.vec)
+    # 
+    # veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
+    # names(veght.dat) <- c("aspect", "veght")
+    # veght.dat[,1] <- aspect.veght
+    # veght.dat[,2] <- veght.vec
+    # boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
+    #         on North versus South facing slopes")
+    # 
+    # # same caution as above!
+    # veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")

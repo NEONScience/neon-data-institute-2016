@@ -40,7 +40,7 @@ hist(chm,
 
 ## ----remove-nonvalid-values----------------------------------------------
 # assign chm values of 0 to NA
-chm[chm < 2] <- NA
+# chm[chm < 2] <- NA
 hist(chm, 
      main="Distribution of Canopy Height - Teakettle \nCalifornia",
      xlab="Tree Height (m)", 
@@ -103,6 +103,7 @@ all.data <- brick(ndvi, lidar.brick)
 all.names <- c("NDVI", "DSM", "DTM", "CHM" )
 names(all.data) <- all.names
 
+
 ## ----import-aspect-------------------------------------------------------
 
 # 1. Import aspect data product (derived from the DTM)
@@ -132,14 +133,19 @@ asp.ns <- reclassify(aspect, rcl.m)
 # set 0 values to NA
 asp.ns[asp.ns==0] <- NA
 
+
 ## ----plot-aspect-product-------------------------------------------------
+
+# define the extetn of the map -
+# this is used to place the legend on the plot.
 ns.extent <- extent(asp.ns)
 
 # plot data
+
 plot(asp.ns, 
      col=c("blue","green"),
      axes=F,
-     main="North and South Facing Slopes \nNEON Teakettle FIeld Site",
+     main="North and South Facing Slopes \nNEON Teakettle Field Site",
      bty="n",
      legend=F)
 
@@ -154,11 +160,12 @@ legend((par()$usr[2] + 20), ns.extent@ymax-100, # set xy legend location
 
 ## ----ns-facing-----------------------------------------------------------
 
-
+# create north facing mask object
 north.facing <- asp.ns==1
-south.facing <- asp.ns==2
-
 north.facing[north.facing == 0] <- NA
+
+# Create south facing mask object
+south.facing <- asp.ns==2
 south.facing[south.facing == 0] <- NA
 
 
@@ -197,8 +204,8 @@ row.names(all.data.stats) <- all.names
 all.data.stats
 
 # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-tall.def <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
-tall.def
+ht.threshold <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+ht.threshold
 
 
 ## ----explore-ndvi--------------------------------------------------------
@@ -215,32 +222,37 @@ hist(all.data[[1]],
 
 # or manually calculate the top third
 green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
-green.def <- all.data.stats["NDVI","Max."] - (green.range/3)
+green.threshold <- all.data.stats["NDVI","Max."] - (green.range/3)
 
 
 ## ----calculate-percent---------------------------------------------------
 
-#  North = 1 and South facing = 2, calculate total pixels
+# North = 1 and South facing = 2, calculate total pixels
 north.count <- freq(asp.ns, value =1)
 south.count <- freq(asp.ns, value =2)
 
 # note there's  more south facing area in this image than north facing
 
-# create a new layer with pixels that are north facing, 
+# create a new layer with pixels that are north facing, above the green threshold and
+# above the CHM height threshold
 north.tall.green <- asp.ns == 1  & 
-                    all.data[[1]] >= green.def & 
-                    all.data[[4]] >= tall.def
+                    all.data[[1]] >= green.threshold & 
+                    all.data[[4]] >= ht.threshold
 
-north.tall.green.count <- cellStats(north.tall.green, sum)
-
-south.tall.green <- asp.ns == 2 & 
-                    all.data[[1]] >= green.def & 
-                    all.data[[4]] >= tall.def
-
-south.tall.green.count <- cellStats(south.tall.green, sum)
-
-# turn your tall north and south 0 layers into NA
+# assign values of 0 to NA so this becomes a mask
 north.tall.green[north.tall.green == 0] <- NA
+
+# how many pixels fit the "north, tall green" criteria?
+north.tall.green.count <- freq(north.tall.green, value =1)
+
+
+# repeat the same steps for south facing slopes. Note
+# we are repeating code - this could become a nice function!
+south.tall.green <- asp.ns == 2 & 
+                    all.data[[1]] >= green.threshold & 
+                    all.data[[4]] >= ht.threshold
+
+south.tall.green.count <- freq(south.tall.green, value=1)
 south.tall.green[south.tall.green == 0] <- NA
 
 # divide the number of pixels that are green by the total north facing pixels
@@ -284,14 +296,9 @@ plot(south.tall.green,
      add = T, 
      legend = F)
 
-# two side notes: I (Kyla) really don't like using R to make maps - I usually
-# export tifs and pull them into a real mapping program like Arc or QGIS for 
-# actual cartography. R is just a bit clunky, especially for legends, etc.
-# also, note here that there are clusters where 'south facing' and 'north facing'
-# pixels are very close together - this is due to the very fine resolution of the
-# topo data. One might want to either smooth this data (low-pass filter) or
-# use a larger kernel to calculate slope (not possible with the terrain fxn in
-# the raster package)
+
+
+
 
 
 ## ----run-stats-----------------------------------------------------------
@@ -299,23 +306,22 @@ plot(south.tall.green,
 # distributions in north versus south facing parts of scene.
 
 # let's start with NDVI - isolate NDVI on north and south facing slopes
-north.NDVI <- all.data[[1]] * north.facing
-south.NDVI <- all.data[[1]] * south.facing
+north.NDVI <- mask(all.data[[1]], north.facing)
+south.NDVI <- mask(all.data[[1]], south.facing)
 
 
-## ----leah-solution-------------------------------------------------------
-
+## ----compare-aspect-NDVI-------------------------------------------------
 
 ## get values and coerce to north values to dataframe
-ndvi.df.n <- na.omit(as.data.frame(getValues(north.NDVI)))
-ndvi.df.n$aspect <- rep("north", length(north.NDVI.vec))
-names(ndvi.df.n) <- c("NDVI","aspect")
+north.ndvi.df <- na.omit(as.data.frame(getValues(north.NDVI)))
+north.ndvi.df$aspect <- rep("north", length(north.ndvi.df[,1]))
+names(north.ndvi.df) <- c("NDVI","aspect")
 
-ndvi.df.s <- na.omit(as.data.frame(getValues(south.NDVI)))
-ndvi.df.s$aspect <- rep("south", length(south.NDVI.vec))
-names(ndvi.df.s) <- c("NDVI","aspect")
+south.ndvi.df <- na.omit(as.data.frame(getValues(south.NDVI)))
+south.ndvi.df$aspect <- rep("south", length(south.ndvi.df[,1]))
+names(south.ndvi.df) <- c("NDVI","aspect")
 
-ndvi.df <- rbind(ndvi.df.n, ndvi.df.s)
+ndvi.df <- rbind(north.ndvi.df, south.ndvi.df)
 # convert aspect to factor - NOTE you don't have to do this
 ndvi.df$aspect <- as.factor(ndvi.df$aspect)
 
@@ -327,7 +333,9 @@ boxplot(NDVI ~ aspect,
 
 # and now a t-test - note that since these aren't normally distributed, this
 # might not be the best approach, but ok for a quick assessment.
-NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
+NDVI.ttest <- t.test(north.ndvi.df$NDVI, 
+                     south.ndvi.df$NDVI, 
+                     alternative = "greater")
 
 
 ## ----another-solution----------------------------------------------------
@@ -336,66 +344,95 @@ NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
 # raster data to vectors - for this example the spatial distribution of the
 # data doesn't matter.
 
-north.NDVI.vec <- getValues(north.NDVI)
-south.NDVI.vec <- getValues(south.NDVI)
+#north.NDVI.vec <- getValues(north.NDVI)
+#south.NDVI.vec <- getValues(south.NDVI)
 
 
 # and get rid of NAs for simplicity (the above vectors are all the same length
 # and include all the cells in the original dataset)
 
-north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
-south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
+#north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
+#south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
 
 # now let's make a data frame with a north versus south column
-aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
-                 rep("south", length(south.NDVI.vec)))
-aspect.NDVI <- as.factor(aspect.NDVI)
+#aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
+#                 rep("south", length(south.NDVI.vec)))
+#aspect.NDVI <- as.factor(aspect.NDVI)
 
-NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
+#NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
 
 # this (below) is clunky - I thought I could use cbind but 'factors' are getting the 
 # best of me
-NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
-names(NDVI.dat) <- c("aspect", "NDVI")
-NDVI.dat[,1] <- aspect.NDVI
-NDVI.dat[,2] <- NDVI.vec
-boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
-        on North versus South facing slopes")
+#NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
+#names(NDVI.dat) <- c("aspect", "NDVI")
+#NDVI.dat[,1] <- aspect.NDVI
+#NDVI.dat[,2] <- NDVI.vec
+#boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
+#        on North versus South facing slopes")
 
 # and now a t-test - note that since these aren't normally distributed, this
 # might not be the best approach, but ok for a quick assessment.
-NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
+# NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
+
+
+## ----veght-aspect-compare------------------------------------------------
+# mask tall pixels on north and south facing slopes 
+north.veght <- mask(all.data[[4]], north.facing)
+south.veght <- mask(all.data[[4]], south.facing)
+
+## get values and coerce to north values to dataframe
+north.veght.df <- na.omit(as.data.frame(getValues(north.veght)))
+north.veght.df$aspect <- rep("north", length(north.veght.df[,1]))
+names(north.veght.df) <- c("veght","aspect")
+
+south.veght.df <- na.omit(as.data.frame(getValues(south.veght)))
+south.veght.df$aspect <- rep("south", length(south.veght.df[,1]))
+names(south.veght.df) <- c("veght","aspect")
+
+veght.df <- rbind(north.veght.df, south.veght.df)
+# convert aspect to factor - NOTE you don't have to do this
+veght.df$aspect <- as.factor(veght.df$aspect)
+
+boxplot(veght ~ aspect, 
+        data = veght.df, 
+        col = "cornflowerblue", 
+        main = "veght on North versus South facing slopes")
+
+
+# and now a t-test - note that since these aren't normally distributed, this
+# might not be the best approach, but ok for a quick assessment.
+veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = "greater")
 
 
 ## ----veg-ht--------------------------------------------------------------
 
-# isolate veg height pixels on north and south facing slopes
-north.veght <- all.data[[4]] * north.facing
-south.veght <- all.data[[4]] * south.facing
-
-# and now for veg height
-north.veght.vec <- getValues(north.veght)
-south.veght.vec <- getValues(south.veght)
-
-north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
-south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
-
-# now let's make a data frame with a north versus south column
-aspect.veght <- c(rep("north", length(north.veght.vec)), 
-                 rep("south", length(south.veght.vec)))
-aspect.veght <- as.factor(aspect.veght)
-
-veght.vec <- c(north.veght.vec, south.veght.vec)
-
-veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
-names(veght.dat) <- c("aspect", "veght")
-veght.dat[,1] <- aspect.veght
-veght.dat[,2] <- veght.vec
-boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
-        on North versus South facing slopes")
-
-# same caution as above!
-veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
+# # isolate veg height pixels on north and south facing slopes
+# north.veght <- all.data[[4]] * north.facing
+# south.veght <- all.data[[4]] * south.facing
+# 
+# # and now for veg height
+# north.veght.vec <- getValues(north.veght)
+# south.veght.vec <- getValues(south.veght)
+# 
+# north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
+# south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
+# 
+# # now let's make a data frame with a north versus south column
+# aspect.veght <- c(rep("north", length(north.veght.vec)), 
+#                  rep("south", length(south.veght.vec)))
+# aspect.veght <- as.factor(aspect.veght)
+# 
+# veght.vec <- c(north.veght.vec, south.veght.vec)
+# 
+# veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
+# names(veght.dat) <- c("aspect", "veght")
+# veght.dat[,1] <- aspect.veght
+# veght.dat[,2] <- veght.vec
+# boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
+#         on North versus South facing slopes")
+# 
+# # same caution as above!
+# veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
 
 
 
