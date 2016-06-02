@@ -1,6 +1,6 @@
 ---
 layout: post_by_category
-title: 'Data Institute Content'
+title: 'Individual Tutorials for Data Institute 2016'
 category: self-paced-tutorial
 permalink: self-paced-tutorial/
 image:
