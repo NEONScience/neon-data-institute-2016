@@ -9,8 +9,11 @@ image:
   credit:
   creditlink:
 ---
+
 ## About
 
-On Wednesday we will talk about uncertainty. 
+Today, we will focus on the importance of uncertainty when using remote sensing
+data. We will work on a hands-on activity where we compare remote sensing
+derived vegetation metrics to metrics collected on the ground (in situ). 
 
 ##  Agenda
