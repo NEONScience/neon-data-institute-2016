@@ -14,5 +14,20 @@ image:
 On Thursday, we will begin to think about the different types of analysis
 that we can do by fusing LiDAR and hyperspectral data products.
 
+<div id="objectives" markdown="1">
+
+# Learning objectives
+
+* One
+* Two
+* Three
+
+<a class="btn btn-success" href="#"> Download Data</a>
+
+****
+
+**Additional Tutorial Resources:**
+
+</div>
 
 ## Agenda

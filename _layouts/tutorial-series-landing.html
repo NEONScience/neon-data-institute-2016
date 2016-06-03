@@ -39,7 +39,7 @@
 	{% if post.tutorialSeries contains page.tutorialSeriesName %}
 	{% assign counter = counter | plus: 1 %}
 
-		 <li> Part {{ counter }}:<a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
+		 <li><a href="{{ site.baseurl }}{{ post.url }}" class="list-group-item">
 					{{ post.title }} </li>
 
 	{% endif %}

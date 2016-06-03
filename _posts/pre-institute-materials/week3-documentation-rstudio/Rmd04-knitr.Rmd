@@ -1,0 +1,129 @@
+---
+layout: post
+title: "Publish Code --- From R Markdown to html with knitr"
+description: "This tutorial introduces how to use the R knitr package to publish
+from R Markdown files to html (or other) file format."
+date: 2016-05-16
+dateCreated: 2016-01-01
+lastModified: `r format(Sys.time(), "%Y-%m-%d")`
+estimatedTime:
+packagesLibraries:
+authors: [Megan A. Jones, Leah Wasser]
+categories: [tutorial-series]
+tags:
+mainTag: pre-institute3-rmd
+tutorialSeries: pre-institute3-rmd
+code1:
+image:
+ feature: data-institute-2016.png
+ credit:
+ creditlink:
+permalink: /tutorial-series/pre-institute3/rmd04
+comments: true
+---
+
+{% include _toc.html %}
+
+In this page, you will be introduced to the knitr R package that allows you to
+turn your R Markdown code script into an output in html (or other) file format.
+
+<div id="objectives" markdown="1">
+
+# Learning Objectives
+
+At the end of this activity, you will:
+
+* Be able to produce (‘knit’) an html file from a R Markdown script.
+* Know how to modify chuck options to change the output in your html file.
+
+</div>
+
+## Share & Publish Results Directly from Your Code!
+The knitr package allow us to:
+
+* easily publish & share preliminary results with collaborators.
+* create professional reports directly from the code with no middle step with
+chance for accidental copy and paste / transcription errors
+* document our workflow in a fully reproducible way
+* to easily change reports and figures following small changes to data, figures,
+analysis, etc.
+
+## Publish from Rmd files with knitr
+Prior to starting this tutorial you need to make sure the knitr package is
+installed, if not, go to
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/ target="_blank"> the setup instructions</a>.
+In addition you need a R Markdown script that is to be knit, if you don’t have
+one, return to
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank"> the R Markdown tutorial</a>
+to create one.
+
+### When to Knit?
+
+Using an R Markdown script, you can still view all results and figures in R /
+RStudio anytime you run the script. You should knit anytime you want to see how
+the document looks as a "published" report. The time required to knit depends on
+the length and complexity of the script and the amount of data.
+
+### How to Knit
+
+ <figure>
+	<a href="{{ site.baseurl }}/images/pre-institute-content/RMD/KnitButton-screenshot.png">
+	<img src="{{ site.baseurl }}/images/pre-institute-content/RMD/KnitButton-screenshot.png"></a>
+	<figcaption> Location of the knit button in RStudio in Version 0.99.486.
+	Source: National Ecological Observatory Network (NEON)
+	</figcaption>
+</figure>
+
+To knit, you simply click the "knit" button at the top of the script environment.
+
+A new windowpane will open in your Console titled R Markdown. This pane shows
+the progress of knitting occurring -- you can see each chunk knit and the names
+of the output file. The output file will automatically be saved in the current
+working directory. If there is an error in the code, this is also where the
+error message will occur with a line number to help you diagnose the problem.
+
+
+<i class="fa fa-star"></i> **Data Tip** If you want to automate knitting into
+your script, you can add `render(“input.Rmd”, “all”)` to the script.
+{: .notice}
+
+ <div id="challenge" markdown="1">
+## Activity: Knit Script
+Knit the script you started in
+<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank">the last tutorial</a>.
+What does it look like?
+</div>
+
+### View the Output
+
+EMBED GRAPHIC: Screenshot of html
+
+Once the document knits, the new html file will automatically open.
+
+Notice that information from the YAML header (title, author, date) are printed
+at the top of the document. Then the html shows the text, code, and results of
+your script.
+
+ <div id="challenge" markdown="1">
+## Activity: Knit with Chunk Options
+Go in and change one or more of the chunk code options. Re-knit. Did this change
+the output the way you expected?
+
+Complete this week’s assignment by XXX (add detailed once this is set).
+
+Once done, re-knit the document. Check the text and code styling, should
+anything be changed or added to make the results more clear? Change and re-knit
+until you are satisfied with your document.
+
+Once satisfied, publish your output in our GitHub repository --- push the .html
+to the **/participants/TEAKRmd-week3/** directory in the
+**NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
+
+</div>
+
+<i class="fa fa-star"></i> **Data Tip:** If you are a frequent user of LaTex,
+you might find
+<a href="http://cdn.screenr.com/video/8352c25b-7324-4134-970b-b7c427381adb.mp4" target="_blank">this video from the creator of knitr </a>
+informational. It introduces R Markdown & knitr in conjunction with LaTex and
+other formats.
+{: .notice}

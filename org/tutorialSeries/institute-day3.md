@@ -6,18 +6,30 @@ tutorialSeriesName: institute-day3
 permalink: tutorial-series/institute-day3/
 image:
   feature: data-institute-2016.png
-  credit: 
-  creditlink: 
+  credit:
+  creditlink:
 ---
+
 ## About
 
-We will begin the day with several short talks on the signficance of 
-uncertainty when using remote sensing data. We will then complete a short 
-exercise where we learn how to compare remote sensing metrics to metrics
-collected on the ground (in situ metrics). 
+Today, we will focus on the importance of uncertainty when using remote sensing
+data. We will work on a hands-on activity where we compare remote sensing
+derived vegetation metrics to metrics collected on the ground (in situ).
 
-The afternoon will be spent working on a mini-group project that is focused 
-on uncertainty.
+<div id="objectives" markdown="1">
 
+# Learning objectives
+
+* One
+* Two
+* Three
+
+<a class="btn btn-success" href="#"> Download Data</a>
+
+****
+
+**Additional Tutorial Resources:**
+
+</div>
 
 ##  Agenda
