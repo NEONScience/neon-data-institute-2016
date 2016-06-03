@@ -1,6 +1,6 @@
 ---
 layout: tutorial-series-landing
-title: 'Tuesday 21 June - Lidar Data & Automation'
+title: 'Tuesday 21 June - LiDAR Data & Automation'
 categories: [tutorial-series]
 tutorialSeriesName: institute-day2
 permalink: tutorial-series/institute-day2/
@@ -19,13 +19,30 @@ usable code.
 
 <div id="objectives" markdown="1">
 
-# Learning objectives
+# Learning Objectives
 
-* One
-* Two
-* Three
+After completing these activities, you will be able to:
 
-<a class="btn btn-success" href="#"> Get Morning Data Subset</a>
+* Explain the difference between active and passive sensors.
+* Explain the difference between discrete return and full waveform LiDAR.
+* Describe applications of LiDAR remote sensing data in the natural sciences. 
+* Describe several NEON LiDAR remote sensing data products.
+* Explain why modularization is important and supports efficient coding practices.
+* How to modularize code using functions.
+* Integrate basic automation into your existing data workflow. 
+
+
+<a class="btn btn-success" href="https://ndownloader.figshare.com/files/5282317" 
+target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
+
+The LiDAR and imagery data used to create this raster teaching data subset were 
+collected over the 
+<a href="http://www.neonscience.org/" target="_blank">National Ecological Observatory Network’s </a>
+<a href="http://www.neonscience.org/science-design/field-sites/lower-teakettle" target="_blank">Lower Teakettle field site </a>
+and processed at NEON 
+headquarters. The entire dataset can be accessed by request from the 
+<a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
+
 
 ****
 
