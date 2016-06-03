@@ -1140,20 +1140,22 @@ svg:not(:root) {
 	background-color: #fff
 }
 .btn-info {
-	color: #fff;
+	color: #308cbc;
 	background-color: #fff;
-	border-color: #308cbc
+	border: 1px solid #308cbc
 }
 
-.btn.btn-info {
+.btn.btn-info, .btn.btn-info:visited, #post-content a.btn.btn-info {
     background-color: #fff;
+		color: #308cbc
 }
 .btn-info:visited {
-	color: #fff
+	color: #308cbc
 }
-.btn-info:hover {
+.btn-info:hover, #post-content a.btn.btn-info:hover {
 	color: #308cbc;
-	background-color: #fff
+	background-color: #e3e8e8;
+	border: 1px solid #308cbc
 }
 .well {
 	min-height: 20px;
