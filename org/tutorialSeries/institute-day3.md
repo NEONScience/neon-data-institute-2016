@@ -5,7 +5,7 @@ categories: [tutorial-series]
 tutorialSeriesName: institute-day3
 permalink: tutorial-series/institute-day3/
 image:
-  feature: dataInstitute_2016.jpg
+  feature: data-institute-2016.png
   credit:
   creditlink:
 ---

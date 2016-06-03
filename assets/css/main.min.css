@@ -326,6 +326,11 @@ font-size:.75rem;
 .notice > h2 {
     margin-top: 0.5em;
 }
+/* fixing links in notice blocks */
+.article-wrap .notice a {
+    border-bottom: 1px dashed #ccc;
+    color: #166073;
+}
 
 /* notice2 is used for Thought Questions */
 .thought {
