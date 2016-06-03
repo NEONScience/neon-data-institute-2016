@@ -1068,7 +1068,7 @@ svg:not(:root) {
 	width: 100%
 }
 
-#post-content a.btn, #relatedCode a.btn, #objectives a.btn{
+#post-content a.btn, #relatedCode a.btn, #objectives a.btn, #article-wrap	 a.btn{
   color:#fff;
 }
 
@@ -1088,7 +1088,7 @@ svg:not(:root) {
 	border-radius: 7px
 }
 .btn:visited, #post-content .btn:visited, #relatedCode .btn:visited,
-#objectives .btn:visited, {
+#objectives .btn:visited, #article-wrap .btn:visited {
 	color: #fff
 }
 .btn:hover, #post-content .btn:hover, #relatedCode .btn:hover,
@@ -1096,7 +1096,9 @@ svg:not(:root) {
 	color: #1ea0c1;
 	background-color: #fff
 }
-.btn-success {
+
+
+.btn-success, .btn.btn-success {
 	color: #fff;
 	background-color: #1ea0c1;
 	border-color: #1ea0c1;
@@ -1139,8 +1141,12 @@ svg:not(:root) {
 }
 .btn-info {
 	color: #fff;
-	background-color: #308cbc;
+	background-color: #fff;
 	border-color: #308cbc
+}
+
+.btn.btn-info {
+    background-color: #fff;
 }
 .btn-info:visited {
 	color: #fff
