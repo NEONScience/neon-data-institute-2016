@@ -18,13 +18,18 @@ derived vegetation metrics to metrics collected on the ground (in situ).
 
 <div id="objectives" markdown="1">
 
-# Learning objectives
+# Learning Objectives
 
-* One
-* Two
-* Three
+After completing these activities, you will be able to:
 
-<a class="btn btn-success" href="#"> Download Data</a>
+* Measure the differences between a metric derived from remote sensing data and 
+the same metric derived from data collected on the ground.
+
+
+<a class="btn btn-success" href="  " 
+target="_blank">NEON San Joaquin Experimental Range LiDAR Field Site Data</a>
+
+ADD ONCE FINALIZED
 
 ****
 

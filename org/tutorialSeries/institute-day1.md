@@ -14,13 +14,26 @@ image:
 
 <div id="objectives" markdown="1">
 
-# Learning objectives
+# Learning Objectives
 
-* One
-* Two
-* Three
+After completing these activities, you will be able to:
 
-<a class="btn btn-success" href="#"> Download Data</a>
+* Open and work with raster data stored in HDF5 format in R
+* Explain the key components of the HDF5 data structure (groups, datasets and attributes)
+* Open and use attribute data (metadata) from an HDF5 file in R
+
+
+<a class="btn btn-success" href="https://ndownloader.figshare.com/files/5282317" 
+target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
+
+The LiDAR and imagery data used to create this raster teaching data subset were 
+collected over the 
+<a href="http://www.neonscience.org/" target="_blank">National Ecological Observatory Network’s </a>
+<a href="http://www.neonscience.org/science-design/field-sites/lower-teakettle" target="_blank">Lower Teakettle field site </a>
+and processed at NEON 
+headquarters. The entire dataset can be accessed by request from the 
+<a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
+
 
 ****
 
