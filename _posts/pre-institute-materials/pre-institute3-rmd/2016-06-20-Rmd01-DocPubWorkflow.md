@@ -7,7 +7,7 @@ dateCreated: 2016-01-01
 lastModified: 2016-06-06
 estimatedTime:
 packagesLibraries:
-authors: [Megan A. Jones, Leah Wasser]
+authors:
 categories: [tutorial-series]
 tags:
 mainTag: pre-institute3-rmd
@@ -21,11 +21,11 @@ permalink: /tutorial-series/pre-institute3/rmd01
 comments: true
 ---
 
-TEST 
 {% include _toc.html %}
 
-This tutorial will introduce you to the importance of version control in scientific
-workflows.
+This tutorial we will work with the `knitr` and `rmarkdown` packages within
+`RStudio` to learn how to effectively and efficiently document and publish our
+workflows online.
 
 <div id="objectives" markdown="1">
 
@@ -53,7 +53,7 @@ This week we will learn about the R Markdown file format (and R package) which
 can be used with the `knitr` package to document and publish (disseminate) your
 code and code output.
 
-<a class="btn btn-inverse" href="http://neon-workwithdata.github.io/slide-shows/share-publish-archive-slideshow.html" target= "_blank"> View Slideshow: Share, Publish & Archive -  from the Reproducible Science Curriculum</a>
+<a class="btn btn-info" href="http://neon-workwithdata.github.io/slide-shows/share-publish-archive-slideshow.html" target= "_blank"> View Slideshow: Share, Publish & Archive -  from the Reproducible Science Curriculum</a>
 
 ## The Tools We Will Use
 
@@ -68,8 +68,8 @@ underlying R code or data changes). "
 -- <a href="http://rmarkdown.rstudio.com/" target="_blank">RStudio</a>.
 
 We use markdown syntax in R Markdown (.rmd) files to document workflows and
-to share data cleaning, analysis and visualization outputs. We can also use it
-to create document that combine R code, output and text.
+to share data processing, analysis and visualization outputs. We can also use it
+to create documents that combine R code, output and text.
 
 <i class="fa fa-star"></i> **Data Tip:** Most of the
 <a href="https://github.com/NEONInc/NEON-Data-Skills" target="_blank">neondataskills.org </a>
@@ -120,4 +120,4 @@ generation with R --
 
 In the
 [next tutorial]({{site.baseurl}}/tutorial-series/pre-institute3/rmd02)
-we will review this week's activity.
+we will learn more about working with the R Markdown format in R Studio.
