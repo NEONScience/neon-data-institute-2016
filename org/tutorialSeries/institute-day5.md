@@ -28,6 +28,8 @@ question of your choice.
 **Additional Tutorial Resources:**
 
 * R studio reveal.js presentation page link
+
+http://rmarkdown.rstudio.com/revealjs_presentation_format.html
 </div>
 
 ## Afternoon Agenda
