@@ -12,7 +12,8 @@ dirs <- c("institute-materials/day1_monday",
           "institute-materials/day3_wednesday",
           "institute-materials/day4_thursday",
           "institute-materials/day5_friday",
-          "institute-materials/day6_saturday")
+          "institute-materials/day6_saturday",
+          "pre-institute-materials/pre-institute3-rmd")
 #################### Set up Input Variables #############################
 # set directory that  you'd like to build
 dir <- dirs[4]
