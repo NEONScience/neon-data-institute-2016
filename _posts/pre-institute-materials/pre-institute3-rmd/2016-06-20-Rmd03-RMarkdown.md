@@ -4,7 +4,7 @@ title: "Document Code with R Markdown"
 description: "This tutorial introduces how to use R Markdown files to document code."
 date: 2016-05-17
 dateCreated: 2016-01-01
-lastModified: 2016-05-27
+lastModified: 2016-06-06
 estimatedTime:
 packagesLibraries: [knitr, rmarkdown]
 authors: [Megan A. Jones, Leah Wasser]

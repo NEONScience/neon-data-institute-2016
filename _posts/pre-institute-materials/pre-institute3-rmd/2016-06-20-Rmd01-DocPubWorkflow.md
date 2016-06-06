@@ -4,7 +4,7 @@ title: "Document & Publish Your Workflow: R Markdown & knitr"
 description: "This tutorial introduces the importance of tools supporting documenting & publishing a workflow."
 date: 2016-05-19
 dateCreated: 2016-01-01
-lastModified: 2016-05-27
+lastModified: 2016-06-06
 estimatedTime:
 packagesLibraries:
 authors: [Megan A. Jones, Leah Wasser]
@@ -21,6 +21,7 @@ permalink: /tutorial-series/pre-institute3/rmd01
 comments: true
 ---
 
+TEST 
 {% include _toc.html %}
 
 This tutorial will introduce you to the importance of version control in scientific

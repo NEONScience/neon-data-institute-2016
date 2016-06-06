@@ -4,7 +4,7 @@ title: "Pre-Institute Week 3 Assignment"
 description: "This page details how to complete the assignment for pre-Institute week 3."
 date: 2016-05-18
 dateCreated: 2016-01-01
-lastModified: 2016-05-27
+lastModified: 2016-06-06
 estimatedTime:
 packagesLibraries:
 authors: [Megan A. Jones, Leah Wasser]
