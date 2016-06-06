@@ -11,11 +11,9 @@ image:
 ---
 ## Welcome to pre-Institute Week 3
 
-The goal of the pre-institute materials is to ensure that everyone comes to the
-Institute better prepared to work in a collaborative research environment, using
-reproducible approaches and tools. In week 3, we will cover cover use of the
-R Markdown file format to document code and efficiently publish code results /
-outputs. You will practice your git skills by publishing your work in the **NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
+In week 3,  use the R Markdown file format to document code and efficiently
+publish code results / outputs. You will practice your git skills by publishing
+your work in the **NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
 
 Please complete the activity and submit your work to the GitHub repo by
 **11:59 Thursday June 16th.**
