@@ -4,15 +4,17 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
-# setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016")
+# setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016/20160602")
 setwd("~/Documents/data/1_data-institute-2016")
 
 ## ----import-h5-functions-------------------------------------------------
 
-# your file will be in your working directory!
+# import NEON aop R package
+library(devtools)
+## install from github
+# install_github("lwasser/neon-aop-package/neonAOP")
+library(neonAOP)
 
-# this is also an R package!
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## ----import-lidar--------------------------------------------------------
 
@@ -25,10 +27,9 @@ dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif")
 chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
 
 
-## ------------------------------------------------------------------------
+## ----plot-chm------------------------------------------------------------
 
-# do the numbers look reasonable? 60 m is tall for a tree, but
-# this is Ponderosa pine territory (I think), so not out of the question.
+# Check out the height distribution - do the values seem reasonable?
 plot(chm,
      main="Canopy Height - Teakettle \nCalifornia") 
 
@@ -38,70 +39,113 @@ hist(chm,
      col="springgreen")
 
 
-## ----remove-nonvalid-values----------------------------------------------
-# assign chm values of 0 to NA
-# chm[chm < 2] <- NA
-hist(chm, 
-     main="Distribution of Canopy Height - Teakettle \nCalifornia",
-     xlab="Tree Height (m)", 
-     col="springgreen")
+## ----view-summary-stats--------------------------------------------------
+# view chm mean and max
+cellStats(chm, max)
+cellStats(chm, mean)
 
 
 ## ----create-stack--------------------------------------------------------
+
 # for simplicity later let's stack these rasters together
-# do we need the dtm dsm??
 lidar.brick <- brick(dsm, dtm, chm)
 
 
-## ----read-hsi-data, eval=FALSE-------------------------------------------
-## 
-## # first identify the file of interest
-## #f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
-## # then id the projection code
-## # define the CRS definition by EPSG code
-## #epsg <- 32611
-## 
-## # create a list of bands
-## #bands <- c(60,83)
-## 
-## # Let's read in a few spectral bands as a stack using a function
-## #ndvi.stack <- create_stack(bands = bands,
-## #             epsg=epsg)
-## 
-## # calculate ndvi
-## #ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-## #names(ndvi) <- "Teak_hsiNDVI"
-## # check the extents of the two layers -- if they are different
-## # crop both datasets
-## #if (extent(chm) == extent(ndvi)){
-## #  } else {
-## #  overlap <- intersect(extent(ndvi), extent(lidar.brick))
-##   # now let's crop the lidar data to the HSI data
-## #  lidar.brick <- crop(lidar.brick, overlap)
-## #  ndvi <- crop(ndvi, overlap)
-## #  print("Extents are different, cropping data")
-## #  }
-## 
-## 
+## ----read-hsi-data-------------------------------------------------------
 
-## ----import-NDVI---------------------------------------------------------
+# first identify the file of interest
+f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
-# import NDVI
-ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+# then id the projection code
+# define the CRS definition by EPSG code
+epsg <- 32611
 
-# plot NDVI
+# create a list of bands
+bands <- c(60,83)
+
+# Let's read in a few spectral bands as a stack using a function
+ndvi.stack <- create_stack(f, 
+                           bands = bands,
+                           epsg=epsg)
+
+# calculate ndvi
+ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
+names(ndvi) <- "Teak_hsiNDVI"
+
+# plot ndvi
 plot(ndvi,
-     main="NDVI, TEAK Field Site")
+     main="NDVI \nNEON Teakettle Field Site")
 
 
 ## ----create-brick--------------------------------------------------------
 
-# Create a brick from all of the data 
+# Create a brick from the data 
 all.data <- brick(ndvi, lidar.brick)
 
+
+## ----check-extents-------------------------------------------------------
+# view extents
+extent(chm)
+extent(ndvi)
+
+## ----fix-extent----------------------------------------------------------
+# check the extents of the two raster layers -- if they are different
+# crop the data 
+
+if (extent(chm) == extent(ndvi)){
+ } else {
+    print("Extents are different, cropping data")
+ overlap <- intersect(extent(ndvi), extent(lidar.brick))
+  # now let's crop the lidar data to the HSI data
+ lidar.brick <- crop(lidar.brick, overlap)
+ ndvi <- crop(ndvi, overlap)
+ }
+
+
+## ----create-raster-brick-------------------------------------------------
+# Create a brick from the data 
+all.data <- brick(ndvi, lidar.brick)
 # make names nice!
 all.names <- c("NDVI", "DSM", "DTM", "CHM" )
 names(all.data) <- all.names
+
+
+## ----import-NDVI---------------------------------------------------------
+
+# import NEON NDVI product
+ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+
+# compare the two products
+ndvi.diff <- ndvi-ndvi2
+
+# plot difference
+plot(ndvi.diff,
+     main="NDVI DIFFERENCE, TEAK Field Site")
+
+
+## ----create-extent-function----------------------------------------------
+
+# check the extents of the two raster layers -- if they are different
+# crop the data 
+same_extent <- function(raster1,raster2){
+  if (extent(raster1) == extent(raster2)){
+    print("Both rasters have the same extent.")
+   } else {
+   overlap <- intersect(extent(raster1), extent(raster2))
+    # now let's crop both rasters
+   # note it wold be better to figure out which raster is outside of
+   # the overlap just in case the crop is time intensive
+   raster1 <- crop(raster1, overlap)
+   raster2 <- crop(raster2, overlap)
+   # create a stack of the two rasters
+   raster.stack <- stack(raster1, raster2)
+   print("Extents are different. Cropping data")
+   return(raster.stack)
+   }
+}
+
+## ----ndvi-stack----------------------------------------------------------
+
 
 
 ## ----import-aspect-------------------------------------------------------
@@ -141,7 +185,6 @@ asp.ns[asp.ns==0] <- NA
 ns.extent <- extent(asp.ns)
 
 # plot data
-
 plot(asp.ns, 
      col=c("blue","green"),
      axes=F,
@@ -187,11 +230,6 @@ hist(all.data[[4]],
      main="Distribution of Canopy Height Model (CHM) values \nNEON Teakettle Field Site",
      col="springgreen")
 
-# get mean, min max stats to use later
-# chm.stats <- data.frame(t(summary(all.data[[4]], na.rm=F)))
-# chm.stats$mean <- ht.mean <- cellStats(all.data[[4]], mean)
-# chm.stats$sd <- ht.mean <- cellStats(all.data[[4]], sd)
-
 
 # get mean, min max stats for all layers
 all.data.stats <- data.frame(t(summary(all.data, na.rm=T)))
@@ -203,9 +241,13 @@ row.names(all.data.stats) <- all.names
 # view data.frame
 all.data.stats
 
+## ----calculate-tall-threshold--------------------------------------------
+# create threshold dataframe
+thresholds <- data.frame(id=1)
+
 # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-ht.threshold <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
-ht.threshold
+thresholds$height <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+thresholds$height
 
 
 ## ----explore-ndvi--------------------------------------------------------
@@ -215,14 +257,12 @@ hist(all.data[[1]],
      col="springgreen")
 
 # this is a nice bimodal data set, so let's just take the top 1/3 of the data
-# could take the 3rd quartile
-# do this using summary stats
-# stats <- summary(all.data[[1]])
-# stats[["3rd Qu.", 1]]
-
 # or manually calculate the top third
-green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
-green.threshold <- all.data.stats["NDVI","Max."] - (green.range/3)
+thresholds$greenRange <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
+thresholds$greenThresh <- all.data.stats["NDVI","Max."] - (thresholds$greenRange/3)
+
+# or manually calculate mean + 1 sd
+# thresholds$greenThresh <- all.data.stats["NDVI","mean"] + all.data.stats["NDVI","sd"]
 
 
 ## ----calculate-percent---------------------------------------------------
@@ -236,8 +276,8 @@ south.count <- freq(asp.ns, value =2)
 # create a new layer with pixels that are north facing, above the green threshold and
 # above the CHM height threshold
 north.tall.green <- asp.ns == 1  & 
-                    all.data[[1]] >= green.threshold & 
-                    all.data[[4]] >= ht.threshold
+                    all.data[[1]] >= thresholds$greenThresh & 
+                    all.data[[4]] >= thresholds$height
 
 # assign values of 0 to NA so this becomes a mask
 north.tall.green[north.tall.green == 0] <- NA
@@ -249,8 +289,8 @@ north.tall.green.count <- freq(north.tall.green, value =1)
 # repeat the same steps for south facing slopes. Note
 # we are repeating code - this could become a nice function!
 south.tall.green <- asp.ns == 2 & 
-                    all.data[[1]] >= green.threshold & 
-                    all.data[[4]] >= ht.threshold
+                    all.data[[1]] >= thresholds$greenThresh & 
+                    all.data[[4]] >= thresholds$height
 
 south.tall.green.count <- freq(south.tall.green, value=1)
 south.tall.green[south.tall.green == 0] <- NA
@@ -297,10 +337,6 @@ plot(south.tall.green,
      legend = F)
 
 
-
-
-
-
 ## ----run-stats-----------------------------------------------------------
 # (5) let's do some stats! t-test and boxplots of veg height and greenness 
 # distributions in north versus south facing parts of scene.
@@ -338,44 +374,7 @@ NDVI.ttest <- t.test(north.ndvi.df$NDVI,
                      alternative = "greater")
 
 
-## ----another-solution----------------------------------------------------
-
-# now to do more complicated non-spatial stats in R we need to convert our
-# raster data to vectors - for this example the spatial distribution of the
-# data doesn't matter.
-
-#north.NDVI.vec <- getValues(north.NDVI)
-#south.NDVI.vec <- getValues(south.NDVI)
-
-
-# and get rid of NAs for simplicity (the above vectors are all the same length
-# and include all the cells in the original dataset)
-
-#north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
-#south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
-
-# now let's make a data frame with a north versus south column
-#aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
-#                 rep("south", length(south.NDVI.vec)))
-#aspect.NDVI <- as.factor(aspect.NDVI)
-
-#NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
-
-# this (below) is clunky - I thought I could use cbind but 'factors' are getting the 
-# best of me
-#NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
-#names(NDVI.dat) <- c("aspect", "NDVI")
-#NDVI.dat[,1] <- aspect.NDVI
-#NDVI.dat[,2] <- NDVI.vec
-#boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
-#        on North versus South facing slopes")
-
-# and now a t-test - note that since these aren't normally distributed, this
-# might not be the best approach, but ok for a quick assessment.
-# NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
-
-
-## ----veght-aspect-compare------------------------------------------------
+## ----veght-aspect-compare, echo=FALSE------------------------------------
 # mask tall pixels on north and south facing slopes 
 north.veght <- mask(all.data[[4]], north.facing)
 south.veght <- mask(all.data[[4]], south.facing)
@@ -402,37 +401,5 @@ boxplot(veght ~ aspect,
 # and now a t-test - note that since these aren't normally distributed, this
 # might not be the best approach, but ok for a quick assessment.
 veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = "greater")
-
-
-## ----veg-ht--------------------------------------------------------------
-
-# # isolate veg height pixels on north and south facing slopes
-# north.veght <- all.data[[4]] * north.facing
-# south.veght <- all.data[[4]] * south.facing
-# 
-# # and now for veg height
-# north.veght.vec <- getValues(north.veght)
-# south.veght.vec <- getValues(south.veght)
-# 
-# north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
-# south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
-# 
-# # now let's make a data frame with a north versus south column
-# aspect.veght <- c(rep("north", length(north.veght.vec)), 
-#                  rep("south", length(south.veght.vec)))
-# aspect.veght <- as.factor(aspect.veght)
-# 
-# veght.vec <- c(north.veght.vec, south.veght.vec)
-# 
-# veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
-# names(veght.dat) <- c("aspect", "veght")
-# veght.dat[,1] <- aspect.veght
-# veght.dat[,2] <- veght.vec
-# boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
-#         on North versus South facing slopes")
-# 
-# # same caution as above!
-# veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
-
 
 
