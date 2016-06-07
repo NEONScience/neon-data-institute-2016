@@ -64,7 +64,7 @@ headquarters. The entire dataset can be accessed by request from the
 <a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
 
 You will want to create a **data** directory for all the Data Institute teaching 
-data sets. We suggest the pathway be `~/Documents/data/data-institute2016` or 
+data sets. We suggest the pathway be `~/Documents/data/data-institute-2016` or 
 the equivalent for your operating system. Once you've downloaded and unzipped 
 the dataset, move it to this directory. 
 
