@@ -108,7 +108,7 @@ ready to create your own RMD document. Do the following:
 1. Create a new R Markdown file and choose HTML as the desired output format.
 2. Enter a Title (Explore NEON LiDAR Data) and Author Name (your name). Then click OK.
 3. Save the file using the following format: **LastName-institute-week3.rmd**
-NOTE: The document title does not specify the filename.
+NOTE: The document title is not the same as the filename.
 4. Hit the knit button in R studio (as is done in the video above). What happens?
 
 <figure>
@@ -123,8 +123,8 @@ If everything went well, you should have an HTML format (web page) output
 after you hit the knit button. Note that this HTML output is built from a combination
 of code and documentation that was written using markdown syntax.
 
-Next, we'll break down the structure of an R Markdown file. 
 
+Next, we'll break down the structure of an R Markdown file. 
 
 ## Understand Structure of an R Markdown file
 
@@ -144,20 +144,22 @@ change the appearance of your RStudio by **Tools** > **Options**
 <a href="https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio" target="_blank">Custominzing RStudio page</a>.
 {: .notice}
 
-When you open a new R Markdown file, it is pre-populated with content within 3 
-main section types:
+Let's next review the structure of an R Markdown (`.Rmd`) file. There are three
+main content types:
 
-* **Header:** written in *YAML* format
+* **Header:** the text at the top of the document, written in *YAML* format.
 * **Markdown sections:** text that describes your workflow written using *markdown syntax*.
-* **Code chunks:** Chunks of R code that are rendered differently so they are easy to 
-read. 
+* **Code chunks:** Chunks of R code that can be run and also can be rendered
+using knitr to an output document. 
 
 Next let's explore each section type.
 
 ### Header -- YAML block
 
-An R Markdown file always starts with header written using <a href="https://en.wikipedia.org/wiki/YAML" target="_blank">YAML syntax</a>. There are four default elements 
-in the RStudio generated YAML header: 
+An R Markdown file always starts with header written using 
+<a href="https://en.wikipedia.org/wiki/YAML" target="_blank">YAML syntax</a>. 
+There are four default elements in the RStudio generated YAML header: 
+
 
 * **title:** the title of your document. Note, this is not the same as the file name.
 * **author:** who wrote the document.
@@ -170,7 +172,7 @@ Learn more on the
 
 <div id="challenge" markdown="1">
 ## Activity: R Markdown YAML
-Customize the header of your RMD file as follows: 
+Customize the header of your `.Rmd` file as follows: 
 
 * **Title:** Provide a title that fits the code that will be in your RMD.  
 * **Author:** Add your name here. 
@@ -196,6 +198,7 @@ output HTML document.
 ### Explore Your R Markdown File
 
 Look closely at the pre-populated markdown and R code chunks in your RMD file. 
+
 Does any of the markdown syntax look familiar?
 
 * Are any words in bold?
@@ -207,7 +210,7 @@ If you are unsure, the answers are at the bottom of this page.
  <div id="challenge" markdown="1">
 ## Activity: R Markdown Text
 
-1. Remove the template markdown and code blocks added to the RMD file by RStudio. 
+1. Remove the template markdown and code chunks added to the RMD file by RStudio. 
 (Be sure to keep the YAML header!)
 2. At the very top of your RMD document - after the YAML header, add
 the bio and short research description that you wrote last week in markdown syntax to
@@ -228,8 +231,8 @@ name to markdown segments of an RMD. For more, view this
 
 ### Code chunks
 
-Code chunks are where your R code goes. All
-code chunks start and end with <code>```</code>  -- three backticks or graves. On 
+Code chunks are where your R code goes. All code chunks start and end with
+<code>```</code>  -- three backticks or graves. On 
 your keyboard, the backticks can be found on the same key as the tilde. 
 Graves are not the same as an apostrophe!
 
@@ -240,9 +243,9 @@ The initial line of a code chunk must appear as:
  ```</code></pre>
 
 The `r` part of the chunk header identifies this chunk as an R code chunk and is 
-mandatory. Next to the `r`, there is a chunk name. This name is not required for 
-basic knitting however, it is good practice to give each chunk a unique name as 
-it is required for more advanced knitting approaches. 
+mandatory. Next to the `{r}`, there is a chunk name. This name is not required 
+for basic knitting however, it is good practice to give each chunk a unique 
+name as it is required for more advanced knitting approaches. 
 
 <div id="challenge" markdown="1">
 
@@ -350,7 +353,7 @@ Now continue on to the
 [next tutorial]({{site.baseurl}}/tutorial-series/pre-institute3/rmd03)
 to learn how to knit this document into a HTML file.
 
-### Answers to the Default Text Markdown Syntax Questions
+## Answers to the Default Text Markdown Syntax Questions
 
 * Are any words in bold? - Yes, “Knit” on line 10
 * Are any words in italics? - No
