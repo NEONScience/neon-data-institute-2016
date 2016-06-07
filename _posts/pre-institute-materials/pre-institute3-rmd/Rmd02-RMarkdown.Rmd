@@ -65,7 +65,7 @@ headquarters. The entire dataset can be accessed by request from the
 
 You will want to create a **data** directory for all the Data Institute teaching 
 data sets. We suggest the pathway be `~/Documents/data/data-institute2016` or 
-the equivallent for your operating system. Once you've downloaded and unzipped 
+the equivalent for your operating system. Once you've downloaded and unzipped 
 the dataset, move it to this directory. 
 
 <figure>
@@ -78,7 +78,7 @@ the dataset, move it to this directory.
 
 
 ## Additional Resources
-* <a href="http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf" target="_blank"> R Markdown Cheetsheet</a>: a very handy reference for using R
+* <a href="http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf" target="_blank"> R Markdown Cheatsheet</a>: a very handy reference for using R
 Markdown
 * <a href="http://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf" target="_blank"> R Markdown Reference Guide</a>: a more expensive reference for R
 Markdown
@@ -102,13 +102,13 @@ full screen mode.
 
 ## Create an RMD File
 
-Now that you have a sense of how RMarkdown can be used in R studio, you are 
+Now that you have a sense of how R Markdown can be used in R studio, you are 
 ready to create your own RMD document. Do the following: 
 
 1. Create a new R Markdown file and choose HTML as the desired output format.
 2. Enter a Title (Explore NEON LiDAR Data) and Author Name (your name). Then click OK.
 3. Save the file using the following format: **LastName-institute-week3.rmd**
-NOTE: The document title is not the same as the filename.
+NOTE: The document title is not the same as the file name.
 4. Hit the knit button in R studio (as is done in the video above). What happens?
 
 <figure>
@@ -141,7 +141,7 @@ Next, we'll break down the structure of an R Markdown file.
 from RStudio with appearance preferences set to `Twilight w/ Monaco font`. You can
 change the appearance of your RStudio by **Tools** > **Options**
 (or **Global Options** depending on the operating system). For more, see the
-<a href="https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio" target="_blank">Custominzing RStudio page</a>.
+<a href="https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio" target="_blank">Customizing RStudio page</a>.
 {: .notice}
 
 Let's next review the structure of an R Markdown (`.Rmd`) file. There are three

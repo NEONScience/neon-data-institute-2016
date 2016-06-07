@@ -80,7 +80,7 @@ R Markdown files. The components of the finished RMD and HTML files should inclu
 * Your name as an author of the file.
 * At the top of the .Rmd file, add your **bio** and **project summary**
 that 
-[you wrote and submitted in week 2 as a `.md` file]({{ site.baseurl }}tutorial-series/pre-institute2/git-culmination). 
+[you wrote and submitted in week 2 as a `.md` file]({{ site.baseurl }}/tutorial-series/pre-institute2/git-culmination). 
 Please update your project summary if you have changes. 
 
 * In the RMD file, create a script that does the following: 
@@ -89,9 +89,8 @@ Please update your project summary if you have changes.
   * Create a histogram for each raster file that shows the distribution of values 
   in the file.
   * All plots should be labelled appropriately.
-* Be sure to include:
-  * 3 or more named R code chunks.
-  * OPTIONAL: Code chunk options in at least 1 chunk, e.g.`warnings = FALSE`.
+* Include 3 or more named R code chunks.
+* OPTIONAL: Code chunk options in at least 1 chunk, e.g.`warnings = FALSE`.
 * Break up your code into R Markdown chunks that makes sense to you. Use 
 Markdown syntax to document the steps that you are taking to "process" the data. 
 Provide some summary discussion of the results at the end of the document. 
