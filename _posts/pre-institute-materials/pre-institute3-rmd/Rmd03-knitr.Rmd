@@ -2,7 +2,7 @@
 layout: post
 title: "Publish Code - From R Markdown to HTML with knitr"
 description: "This tutorial introduces how to use the R knitr package to publish
-from R Markdown files to html (or other) file format."
+from R Markdown files to HTML (or other) file format."
 date: 2016-05-17
 dateCreated: 2016-01-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
@@ -45,32 +45,15 @@ your computer to complete this tutorial.
 
 * **knitr:** `install.packages("knitr")`
 * **rmarkdown:** `install.packages("rmarkdown")`
-* **raster:** `install.packages("raster")`
-* **rgdal:** `install.packages("rgdal")`
-
-### Download Data
-
-<a class="btn btn-success" href="https://ndownloader.figshare.com/files/5282317"
-target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
-
-The LiDAR and imagery data used to create this raster teaching data subset were
-collected over the
-<a href="http://www.neonscience.org/" target="_blank">National Ecological Observatory Network’s </a>
-<a href="http://www.neonscience.org/science-design/field-sites/lower-teakettle" target="_blank">Lower Teakettle field site </a>
-and processed at NEON
-headquarters. The entire dataset can be accessed by request from the
-<a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
-
-
 </div>
 
 ## Share & Publish Results Directly from Your Code!
 
-The knitr package allow us to:
+The `knitr` package allow us to:
 
 * Publish & share preliminary results with collaborators.
 * Create professional reports that document our workflow and results directly
-from our code, reducing the risk of accidental copy and paste / transcription errors.
+from our code, reducing the risk of accidental copy and paste or transcription errors.
 * Document our workflow to facilitate reproducibility.
 * Efficiently change code outputs (figures, files) given changes in the data, methods, etc.
 
@@ -82,7 +65,7 @@ To complete this tutorial you need:
 visit
 <a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/" target="_blank"> the NEON Institute setup instruction page</a>.
 2. An R Markdown document that contains a YAML header, code chunks and markdown
-segments. If you don't have an `.Rmd` file, visit
+segments. If you don't have an **.Rmd** file, visit
 <a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank"> the R Markdown tutorial</a> to create one.
 
 <i class="fa fa-star"></i> **When To Knit**: Knitting is a useful exercise
@@ -102,16 +85,17 @@ and the size of your data.
 	</figcaption>
 </figure>
 
-To knit in RStudio, click the "knit" pull down button. You want to use the  
+To knit in RStudio, click the **knit** pull down button. You want to use the  
 **knit HTML** for this lesson.
 
-When you click the `Knit HTML` button, a  window will open in your Console titled R Markdown. This
+When you click the **Knit HTML** button, a  window will open in your console 
+titled R Markdown. This
 pane shows the knitting progress. The output (HTML in this case) file will
 automatically be saved in the current working directory. If there is an error
-in the code, an error message will appear with a line number in the R Consols
+in the code, an error message will appear with a line number in the R Console
 to help you diagnose the problem.
 
-<i class="fa fa-star"></i> **Data Tip** You can run `knitr` from the command prompt
+<i class="fa fa-star"></i> **Data Tip:** You can run `knitr` from the command prompt
 using: `render(“input.Rmd”, “all”)`.
 {: .notice}
 
@@ -119,7 +103,7 @@ using: `render(“input.Rmd”, “all”)`.
 
 ## Activity: Knit Script
 
-Knit the `.Rmd` file that you built in
+Knit the **.Rmd** file that you built in
 <a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank">the last tutorial</a>.
 What does it look like?
 </div>
@@ -129,7 +113,7 @@ What does it look like?
 <figure>
 	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/Rmd-screenshot-html.png">
 	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/Rmd-screenshot-html.png"></a>
-	<figcaption> Rmd (left) and the resultant HTML (right) after knitting.
+	<figcaption> R Markdown (left) and the resultant HTML (right) after knitting.
 	Source: National Ecological Observatory Network (NEON)
 	</figcaption>
 </figure>
@@ -138,21 +122,21 @@ When knitting is complete, the new HTML file produced will automatically open.
 
 Notice that information from the YAML header (title, author, date) is printed
 at the top of the HTML document. Then the HTML shows the text, code, and
-results of the code that you included in the `.Rmd` document.
+results of the code that you included in the RMD document.
 
 <div id="challenge" markdown="1">
 
 ## Activity: Complete Week 2 Assignment
 
-* Read [this week’s assignment]({{ site.baseurl}}/tutorial-series/pre-institute3/rmd02) closely.
-Edit your .Rmd document to ensure that you have completed all of the steps
+* Read [this week’s assignment]({{ site.baseurl}}/tutorial-series/pre-institute3/pre-week-3-activity) closely.
+Edit your RMD document to ensure that you have completed all of the steps
 required by assignment.
 * Be sure to carefully check your knitr output to make sure it is rendering the
 way you think it should!
-* When you are complete, submit your .Rmd and .html files to the participants
-NEON Central Institute GitHub repository (**NEON-WorkWithData/DI16-NEON-participants**).
-* Be sure your file is saved in the **/participants/pre-institute3-rmd/** directory
-as a `pull request`.
+* When you are complete, submit your .Rmd and .html files to the 
+NEON Institute participants GitHub repository (**NEON-WorkWithData/DI16-NEON-participants**).
+* Be sure your file is saved in the **/participants/pre-institute3-rmd/** directory and submitted via 
+a **pull request**.
 
 </div>
 

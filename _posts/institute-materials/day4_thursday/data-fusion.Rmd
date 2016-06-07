@@ -14,7 +14,7 @@ mainTag: institute-day4
 tags: [R, HDF5]
 tutorialSeries: [institute-day4]
 description: "Intro to data fusion"
-code1:  /institute-day4/data-fusion.R
+code1:  /institute-materials/day4_thursday/data-fusion.R
 image:
   feature: 
   credit: 

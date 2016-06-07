@@ -30,11 +30,11 @@ workflows online.
 <div id="objectives" markdown="1">
 
 # Learning Objectives
-At the end of this activity, you will:
+At the end of this activity, you will be able to:
 
-* Be able to document your code using R Markdown (`.rmd`).
-* Be able to create an R Markdown file in R.
-* Know how to use the knitr package in RStudio to publish code and code outputs.
+* Explain why documenting and publishing one's code is important.
+* Describe two tools that enable ease of publishing code & output: R Markdown and 
+the `knitr` package. 
 
 </div>
 
@@ -46,7 +46,7 @@ the four facets of reproducible science are:
 
 * Documentation
 * Organization,
-* Automation, and
+* Automation and
 * Dissemination.
 
 This week we will learn about the R Markdown file format (and R package) which
@@ -64,8 +64,8 @@ documents, presentations, and reports from R. It combines the core syntax of
 markdown (an easy to write plain text format) with embedded R code chunks that
 are run so their output can be included in the final document. R Markdown
 documents are fully reproducible (they can be automatically regenerated whenever
-underlying R code or data changes). "
--- <a href="http://rmarkdown.rstudio.com/" target="_blank">RStudio</a>.
+underlying R code or data changes)."
+-- <a href="http://rmarkdown.rstudio.com/" target="_blank">RStudio documentation</a>.
 
 We use markdown syntax in R Markdown (.rmd) files to document workflows and
 to share data processing, analysis and visualization outputs. We can also use it
@@ -84,7 +84,7 @@ There are many advantages to using R Markdown in your work:
 
 * Human readable syntax.
 * Simple syntax - it can be learned quickly.
-* All components of your work is clearly documented. You don't have to remember
+* All components of your work are clearly documented. You don't have to remember
 what steps, assumptions, tests were used.
 * You can easily extend or refine analyses by modifying existing or adding new
 code blocks.
