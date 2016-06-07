@@ -11,13 +11,13 @@ image:
 ---
 ## Welcome to pre-Institute Week 3
 
-In week 3,  use the R Markdown file format to document code and efficiently
-publish code results / outputs. You will practice your git skills by publishing
+In week 3, you will use the R Markdown file format to document code and efficiently
+publish code results & outputs. You will practice your Git skills by publishing
 your work in the **NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
 
 
 <a class="btn btn-info" href="{{ site.baseurl}}/tutorial-series/pre-institute3/pre-week-3-activity">
-View Pre-Data Institute Week 3 Assignment</a>
+Preview the Pre-Institute Week 3 Assignment</a>
 
 **NOTE:** If you are familiar with using R Markdown files to document your
 workflow and knitting to HTML then you may be able to complete the assignment

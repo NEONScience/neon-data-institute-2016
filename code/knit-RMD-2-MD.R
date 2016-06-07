@@ -15,7 +15,7 @@ dirs <- c("institute-materials/day1_monday",
           "institute-materials/day6_saturday",
           "pre-institute-materials/pre-institute3-rmd")
 #################### Set up Input Variables #############################
-# set directory that  you'd like to build
+# set directory that  you'd like to build, based on the order in `dirs`
 dir <- dirs[7]
 
 # Inputs - Where the git repo is on your computer
@@ -25,9 +25,9 @@ gitRepoPath <-"~/Documents/GitHub/neon-data-institute-2016"
 add.date <- "2016-06-20-"
 
 # set working dir - this is where the data are located
-wd <- "~/Documents/data/1_data-institute-2016"
+#wd <- "~/Documents/data/1_data-institute-2016"
 
-# wd <- "~/Documents/data/Spatio_TemporalWorkshop"
+wd <- "~/Documents/data/data-institute-2016"
 
 ################### CONFIG BELOW IS REQUIRED BY JEKYLL - DON'T CHANGE ##########
 #set data working dir
