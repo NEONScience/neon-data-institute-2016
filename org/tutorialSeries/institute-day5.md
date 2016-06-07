@@ -18,21 +18,22 @@ to work on a group project that uses NEON data!
 
 # Learning Objectives
 
-During this activity you will: 
+During this activity you will:
 
-* Apply the skills that you have learned to process data using efficient 
+* Apply the skills that you have learned to process data using efficient
 coding practices.
 * Apply your understanding of remote sensing data and use it to address a science
 question of your choice.
-* Implement version control and collaborate with your colleagues through the 
+* Implement version control and collaborate with your colleagues through the
 GitHub platform.
 
 ****
 
 **Additional Tutorial Resources:**
 
-* RStudio <a href="http://rmarkdown.rstudio.com/revealjs_presentation_format.html" target="_blank"> reveal.js presentation help page</a>
+* <a href="http://rmarkdown.rstudio.com/revealjs_presentation_format.html" target="_blank"> Learn how to use R studio to create a reveal.js presentation.</a>
+
 
 </div>
 
-## Afternoon Agenda
+## Agenda

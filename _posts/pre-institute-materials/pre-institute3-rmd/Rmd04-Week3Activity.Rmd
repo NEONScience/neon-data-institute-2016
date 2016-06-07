@@ -2,12 +2,12 @@
 layout: post
 title: "Pre-Institute Week 3 Assignment"
 description: "This page details how to complete the assignment for pre-Institute week 3."
-date: 2016-05-18
+date: 2016-05-16
 dateCreated: 2016-01-01
-lastModified: 2016-05-27
+lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 estimatedTime:
 packagesLibraries:
-authors: [Megan A. Jones, Leah Wasser]
+authors:
 categories: [tutorial-series]
 tags:
 mainTag: pre-institute3-rmd
@@ -17,25 +17,25 @@ image:
  feature: data-institute-2016.png
  credit:
  creditlink:
-permalink: /tutorial-series/pre-institute3/rmd02
+permalink: /tutorial-series/pre-institute3/pre-week-3-activity
 comments: true
 ---
 
 ## About
 This tutorial covers the NEON Pre-Institute Week 3 assignment. If you already
-are familiar with R Markdown and knitr, you may be able to complete the 
-assignment without working through the next two tutorials. 
+are familiar with `R Markdown` and `knitr`, you may be able to complete the 
+assignment without working through the tutorials. 
 
 <div id="objectives" markdown="1">
 
 # Deadlines
-**Due:** Please have this activity merged into the
-**NEON-WorkWithData/DI16-NEON-participants** GitHub repo by 11:59pm on
-16 June 2016.
+**Due:** Please submit your activity RMarkdown and HTML filesto the
+**NEON-WorkWithData/DI16-NEON-participants** GitHub repo as a `pull-request`
+by 11:59pm on 16 June 2016.
 
 ## Download Data
 
-<a class="btn btn-inverse" href="https://ndownloader.figshare.com/files/5282317" 
+<a class="btn btn-success" href="https://ndownloader.figshare.com/files/5282317" 
 target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
 
 The LiDAR and imagery data used to create this raster teaching data subset were 
@@ -66,9 +66,11 @@ download.
 The next two tutorials will walk you through how to create, edit, and knit 
 R Markdown files. Here are the components of the finished HTML file. 
 
-* Create a new .Rmd file. 
+* Create a new .Rmd file with an `HTML` output. 
+* At the top of your `.Rmd` file, add your **bio** and **project summary**
+that [you wrote and submitted in week 2 as a `.md` file]({{ site.baseurl}} tutorial-series/pre-institute2/git-culmination). 
 
-* Within the RMD file, create a script that does the following: 
+* In the RMD file, create a script that does the following: 
 
   * Open and plot at least 2 raster files in the `/lidar/ directory using the `plot()` 
   function in the raster package.
