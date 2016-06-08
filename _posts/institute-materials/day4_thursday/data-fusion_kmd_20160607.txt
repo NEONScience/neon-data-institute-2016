@@ -14,7 +14,7 @@ mainTag: institute-day4
 tags: [R, HDF5]
 tutorialSeries: [institute-day4]
 description: "Intro to data fusion"
-code1:  /institute-materials/day4_thursday/data-fusion.R
+code1: .R
 image:
   feature: 
   credit: 
@@ -48,13 +48,21 @@ maintain function code that we use regularly in ONE PLACE.
 # import NEON aop R package
 library(devtools)
 ## install from github
-# install_github("lwasser/neon-aop-package/neonAOP")
+install_github("lwasser/neon-aop-package/neonAOP")
 library(neonAOP)
 
+# your file will be in your working directory!
+# this is also an R package!
+#source("aop-data.R")
+#source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 ```
 
 ## Import NEON Lidar Data Products
 
+First, let's import several NEON lidar data products. 
+
+# KYLA - Do we need the DSM and DTM now that we have a CHM pre-processed?
+### I guess not but it might be interesting to look at, and for students' independent projects?
 
 ```{r import-lidar }
 
@@ -74,7 +82,8 @@ Next, let's explore our CHM data.
 
 ```{r plot-chm}
 
-# Check out the height distribution - do the values seem reasonable?
+# do the numbers look reasonable? 60 m is tall for a tree, but
+# this is Ponderosa pine territory (I think), so not out of the question.
 plot(chm,
      main="Canopy Height - Teakettle \nCalifornia") 
 
@@ -93,6 +102,7 @@ is not sensitive enough to distinguish objects that are closer than ~2m apart ve
 ## Explore Veg Height data
 
 Have a close look at the veg height values. Do they seem reasonable?
+### adding this to introduce cellStats early on.
 
 ```{r view-summary-stats}
 # view chm mean and max
@@ -122,7 +132,7 @@ Thus simply selecting one band in each region is not always the most
 robust way to go. 
 
 
-```{r read-hsi-data }
+```{r read-hsi-data, eval=FALSE}
 
 # first identify the file of interest
 f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
@@ -135,9 +145,8 @@ epsg <- 32611
 bands <- c(60,83)
 
 # Let's read in a few spectral bands as a stack using a function
-ndvi.stack <- create_stack(f, 
-                           bands = bands,
-                           epsg=epsg)
+ndvi.stack <- create_stack(f, bands = bands,
+            epsg=epsg)
 
 # calculate ndvi
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
@@ -145,7 +154,28 @@ names(ndvi) <- "Teak_hsiNDVI"
 
 # plot ndvi
 plot(ndvi,
-     main="NDVI \nNEON Teakettle Field Site")
+     main="NDVI Teakettle Field Site")
+
+```
+
+
+
+## Import NDVI data
+
+We can import the NEON NDVI data product next to use in our analysis.
+
+```{r import-NDVI }
+
+# import NEON NDVI product
+ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+
+# plot NDVI
+### I just did this out of curiosity, but it's funny that our NDVI calc is different from the 'neon product' - could make a point here about uncertainty and why open data is good (even a standard measure like NDVI can be calculated in different ways) - I'm guessing here the NEON product has been averaged across several bands to match MODIS or LandSat band widths?
+
+## HI KYLA -- YUP - you've got it. our product I believe will be a bit more robust
+## because Dave took some time to consider the band component and associated distribution of reflectance across the bands in the red and NIR parts. i'll ask him to discuss that in his wednesday AM presentation
+plot(ndvi - ndvi2,
+     main="NDVI DIFFERENCE, TEAK Field Site")
 
 ```
 
@@ -160,35 +190,34 @@ all.data <- brick(ndvi, lidar.brick)
 
 ## Heterogeneous Data - Varying Extents
 
-Looks like we have an error. Why didn't the brick function work?
-Let's check out the extents of both R objects - `chm` and `ndvi`.
+oops - why didn't the brick work?
 
-```{r check-extents }
-# view extents
+```{r}
+
 extent(chm)
 extent(ndvi)
 ```
 
 ## Dealing with Different Extents
 
-The extents are slightly different. Let's write a if statment that checks the extents
+The extents are different. Let's write a if statment that checks the extents
 and crops them in case they are different.
 
 Note this could become a function that you use over and over! If you used
 it that way you'd want to implement a crop of BOTH datasets just in case
 neither are perfectly within the overlap region.
 
-```{r fix-extent }
+```{r check-extents}
 # check the extents of the two raster layers -- if they are different
 # crop the data 
 
 if (extent(chm) == extent(ndvi)){
  } else {
-    print("Extents are different, cropping data")
  overlap <- intersect(extent(ndvi), extent(lidar.brick))
   # now let's crop the lidar data to the HSI data
  lidar.brick <- crop(lidar.brick, overlap)
  ndvi <- crop(ndvi, overlap)
+ print("Extents are different, cropping data")
  }
 
 ```
@@ -204,62 +233,6 @@ names(all.data) <- all.names
 
 ```
 
-## Import NEON NDVI data product
-
-We can import the NEON NDVI data product next to use in our analysis. Let's then
-compare that to NDVI that we calculated. Are they the same?
-
-```{r import-NDVI }
-
-# import NEON NDVI product
-ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
-
-# compare the two products
-ndvi.diff <- ndvi-ndvi2
-
-# plot difference
-plot(ndvi.diff,
-     main="NDVI DIFFERENCE, TEAK Field Site")
-
-```
-
-## Different extents
-
-OPTIONAL -- Ok - now we've run in to this extent issue twice. Maybe it's time to create a crop
-extent function.
-
-```{r create-extent-function }
-
-# check the extents of the two raster layers -- if they are different
-# crop the data 
-same_extent <- function(raster1,raster2){
-  if (extent(raster1) == extent(raster2)){
-    print("Both rasters have the same extent.")
-   } else {
-   overlap <- intersect(extent(raster1), extent(raster2))
-    # now let's crop both rasters
-   # note it wold be better to figure out which raster is outside of
-   # the overlap just in case the crop is time intensive
-   raster1 <- crop(raster1, overlap)
-   raster2 <- crop(raster2, overlap)
-   # create a stack of the two rasters
-   raster.stack <- stack(raster1, raster2)
-   print("Extents are different. Cropping data")
-   return(raster.stack)
-   }
-}
-```
-
-## Compare NEON NDVI to Calculated NDVI
-
-Next, let's compare the NEON NDVI data product to NDVI that we calculated from 
-the same HDF5 file.
-
-```{r ndvi-stack }
-
-
-```
-
 
 ## Consider Slope & Aspect
 
@@ -267,7 +240,7 @@ Next, let's test a simple hypothesis.
 
 Because California is:
 
-* Dry and 
+* dry and 
 * In the northern hemisphere.
 
 We may expect to find taller, greener vegetation on north facing slopes than on 
@@ -293,14 +266,10 @@ aspect <- crop(aspect, extent(chm))
 
 ```
 
-<div class="notice" markdown="1">
+
 <i class="fa fa-star"></i> **Data Tip:** You can create an aspect layer from a 
-DEM / DTM using the terrain function:
- `terrain(all.data[[3]], 
- opt = "aspect", 
- unit = "degrees", 
- neighbors = 8)`
-</div>
+DEM / DTM using the terrain function: `terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)`
+{: .notice}
 
 ### 2. Create Aspect Mask
 
@@ -438,12 +407,9 @@ when you are determining what your thresholds are.
 Uncertainty discussion: selecting thresholds.
 
 ```{r calculate-tall-threshold }
-# create threshold dataframe
-thresholds <- data.frame(id=1)
-
 # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-thresholds$height <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
-thresholds$height
+ht.threshold <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+ht.threshold
 
 ```
 
@@ -458,11 +424,11 @@ hist(all.data[[1]],
 
 # this is a nice bimodal data set, so let's just take the top 1/3 of the data
 # or manually calculate the top third
-thresholds$greenRange <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
-thresholds$greenThresh <- all.data.stats["NDVI","Max."] - (thresholds$greenRange/3)
+green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
+green.threshold <- all.data.stats["NDVI","Max."] - (green.range/3)
 
 # or manually calculate mean + 1 sd
-# thresholds$greenThresh <- all.data.stats["NDVI","mean"] + all.data.stats["NDVI","sd"]
+green.threshold <- all.data.stats["NDVI","mean"] + all.data.stats["NDVI","sd"]
 
 ```
 
@@ -487,8 +453,8 @@ south.count <- freq(asp.ns, value =2)
 # create a new layer with pixels that are north facing, above the green threshold and
 # above the CHM height threshold
 north.tall.green <- asp.ns == 1  & 
-                    all.data[[1]] >= thresholds$greenThresh & 
-                    all.data[[4]] >= thresholds$height
+                    all.data[[1]] >= green.threshold & 
+                    all.data[[4]] >= ht.threshold
 
 # assign values of 0 to NA so this becomes a mask
 north.tall.green[north.tall.green == 0] <- NA
@@ -500,8 +466,8 @@ north.tall.green.count <- freq(north.tall.green, value =1)
 # repeat the same steps for south facing slopes. Note
 # we are repeating code - this could become a nice function!
 south.tall.green <- asp.ns == 2 & 
-                    all.data[[1]] >= thresholds$greenThresh & 
-                    all.data[[4]] >= thresholds$height
+                    all.data[[1]] >= green.threshold & 
+                    all.data[[4]] >= ht.threshold
 
 south.tall.green.count <- freq(south.tall.green, value=1)
 south.tall.green[south.tall.green == 0] <- NA
@@ -515,6 +481,13 @@ south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 # slopes do. So that's reassuring. (using original data set)
 
 ```
+
+# Kyla - what's happening in this code is we are generating a lot of small r objects.
+# green.def, thresholds, etc
+# i'd probably create a data.frame with them all in there which will be much
+# easier to keep track of. so maybe a dataframe with all of the pixel counts for
+# north and south tall green and asp.ns would be nice. Then maybe a threshold data.frame
+### fine with me! - you're the R expert :)
 
 ## Plot Color Infrared (CIR) Image
 
@@ -568,7 +541,13 @@ plot(south.tall.green,
 
 ```
 
-
+# KYLA - i appreciate your comment below! Should we expand on this?
+### hmmm... maybe I'll just include this in some of the uncertainty discussion? though I keep saying that and it's only 30 min...
+# Note here that there are clusters where 'south facing' and 'north facing'
+# pixels are very close together - this is due to the very fine resolution of the
+# topo data. One might want to either smooth this data (low-pass filter) or
+# use a larger kernel to calculate slope (not possible with the terrain fxn in
+# the raster package)
 
 
 ```{r run-stats}
@@ -581,9 +560,7 @@ south.NDVI <- mask(all.data[[1]], south.facing)
 
 ```
 
-## Grab Pixel Metrics
-
-Next, let's extract pixel values for our masked areas of interest.
+## Grab Values
 
 ```{r compare-aspect-NDVI }
 

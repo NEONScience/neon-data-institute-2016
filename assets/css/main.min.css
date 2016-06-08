@@ -1145,14 +1145,16 @@ svg:not(:root) {
 	border: 1px solid #308cbc
 }
 
-.btn.btn-info, .btn.btn-info:visited, #post-content a.btn.btn-info {
+.btn.btn-info, .btn.btn-info:visited, #post-content a.btn.btn-info,
+#relatedCode .btn.btn-info {
     background-color: #fff;
 		color: #308cbc
 }
 .btn-info:visited {
 	color: #308cbc
 }
-.btn-info:hover, #post-content a.btn.btn-info:hover {
+.btn-info:hover, #post-content a.btn.btn-info:hover,
+#relatedCode a.btn.btn-info:hover {
 	color: #308cbc;
 	background-color: #e3e8e8;
 	border: 1px solid #308cbc

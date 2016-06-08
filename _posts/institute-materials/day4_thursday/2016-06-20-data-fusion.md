@@ -3,7 +3,7 @@ layout: post
 title: "Lidar and Hyperspectral Data Product Fusion"
 date:   2016-06-20
 dateCreated:  2016-05-01
-lastModified: 2016-06-02
+lastModified: 2016-06-07
 authors: [Kyla Dahlin]
 instructors: [Kyla, Leah]
 time: "1:00"
@@ -14,7 +14,7 @@ mainTag: institute-day4
 tags: [R, HDF5]
 tutorialSeries: [institute-day4]
 description: "Intro to data fusion"
-code1: institute-materials/day4_thursday/data-fusion.R
+code1:  /institute-materials/day4_thursday/data-fusion.R
 image:
   feature: 
   credit: 
@@ -33,7 +33,7 @@ First, let's load the required libraries.
     library(rhdf5)
     library(rgdal)
     
-    # setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016")
+    # setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016/20160602")
     setwd("~/Documents/data/1_data-institute-2016")
 
 
@@ -43,16 +43,14 @@ having to retype the function code into our script. This also makes it easy to
 maintain function code that we use regularly in ONE PLACE. 
 
 
-    # your file will be in your working directory!
-    
-    # this is also an R package!
-    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+    # import NEON aop R package
+    library(devtools)
+    ## install from github
+    # install_github("lwasser/neon-aop-package/neonAOP")
+    library(neonAOP)
 
 ## Import NEON Lidar Data Products
 
-First, let's import several NEON lidar data products. 
-
-# KYLA - Do we need the DSM and DTM now that we have a CHM pre-processed?
 
 
     # import digital surface model (dsm) (top of the surface - includes trees and buildings)
@@ -68,12 +66,11 @@ First, let's import several NEON lidar data products.
 Next, let's explore our CHM data.
 
 
-    # do the numbers look reasonable? 60 m is tall for a tree, but
-    # this is Ponderosa pine territory (I think), so not out of the question.
+    # Check out the height distribution - do the values seem reasonable?
     plot(chm,
          main="Canopy Height - Teakettle \nCalifornia") 
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/unnamed-chunk-1-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/plot-chm-1.png)
 
     hist(chm,
          main="Distribution of Canopy Height - Teakettle \nCalifornia",
@@ -83,102 +80,184 @@ Next, let's explore our CHM data.
     ## Warning in .hist1(x, maxpixels = maxpixels, main = main, plot = plot, ...):
     ## 32% of the raster cells were used. 100000 values used.
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/unnamed-chunk-1-2.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/plot-chm-2.png)
 
 ## Valid Data Range
 
 The valid range of data for a NEON CHM is >= 2m. This is because the lidar system
 is not sensitive enough to distinguish objects that are closer than ~2m apart vertically.
 
-# Kyla- i've commented this out for the time being. Just note that there are no values between 0 and 2.
-# if you think we should leave chm values of 0, let's leave them. They just mean no vegetation.
-
-
-    # assign chm values of 0 to NA
-    # chm[chm < 2] <- NA
-    hist(chm, 
-         main="Distribution of Canopy Height - Teakettle \nCalifornia",
-         xlab="Tree Height (m)", 
-         col="springgreen")
-
-    ## Warning in .hist1(x, maxpixels = maxpixels, main = main, plot = plot, ...):
-    ## 32% of the raster cells were used. 100000 values used.
-
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/remove-nonvalid-values-1.png)
-
 ## Explore Veg Height data
 
 Have a close look at the veg height values. Do they seem reasonable?
+
+
+    # view chm mean and max
+    cellStats(chm, max)
+
+    ## [1] 55.68
+
+    cellStats(chm, mean)
+
+    ## [1] 5.62654
 
 ## Create LiDAR Raster Brick
 
 Next, we can stack the rasters together to create a brick.
 
-# Kyla - we can skip this step here IF we don't need the dtm, dsm.
-
 
     # for simplicity later let's stack these rasters together
-    # do we need the dtm dsm??
     lidar.brick <- brick(dsm, dtm, chm)
 
 ## Read Hyperspectral Data 
 
 Next, let's read in HSI data.
 
-# KYLA - we can skip this too if you are OK with using our NDVI data product
-# we also have EVI! We could use that too for greenness?
+We could use the NDVI data product however, let's calculate NDVI ourselves.
+Note, that there are many bands in HSI data within the red and NIR region.
+Thus simply selecting one band in each region is not always the most 
+robust way to go. 
+
 
 
     # first identify the file of interest
-    #f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
+    f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
+    
     # then id the projection code
     # define the CRS definition by EPSG code
-    #epsg <- 32611
+    epsg <- 32611
     
     # create a list of bands
-    #bands <- c(60,83)
+    bands <- c(60,83)
     
     # Let's read in a few spectral bands as a stack using a function
-    #ndvi.stack <- create_stack(bands = bands,
-    #             epsg=epsg)
+    ndvi.stack <- create_stack(f, 
+                               bands = bands,
+                               epsg=epsg)
     
     # calculate ndvi
-    #ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-    #names(ndvi) <- "Teak_hsiNDVI"
-    # check the extents of the two layers -- if they are different
-    # crop both datasets 
-    #if (extent(chm) == extent(ndvi)){
-    #  } else {
-    #  overlap <- intersect(extent(ndvi), extent(lidar.brick))
-      # now let's crop the lidar data to the HSI data
-    #  lidar.brick <- crop(lidar.brick, overlap)
-    #  ndvi <- crop(ndvi, overlap)
-    #  print("Extents are different, cropping data")
-    #  }
-
-## Import NDVI data
-
-We can import the NEON NDVI data product next to use in our analysis.
-
-
-    # import NDVI
-    ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+    ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
+    names(ndvi) <- "Teak_hsiNDVI"
     
-    # plot NDVI
+    # plot ndvi
     plot(ndvi,
-         main="NDVI, TEAK Field Site")
+         main="NDVI \nNEON Teakettle Field Site")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/import-NDVI-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/read-hsi-data-1.png)
 
 ## Create Brick of lidar and NDVI
 
 
-    # Create a brick from all of the data 
+    # Create a brick from the data 
     all.data <- brick(ndvi, lidar.brick)
+
+    ## Error in compareRaster(x): different extent
+
+## Heterogeneous Data - Varying Extents
+
+Looks like we have an error. Why didn't the brick function work?
+Let's check out the extents of both R objects - `chm` and `ndvi`.
+
+
+    # view extents
+    extent(chm)
+
+    ## class       : Extent 
+    ## xmin        : 325963 
+    ## xmax        : 326506 
+    ## ymin        : 4102905 
+    ## ymax        : 4103482
+
+    extent(ndvi)
+
+    ## class       : Extent 
+    ## xmin        : 325963 
+    ## xmax        : 326507 
+    ## ymin        : 4102904 
+    ## ymax        : 4103482
+
+## Dealing with Different Extents
+
+The extents are slightly different. Let's write a if statment that checks the extents
+and crops them in case they are different.
+
+Note this could become a function that you use over and over! If you used
+it that way you'd want to implement a crop of BOTH datasets just in case
+neither are perfectly within the overlap region.
+
+
+    # check the extents of the two raster layers -- if they are different
+    # crop the data 
     
+    if (extent(chm) == extent(ndvi)){
+     } else {
+        print("Extents are different, cropping data")
+     overlap <- intersect(extent(ndvi), extent(lidar.brick))
+      # now let's crop the lidar data to the HSI data
+     lidar.brick <- crop(lidar.brick, overlap)
+     ndvi <- crop(ndvi, overlap)
+     }
+
+    ## [1] "Extents are different, cropping data"
+
+Now let's try to create a brick again.
+
+
+    # Create a brick from the data 
+    all.data <- brick(ndvi, lidar.brick)
     # make names nice!
     all.names <- c("NDVI", "DSM", "DTM", "CHM" )
     names(all.data) <- all.names
+
+## Import NEON NDVI data product
+
+We can import the NEON NDVI data product next to use in our analysis. Let's then
+compare that to NDVI that we calculated. Are they the same?
+
+
+    # import NEON NDVI product
+    ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+    
+    # compare the two products
+    ndvi.diff <- ndvi-ndvi2
+    
+    # plot difference
+    plot(ndvi.diff,
+         main="NDVI DIFFERENCE, TEAK Field Site")
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/import-NDVI-1.png)
+
+## Different extents
+
+OPTIONAL -- Ok - now we've run in to this extent issue twice. Maybe it's time to create a crop
+extent function.
+
+
+    # check the extents of the two raster layers -- if they are different
+    # crop the data 
+    same_extent <- function(raster1,raster2){
+      if (extent(raster1) == extent(raster2)){
+        print("Both rasters have the same extent.")
+       } else {
+       overlap <- intersect(extent(raster1), extent(raster2))
+        # now let's crop both rasters
+       # note it wold be better to figure out which raster is outside of
+       # the overlap just in case the crop is time intensive
+       raster1 <- crop(raster1, overlap)
+       raster2 <- crop(raster2, overlap)
+       # create a stack of the two rasters
+       raster.stack <- stack(raster1, raster2)
+       print("Extents are different. Cropping data")
+       return(raster.stack)
+       }
+    }
+
+## Compare NEON NDVI to Calculated NDVI
+
+Next, let's compare the NEON NDVI data product to NDVI that we calculated from 
+the same HDF5 file.
+
+
 
 
 ## Consider Slope & Aspect
@@ -187,7 +266,7 @@ Next, let's test a simple hypothesis.
 
 Because California is:
 
-* dry and 
+* Dry and 
 * In the northern hemisphere.
 
 We may expect to find taller, greener vegetation on north facing slopes than on 
@@ -210,10 +289,14 @@ Let's get started.
     # crop the data to the extent of the other rasters we are working with
     aspect <- crop(aspect, extent(chm))
 
-
+<div class="notice" markdown="1">
 <i class="fa fa-star"></i> **Data Tip:** You can create an aspect layer from a 
-DEM / DTM using the terrain function: `terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)`
-{: .notice}
+DEM / DTM using the terrain function:
+ `terrain(all.data[[3]], 
+ opt = "aspect", 
+ unit = "degrees", 
+ neighbors = 8)`
+</div>
 
 ### 2. Create Aspect Mask
 
@@ -262,13 +345,14 @@ Greater than 315 should be classified as 1 (North Facing)
     # set 0 values to NA
     asp.ns[asp.ns==0] <- NA
 
+## Plot aspect
+
 
     # define the extetn of the map -
     # this is used to place the legend on the plot.
     ns.extent <- extent(asp.ns)
     
     # plot data
-    
     plot(asp.ns, 
          col=c("blue","green"),
          axes=F,
@@ -321,9 +405,6 @@ Now we want to determine what defines "tall" and "green". We can explore histogr
 of our data and use descriptive statistics to determine what values might make
 the most sense. 
 
-# kyla i've used the summary command to create a data.frame of summar stats rather than
-# creating each individually. I think it is a bit more efficient. Are you ok with that?
-
 
     # histogram of tree ht
     hist(all.data[[4]],
@@ -332,12 +413,6 @@ the most sense.
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/id-veg-metrics-1.png)
 
-    # get mean, min max stats to use later
-    # chm.stats <- data.frame(t(summary(all.data[[4]], na.rm=F)))
-    # chm.stats$mean <- ht.mean <- cellStats(all.data[[4]], mean)
-    # chm.stats$sd <- ht.mean <- cellStats(all.data[[4]], sd)
-    
-    
     # get mean, min max stats for all layers
     all.data.stats <- data.frame(t(summary(all.data, na.rm=T)))
     all.data.stats$mean <- ht.mean <- cellStats(all.data, mean, na.rm=T)
@@ -348,36 +423,36 @@ the most sense.
     # view data.frame
     all.data.stats
 
-    ##              Min.     X1st.Qu.       Median     X3rd.Qu.        Max. NA.s
-    ## NDVI   -0.2380682    0.1715571    0.4479272    0.6686972    0.920398    0
-    ## DSM  2172.8298340 2283.6398926 2310.2099609 2328.3000488 2391.829834    0
-    ## DTM  2172.8298340 2277.0100098 2306.5600586 2322.7900391 2385.229980    0
-    ## CHM     0.0000000    0.0000000    0.0000000    8.2100000   55.680000  855
+    ##              Min.     X1st.Qu.       Median     X3rd.Qu.         Max. NA.s
+    ## NDVI   -0.1495505    0.1341227    0.4074749    0.6767036    0.9049774    0
+    ## DSM  2172.8298340 2283.6398926 2310.2099609 2328.3000488 2391.8298340    0
+    ## DTM  2172.8298340 2277.0100098 2306.5600586 2322.7900391 2385.2299805    0
+    ## CHM     0.0000000    0.0000000    0.0000000    8.2100000   55.6800003  855
     ##              mean         sd
-    ## NDVI    0.4303631  0.2586877
+    ## NDVI    0.4126061  0.2745163
     ## DSM  2305.6751544 37.6960106
     ## DTM  2301.1770607 39.1300683
     ## CHM     5.6265399 10.0842808
 
+## Calculate Tall Trees Threshold
+
+Note, that the data aren't normally distributed - something to consider
+when you are determining what your thresholds are. 
+
+Uncertainty discussion: selecting thresholds.
+
+
+    # create threshold dataframe
+    thresholds <- data.frame(id=1)
+    
     # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-    ht.threshold <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
-    ht.threshold
+    thresholds$height <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+    thresholds$height
 
     ## [1] 15.71082
 
-# Kyla -- note that because we included CHM values of 0 in our analysis
-# the tall. ht.threhold is actually LOWER. the 0's are included in our
-# threshold which i think skews the mean because there are a LOT of 0's. 
-# something to note.
-
 Next, look at NDVI.
 
-# KYLA - would taking the 3rd quartile be ok here? 
-### I think either is fine but 3rd quartile is like 0.67, which is really high, so even
-### less data than using top third (~0.55)
-
-## OK - well let m eknow what you think. the nice thing with the quartile is that
-## it's a calculate statistic - however i'm open to whatever you think is best.
 
 
     # now let's look at ndvi
@@ -388,19 +463,13 @@ Next, look at NDVI.
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/explore-ndvi-1.png)
 
     # this is a nice bimodal data set, so let's just take the top 1/3 of the data
-    # could take the 3rd quartile
-    # do this using summary stats
-    # stats <- summary(all.data[[1]])
-    # stats[["3rd Qu.", 1]]
-    
     # or manually calculate the top third
-    green.range <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
-    green.threshold <- all.data.stats["NDVI","Max."] - (green.range/3)
+    thresholds$greenRange <- all.data.stats["NDVI","Max."] - all.data.stats["NDVI","Min."]
+    thresholds$greenThresh <- all.data.stats["NDVI","Max."] - (thresholds$greenRange/3)
+    
+    # or manually calculate mean + 1 sd
+    # thresholds$greenThresh <- all.data.stats["NDVI","mean"] + all.data.stats["NDVI","sd"]
 
-# KYLA - please note that we have NDVI values that are negative because there is
-# rock -- so the green range may not be ideal for this type of analysis
-# do we want to floor NDVI to 0 because of this as we are focused on veg in this 
-# analysis?
 
 ## 4. Calculate Percent of tall and green pixels 
 
@@ -421,8 +490,8 @@ object `asp.ns`.
     # create a new layer with pixels that are north facing, above the green threshold and
     # above the CHM height threshold
     north.tall.green <- asp.ns == 1  & 
-                        all.data[[1]] >= green.threshold & 
-                        all.data[[4]] >= ht.threshold
+                        all.data[[1]] >= thresholds$greenThresh & 
+                        all.data[[4]] >= thresholds$height
     
     # assign values of 0 to NA so this becomes a mask
     north.tall.green[north.tall.green == 0] <- NA
@@ -434,8 +503,8 @@ object `asp.ns`.
     # repeat the same steps for south facing slopes. Note
     # we are repeating code - this could become a nice function!
     south.tall.green <- asp.ns == 2 & 
-                        all.data[[1]] >= green.threshold & 
-                        all.data[[4]] >= ht.threshold
+                        all.data[[1]] >= thresholds$greenThresh & 
+                        all.data[[4]] >= thresholds$height
     
     south.tall.green.count <- freq(south.tall.green, value=1)
     south.tall.green[south.tall.green == 0] <- NA
@@ -447,12 +516,6 @@ object `asp.ns`.
     # if we look at these fracs, >11% of the pixels on north facing slopes should
     # meet our tall and green criteria, while <6% of the pixels on south facing
     # slopes do. So that's reassuring. (using original data set)
-
-# Kyla - what's happening in this code is we are generating a lot of small r objects.
-# green.def, thresholds, etc
-# i'd probably create a data.frame with them all in there which will be much
-# easier to keep track of. so maybe a dataframe with all of the pixel counts for
-# north and south tall green and asp.ns would be nice. Then maybe a threshold data.frame
 
 ## Plot Color Infrared (CIR) Image
 
@@ -505,12 +568,7 @@ plot the bands as an RGB image.
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/view-cir-1.png)
 
-# KYLA - i appreciate your comment below! Should we expand on this?
-# Note here that there are clusters where 'south facing' and 'north facing'
-# pixels are very close together - this is due to the very fine resolution of the
-# topo data. One might want to either smooth this data (low-pass filter) or
-# use a larger kernel to calculate slope (not possible with the terrain fxn in
-# the raster package)
+
 
 
 
@@ -521,7 +579,9 @@ plot the bands as an RGB image.
     north.NDVI <- mask(all.data[[1]], north.facing)
     south.NDVI <- mask(all.data[[1]], south.facing)
 
-## Grab Values
+## Grab Pixel Metrics
+
+Next, let's extract pixel values for our masked areas of interest.
 
 
     ## get values and coerce to north values to dataframe
@@ -550,113 +610,23 @@ plot the bands as an RGB image.
                          south.ndvi.df$NDVI, 
                          alternative = "greater")
 
-# KYLA - I suggest that we remove the code below as it's it's more challenging to replicate.
-# are you ok with that?
-
-
-    # now to do more complicated non-spatial stats in R we need to convert our
-    # raster data to vectors - for this example the spatial distribution of the
-    # data doesn't matter.
-    
-    #north.NDVI.vec <- getValues(north.NDVI)
-    #south.NDVI.vec <- getValues(south.NDVI)
-    
-    
-    # and get rid of NAs for simplicity (the above vectors are all the same length
-    # and include all the cells in the original dataset)
-    
-    #north.NDVI.vec <- north.NDVI.vec[!is.na(north.NDVI.vec)]
-    #south.NDVI.vec <- south.NDVI.vec[!is.na(south.NDVI.vec)]
-    
-    # now let's make a data frame with a north versus south column
-    #aspect.NDVI <- c(rep("north", length(north.NDVI.vec)), 
-    #                 rep("south", length(south.NDVI.vec)))
-    #aspect.NDVI <- as.factor(aspect.NDVI)
-    
-    #NDVI.vec <- c(north.NDVI.vec, south.NDVI.vec)
-    
-    # this (below) is clunky - I thought I could use cbind but 'factors' are getting the 
-    # best of me
-    #NDVI.dat <- as.data.frame(matrix(NA, nrow = length(NDVI.vec), ncol = 2))
-    #names(NDVI.dat) <- c("aspect", "NDVI")
-    #NDVI.dat[,1] <- aspect.NDVI
-    #NDVI.dat[,2] <- NDVI.vec
-    #boxplot(NDVI ~ aspect, data = NDVI.dat, col = "cornflowerblue", main = "NDVI 
-    #        on North versus South facing slopes")
-    
-    # and now a t-test - note that since these aren't normally distributed, this
-    # might not be the best approach, but ok for a quick assessment.
-    # NDVI.ttest <- t.test(north.NDVI.vec, south.NDVI.vec, alternative = "greater")
-
 ## Veg Height
 
 Run the same analysis but use veg height!
 Once again we are repeating code. This would make for a nice function! If it's a 
 set of functions, we can change the methods in ONE PLACE and then re run the code!
 
-# KYLA - id suggest that we hide this code and have them do this
-# part as a hands-on challenge!
+<div id="challenge" markdown="1">
+## Challenge Activity
 
+Your turn! Using the technique that we used above, run the same analysis
+but this time, use **tree height** instead of NDVI as the variable of interest. 
+Create a boxplot of treeheight compared to aspect. Then run a t-test.
+Are the two variables related?
 
+</div>
 
-    # mask tall pixels on north and south facing slopes 
-    north.veght <- mask(all.data[[4]], north.facing)
-    south.veght <- mask(all.data[[4]], south.facing)
-    
-    ## get values and coerce to north values to dataframe
-    north.veght.df <- na.omit(as.data.frame(getValues(north.veght)))
-    north.veght.df$aspect <- rep("north", length(north.veght.df[,1]))
-    names(north.veght.df) <- c("veght","aspect")
-    
-    south.veght.df <- na.omit(as.data.frame(getValues(south.veght)))
-    south.veght.df$aspect <- rep("south", length(south.veght.df[,1]))
-    names(south.veght.df) <- c("veght","aspect")
-    
-    veght.df <- rbind(north.veght.df, south.veght.df)
-    # convert aspect to factor - NOTE you don't have to do this
-    veght.df$aspect <- as.factor(veght.df$aspect)
-    
-    boxplot(veght ~ aspect, 
-            data = veght.df, 
-            col = "cornflowerblue", 
-            main = "veght on North versus South facing slopes")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/data-fusion/veght-aspect-compare-1.png)
 
-    # and now a t-test - note that since these aren't normally distributed, this
-    # might not be the best approach, but ok for a quick assessment.
-    veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = "greater")
 
-
-# KYLA - if you are OK with the above code, i'd remove the code below.
-# please note the skew in the results. this is because we are using values =0 which
-# dominate the data due to the rock.
-
-
-    # # isolate veg height pixels on north and south facing slopes
-    # north.veght <- all.data[[4]] * north.facing
-    # south.veght <- all.data[[4]] * south.facing
-    # 
-    # # and now for veg height
-    # north.veght.vec <- getValues(north.veght)
-    # south.veght.vec <- getValues(south.veght)
-    # 
-    # north.veght.vec <- north.veght.vec[!is.na(north.veght.vec)]
-    # south.veght.vec <- south.veght.vec[!is.na(south.veght.vec)]
-    # 
-    # # now let's make a data frame with a north versus south column
-    # aspect.veght <- c(rep("north", length(north.veght.vec)), 
-    #                  rep("south", length(south.veght.vec)))
-    # aspect.veght <- as.factor(aspect.veght)
-    # 
-    # veght.vec <- c(north.veght.vec, south.veght.vec)
-    # 
-    # veght.dat <- as.data.frame(matrix(NA, nrow = length(veght.vec), ncol = 2))
-    # names(veght.dat) <- c("aspect", "veght")
-    # veght.dat[,1] <- aspect.veght
-    # veght.dat[,2] <- veght.vec
-    # boxplot(veght ~ aspect, data = veght.dat, col = "aquamarine4", main = "Veg Ht 
-    #         on North versus South facing slopes")
-    # 
-    # # same caution as above!
-    # veght.ttest <- t.test(north.veght.vec, south.veght.vec, alternative = "greater")
