@@ -4,7 +4,7 @@ title: "Document & Publish Your Workflow: R Markdown & knitr"
 description: "This tutorial introduces the importance of tools supporting documenting & publishing a workflow."
 date: 2016-05-19
 dateCreated: 2016-01-01
-lastModified: 2016-06-07
+lastModified: 2016-06-08
 estimatedTime:
 packagesLibraries:
 authors:
