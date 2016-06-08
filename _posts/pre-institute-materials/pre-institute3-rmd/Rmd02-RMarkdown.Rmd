@@ -52,16 +52,7 @@ your computer to complete this tutorial.
 
 ### Download Data
 
-<a class="btn btn-success" href="https://ndownloader.figshare.com/files/5282317" 
-target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
-
-The LiDAR and imagery data used to create this raster teaching data subset were 
-collected over the 
-<a href="http://www.neonscience.org/" target="_blank">National Ecological Observatory Network’s </a>
-<a href="http://www.neonscience.org/science-design/field-sites/lower-teakettle" target="_blank">Lower Teakettle field site </a>
-and processed at NEON 
-headquarters. The entire dataset can be accessed by request from the 
-<a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
+{% include/dataSubsets/_data_Data-Institute-16-subsets.html %}
 
 You will want to create a **data** directory for all the Data Institute teaching 
 data sets. We suggest the pathway be `~/Documents/data/data-institute-2016` or 
@@ -71,7 +62,7 @@ the dataset, move it to this directory.
 <figure>
 	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/FileStructureScreenShot.png">
 	<img src="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/FileStructureScreenShot.png"></a>
-	<figcaption> The <strong>data</strong> directory with the TEAK teaching data subset. This is the suggested organization for all Data Institute teaching data subsets. 
+	<figcaption> The <strong>data</strong> directory with the teaching data subset. This is the suggested organization for all Data Institute teaching data subsets. 
 	Source: National Ecological Observatory Network (NEON)
 	</figcaption>
 </figure>
@@ -109,7 +100,7 @@ ready to create your own RMD document. Do the following:
 2. Enter a Title (Explore NEON LiDAR Data) and Author Name (your name). Then click OK.
 3. Save the file using the following format: **LastName-institute-week3.rmd**
 NOTE: The document title is not the same as the file name.
-4. Hit the knit button in R studio (as is done in the video above). What happens?
+4. Hit the knit button in RStudio (as is done in the video above). What happens?
 
 <figure>
 	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/KnitButton-screenshot.png">
@@ -272,7 +263,7 @@ Then, add another chunk that loads the `Teak_lidarDSM` raster file.
 <pre><code>```{r load-dsm-raster }
 
    # import dsm
-   teak_dsm <- raster("NEONdata/TEAK/2013/lidar/Teak_lidarDSM.tif")
+   teak_dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
    
  ```</code></pre>
 
