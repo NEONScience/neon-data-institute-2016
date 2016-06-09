@@ -231,7 +231,7 @@ Next, we need to create the spatial extent required to position the raster in
 space.
 
 ```{r}
-# We can extract the lower left-hand corner coordinates.
+# We can extract the upper left-hand corner coordinates.
 # the numbers as position 4 and 5 are the UPPER LEFT CORNER (x,y)
 mapInfo<-unlist(strsplit(mapInfo, ","))
 
