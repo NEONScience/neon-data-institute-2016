@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Mask a raster using threshold values in R"
+title: "Mask a Raster using Threshold Values in R"
 date:   2016-06-16
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
@@ -13,7 +13,7 @@ categories: [self-paced-tutorial]
 mainTag: institute-day2
 tags: [R, HDF5]
 tutorialSeries: [institute-day2]
-description: "Classify using threshold."
+description: "This lesson covers how to mask, or how classify certain values in, a raster using threshold values."
 code1: institute-materials/day2_tuesday/mask-raster.R
 image:
   feature: 
@@ -36,11 +36,24 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
-# set your working directory
-setwd("~/Documents/data/1_data-institute-2016")
+# be sure to set your working directory
+# setwd("~/Documents/data/data-institute-2016") # Mac
+# setwd("~/data/data-institute-2016")  # Windows
 
-# import functions
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+## import functions
+# install devtools (only if you have not previously intalled it)
+#install.packages("devtools")
+# call devtools library
+#library(devtools)
+
+# install from github
+#install_github("lwasser/neon-aop-package/neonAOP")
+# call library
+library(neonAOP)
+
+
+#source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+
 
 ```
 
@@ -52,17 +65,18 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 ```{r import-lidar }
 
 # import aspect data from previous lesson
-teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
+teak_nsAspect <- raster("outputs/TEAK/TEAK_nsAspect.tif")
 
-# North face = 1
-# South face = 2
-# plot outside of the plot region
+# North facing slope = 1
+# South facing slope = 2
+
+# legend outside of the plot region
 # make room for a legend
 par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
 
 plot(teak_nsAspect, 
      col=c("white","blue","green"),
-     main="North and South Facing Slopes \nTeakettle",
+     main="North and South Facing Slopes \n Lower Teakettle",
      legend=F)
 
 # allow legend to plot outside of bounds
@@ -77,8 +91,8 @@ legend((par()$usr[2] + 20), 4103300, # set xy legend location
 
 ## Mask Data
 
-Once we have created a threhold classified raster, we can use it for different things.
-One application is to use it as an analysis mask for another dataset. 
+Once we have created a threhold classified raster, we can use it for different 
+things. One application is to use it as an analysis mask for another dataset. 
 
 Let's try to find all pixels that have an NDVI value >.6 and are north facing. 
 
@@ -89,7 +103,7 @@ ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D1
 ndvi
 
 hist(ndvi,
-     main="NDVI for Teakettle Field Site")
+     main="NDVI for Lower Teakettle Field Site")
 
 # let's create a mask
 ndvi[ndvi<.6] <- NA
@@ -107,7 +121,7 @@ n.face.aspect <- teak_nsAspect==1
 nFacing.ndvi <- mask(n.face.aspect, ndvi)
 
 plot(nFacing.ndvi,
-     main="North Facing locations \n NDVI > .6",
+     main="North Facing Locations \n NDVI > .6",
      legend=F)
 
 ```
@@ -118,7 +132,7 @@ plot(nFacing.ndvi,
 
 # export geotiff 
 writeRaster(nFacing.ndvi,
-            filename="outputs/TEAK/Teak_n_ndvi6.tif",
+            filename="outputs/TEAK/TEAK_n_ndvi6.tif",
             format="GTiff",
             options="COMPRESS=LZW",
             overwrite = TRUE,

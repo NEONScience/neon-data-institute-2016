@@ -28,10 +28,10 @@ comments: false
 <strong>R Skill Level:</strong> Intermediate
 
 <h3>Goals / Objectives</h3>
-After completing this activity, you will:
+After completing this activity, you will be able to:
 <ol>
-<li>Understand how to extract and plot spectra from an HDF5 file.</li>
-<li>Know how to work with groups and datasets within an HDF5 file.</li>
+<li>Extract and plot spectra from an HDF5 file.</li>
+<li>Work with groups and datasets within an HDF5 file.</li>
 </ol>
 
 </div>
@@ -52,31 +52,40 @@ library(rgdal)
 library(ggplot2)
 
 # be sure to set your working directory
-setwd("~/Documents/data/1_data-institute-2016")
+# setwd("~/Documents/data/data-institute-2016") # Mac
+# setwd("~/data/data-institute-2016")  # Windows
 
 ```
 
 ## Import H5 Functions
 
-In this scenario, we have built a suite of FUNCTIONS that will allow us to quickly
-open and read NEON hyperspectral imagery data from an `hdf5` file. We can import
-a suite of functions from an `.R` file using the `source` function.
+We have built a suite of **functions** that allow us to quickly open and read 
+NEON hyperspectral imagery data from an `hdf5` file. 
 
 ```{r import-h5-functions }
 
+# install devtools (only if you have not previously intalled it)
+# install.packages("devtools")
+# call devtools library
+#library(devtools)
+
+## install from github
+install_github("lwasser/neon-aop-package/neonAOP")
+## call library
+library(neonAOP)
+
+
+
 # your file will be in your working directory! This one happens to be in a diff dir
 # than our data
-
-# source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
-
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+# source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
 ```
 
 ## Open H5 File
 
-Next, let's define a few variables, that we will need to access the H5 file.
+Next, let's define a few variables that we will need to access the H5 file.
 
 ```{r open-H5-file, results='hide'}
 
@@ -96,7 +105,6 @@ epsg <- 32611
 Next, let's read in the wavelength center associated with each band in the HDF5
 file.
 
-
 ```{r read-band-wavelengths }
 
 # read in the wavelength information from the HDF5 file
@@ -110,7 +118,7 @@ wavelengths <- wavelengths*1000
 
 ## Get Subset
 Next, we might want to extract just a subset of our data to pull a spectral
-signature. For example a plot boundary.
+signature. For example, a plot boundary.
 
 ```{r extract-subset}
 
@@ -121,10 +129,10 @@ h5.ext <- create_extent(f)
 h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
 
 # open file clipping extent
-clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", "teak_plot")
+clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", "TEAK_plot")
 
 # assign crs to h5 extent
-# paste0("+init=epsg:", epsg) -- so it will be better to use the proj string here
+# paste0("+init=epsg:", epsg) -- it is better to use the proj string here
 
 crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
@@ -133,8 +141,8 @@ crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellp
 gIntersects(h5.ext.poly, clip.extent)
 
 # if they overlap, then calculate the extent
-# this doesn't currently account for pixel size at all
-# also these values need to be ROUNDED
+# this doesn't currently account for pixel size at all 
+# and these values need to be ROUNDED
 
 yscale <- 1
 xscale <- 1
@@ -144,14 +152,14 @@ xscale <- 1
 # all units will be rounded which means the pixel must occupy a majority (.5 or greater)
 # within the clipping extent
 index.bounds <- calculate_index_extent(extent(clip.extent),
-                                       h5.ext)
+																			 h5.ext)
 
 # open a band that is subsetted using the clipping extent
 b58_clipped <- open_band(fileName=f,
-          bandNum=58,
-          epsg=32611,
-          subsetData = TRUE,
-          dims=index.bounds)
+												 bandNum=58,
+												 epsg=32611,
+												 subsetData = TRUE
+												 ,dims=index.bounds)
 
 # plot clipped bands
 plot(b58_clipped,
@@ -159,9 +167,9 @@ plot(b58_clipped,
 
 ```
 
-## Run subset over many bands
+## Run Subset over Many Bands
 
-```{r, open-many-bands }
+```{r open-many-bands }
 
 # create  alist of the bands
 bands <- list(19,34,58)
@@ -192,6 +200,7 @@ rgbRast <- create_stack(file=f,
 
 plotRGB(rgbRast,
         stretch="lin")
+
 plot(clip.extent,
      add=T,
      border="yellow",
@@ -205,8 +214,11 @@ plot(clip.extent,
 
 # array containing the index dimensions to slice
 H5close()
+
 subset.h5 <- h5read(f, "Reflectance",
-                    index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row
+                    index=list(index.bounds[1]:index.bounds[2],
+                    					 index.bounds[3]:index.bounds[4],
+                    					 1:426)) # the column, row
 
 final.spectra <- data.frame(apply(subset.h5,
               MARGIN = c(3), # take the mean value for each z value
