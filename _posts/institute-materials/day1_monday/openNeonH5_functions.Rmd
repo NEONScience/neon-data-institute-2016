@@ -286,7 +286,7 @@ band <- open_band(fileName=f,
 
 # plot data
 plot(band,
-     main="Raster for Teakettle - B56")
+     main="Raster for Lower Teakettle - B56")
 
 ```
 

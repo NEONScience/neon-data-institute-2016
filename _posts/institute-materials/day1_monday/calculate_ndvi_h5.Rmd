@@ -108,7 +108,7 @@ writeRaster(ndvi_rast,
 
 ```{r import-lidar}
 
-DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")  
+DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")  
 
 slope <- terrain(DSM, opt='slope')
 aspect <- terrain(DSM, opt='aspect')
@@ -118,7 +118,7 @@ hill <- hillShade(slope, aspect, 40, 270)
 
 plot(hill,
      col=grey(1:100/100),
-     main="NDVI for the Teakettle Field site",
+     main="NDVI for the Lower Teakettle Field site",
      legend=FALSE)
 
 plot(ndvi_rast,

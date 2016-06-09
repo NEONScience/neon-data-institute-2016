@@ -129,7 +129,7 @@ h5.ext <- create_extent(f)
 h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
 
 # open file clipping extent
-clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", "teak_plot")
+clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", "TEAK_plot")
 
 # assign crs to h5 extent
 # paste0("+init=epsg:", epsg) -- it is better to use the proj string here
