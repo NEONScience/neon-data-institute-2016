@@ -52,7 +52,7 @@ your computer to complete this tutorial.
 
 ### Download Data
 
-{% include/dataSubsets/_data_Data-Institute-16-subsets.html %}
+{% include/dataSubsets/_data_Data-Institute-16-TEAK.html %}
 
 You will want to create a **data** directory for all the Data Institute teaching 
 data sets. We suggest the pathway be `~/Documents/data/data-institute-2016` or 
@@ -111,8 +111,8 @@ NOTE: The document title is not the same as the file name.
 </figure>
 
 If everything went well, you should have an HTML format (web page) output
-after you hit the knit button. Note that this HTML output is built from a combination
-of code and documentation that was written using markdown syntax.
+after you hit the knit button. Note that this HTML output is built from a 
+combination of code and documentation that was written using markdown syntax.
 
 
 Next, we'll break down the structure of an R Markdown file. 
@@ -129,8 +129,8 @@ Next, we'll break down the structure of an R Markdown file.
 </figure>
 
 <i class="fa fa-star"></i> **Data Tip:** Screenshots on this page are
-from RStudio with appearance preferences set to `Twilight w/ Monaco font`. You can
-change the appearance of your RStudio by **Tools** > **Options**
+from RStudio with appearance preferences set to `Twilight` with `Monaco` font. You 
+can change the appearance of your RStudio by **Tools** > **Options**
 (or **Global Options** depending on the operating system). For more, see the
 <a href="https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-RStudio" target="_blank">Customizing RStudio page</a>.
 {: .notice}
@@ -258,12 +258,12 @@ in R, and sets the working directory.
 (For help setting the working directory, see the NEON Data Skills tutorial
 <a href="http://neondataskills.org/R/Set-Working-Directory" target="_blank">*Set A Working Directory in R*</a>.)
 
-Then, add another chunk that loads the `Teak_lidarDSM` raster file.
+Then, add another chunk that loads the `TEAK_lidarDSM` raster file.
 
 <pre><code>```{r load-dsm-raster }
 
    # import dsm
-   teak_dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
+   teak_dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")
    
  ```</code></pre>
 
@@ -324,12 +324,12 @@ or the
 
 Update your RMD file as follows:
 
-* Add a **new code chunk** that plots the `Teak_lidarDSM` raster object that you imported above. 
+* Add a **new code chunk** that plots the `TEAK_lidarDSM` raster object that you imported above. 
 Experiment with plot colors and be sure to add a plot title. 
 * Run the code chunk that you just added to your RMD document in R (e.g. run in console, not 
 knitting). Does it create a plot with a title?
 * In another new code chunk, import and plot another raster file from the NEON data subset 
-that you downloaded. The `Teak_lidarCHM` is a good raster to plot.
+that you downloaded. The `TEAK_lidarCHM` is a good raster to plot.
 * Finally, create histograms for both rasters that you've imported into R. 
 * Be sure to document your steps as you go using both **code comments** and 
 **markdown syntax** in between the code chunks.

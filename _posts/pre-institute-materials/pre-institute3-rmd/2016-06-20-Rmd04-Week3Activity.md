@@ -4,7 +4,7 @@ title: "Pre-Institute Week 3 Assignment"
 description: "This page details how to complete the assignment for pre-Institute week 3."
 date: 2016-05-16
 dateCreated: 2016-01-01
-lastModified: 2016-06-08
+lastModified: 2016-06-09
 estimatedTime:
 packagesLibraries:
 authors:
@@ -35,7 +35,7 @@ by 11:59pm on 16 June 2016.
 
 ## Download Data
 
-{% include/dataSubsets/_data_Data-Institute-16-subsets.html %}
+{% include/dataSubsets/_data_Data-Institute-16-TEAK.html %}
 
 </div>
 
@@ -85,7 +85,7 @@ Please update your project summary if you have changes.
 * Break up your code into R Markdown chunks that makes sense to you. Use 
 Markdown syntax to document the steps that you are taking to "process" the data. 
 Provide some summary discussion of the results at the end of the document. 
-HINT: the raster `Teak_lidarCHM` represents **tree height** for the field site. 
+HINT: the raster `TEAK_lidarCHM` represents **tree height** for the field site. 
 You might comment on how tall the trees are on average at the site.
 
 ## Knitr: RMD to HTML
