@@ -32,7 +32,8 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/data-institute-2016")
+# setwd("~/Documents/data/data-institute-2016") #Mac
+# setwd("~/data/data-institute-2016")  # Windows
 ```
 
 ## Explore HDF5 Files

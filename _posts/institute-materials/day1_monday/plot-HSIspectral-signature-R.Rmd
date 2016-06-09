@@ -51,8 +51,8 @@ library(rgdal)
 library(ggplot2)
 
 # be sure to set your working directory
-setwd("~/Documents/data/data-institute-2016")
-
+# setwd("~/Documents/data/data-institute-2016") # Mac
+# setwd("~/data/data-institute-2016")  # Windows
 ```
 
 ## Import H5 Functions
@@ -65,6 +65,9 @@ open the H5 data.
 
 ```{r import-h5-functions }
 ## VIA dev tools
+
+# install devtools (only if you have not previously intalled it)
+# install.packages("devtools")
 # call devtools library
 library(devtools)
 
