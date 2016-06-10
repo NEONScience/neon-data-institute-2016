@@ -98,8 +98,6 @@ hist(chm,
 
 Next, we'll import an aspect dataset - one of the NEON data products.
 
-# DEFINE this data product & Make sure TRISTAN covers it.
-
 <i class="fa fa-star"></i> **Data Tip:** You can calculate aspect in R 
 if you have a surface or elevation model as follows:  
 `terrain(your.raster.data, opt = "aspect", unit = "degrees", neighbors = 8)` .
@@ -108,7 +106,7 @@ if you have a surface or elevation model as follows:
 ```{r import-aspect-data }
 
 # calculate aspect of cropped DTM
-# aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
+# aspect <- terrain(your-dem-or-terrain-data.tif, opt = "aspect", unit = "degrees", neighbors = 8)
 aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarAspect.tif")
 
 plot(aspect,
@@ -187,21 +185,16 @@ writeRaster(asp.ns,
 <div id="challenge" markdown="1">
 ## Challenge: Classify a Raster using Threshold Values
 
-Take the markdown file that you just created in this lesson. Imagine that you are
-your future self. Add some additional documentation that describes the steps that 
-you took to classify the raster in R and to "analyze" or describe the outputs. 
-Do they tell you anything about vegetation structure at the field site?
+1. Have a look at the code that you created for this lesson. Now imagine that you are
+your future self. Document your script so that your methods and process  is clear. 
+2. In documenting your script, synthesize the outputs.Do they tell you anything 
+about vegetation structure at the field site?
+3. Create the following threshold classified outputs:
 
-When you are done, add to this markdown document. Create the following threshold 
-classified outputs:
-
-1. A raster where NDVI values are classified into categories 0 (low greenness, 
+* A raster where NDVI values are classified into categories 0 (low greenness, 
 NDVI <.3), 1 (medium greenness, NDVI =.3-.6) and 2 (high greenness, NDVI>.6). 
-2. A raster where canopy height is classified. Explore the CHM data and chose 
+* A raster where canopy height is classified. Explore the CHM data and chose 
 threshold values that make sense given the distribution of values in the data.
 
-Be sure to document your workflow as you go using Markdown within your R Markdown
-document.
-
-When you are done, knit your outputs to HTML and push them to your Git directory.
+When you are done, knit your outputs to HTML and push them to your Git repository.
 </div>
