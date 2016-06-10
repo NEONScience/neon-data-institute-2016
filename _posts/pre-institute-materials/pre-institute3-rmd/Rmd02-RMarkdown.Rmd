@@ -55,7 +55,7 @@ your computer to complete this tutorial.
 {% include/dataSubsets/_data_Data-Institute-16-TEAK.html %}
 
 You will want to create a **data** directory for all the Data Institute teaching 
-data sets. We suggest the pathway be `~/Documents/data/data-institute-2016` or 
+data sets. We suggest the pathway be `~/Documents/data/NEONDI-2016` or 
 the equivalent for your operating system. Once you've downloaded and unzipped 
 the dataset, move it to this directory. 
 
@@ -251,7 +251,7 @@ in R, and sets the working directory.
    library(raster)
 
    # set working directory to ensure R can find the file we wish to import
-   setwd("~/Documents/data/data-institute-2016/")
+   setwd("~/Documents/data/NEONDI-2016/")
 
  ```</code></pre>
 

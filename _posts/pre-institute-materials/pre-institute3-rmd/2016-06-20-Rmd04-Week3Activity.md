@@ -4,7 +4,7 @@ title: "Pre-Institute Week 3 Assignment"
 description: "This page details how to complete the assignment for pre-Institute week 3."
 date: 2016-05-16
 dateCreated: 2016-01-01
-lastModified: 2016-06-09
+lastModified: 2016-06-10
 estimatedTime:
 packagesLibraries:
 authors:
@@ -47,7 +47,7 @@ Figshare repository.
 2. Unzip the data into (or transfer the unzipped data into) a `data` directory 
 on your computer. The path to your data will look like this:
 
-`~Documents\data\data-institute-2016\`
+`~Documents\data\NEONDI-2016\`
 
 <figure>
 	<a href="{{ site.baseurl }}/images/pre-institute-content/pre-institute3-rmd/FileStructureScreenShot.png">
@@ -59,7 +59,7 @@ on your computer. The path to your data will look like this:
 	</figcaption>
 </figure>
 
-We will be using the GeoTIFF raster files in the “lidar” subdirectory of the 
+We will be using the GeoTIFF raster files in the **lidar** subdirectory of the 
 teaching data subset.
 
 ## Create R Markdown File
