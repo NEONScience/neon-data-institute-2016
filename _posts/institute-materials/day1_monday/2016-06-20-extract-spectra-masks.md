@@ -4,7 +4,7 @@ title: "Extract Spectra Using Masks in R"
 date:   2016-06-14
 authors: [Leah A. Wasser]
 instructors:
-contributors:
+contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
 lastModified: 2016-05-31
