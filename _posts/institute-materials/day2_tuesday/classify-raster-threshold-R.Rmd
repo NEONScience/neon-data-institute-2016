@@ -37,8 +37,8 @@ library(rhdf5)
 library(rgdal)
 
 # be sure to set your working directory
-# setwd("~/Documents/data/data-institute-2016") # Mac
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 
 ## import functions
@@ -98,8 +98,6 @@ hist(chm,
 
 Next, we'll import an aspect dataset - one of the NEON data products.
 
-# DEFINE this data product & Make sure TRISTAN covers it.
-
 <i class="fa fa-star"></i> **Data Tip:** You can calculate aspect in R 
 if you have a surface or elevation model as follows:  
 `terrain(your.raster.data, opt = "aspect", unit = "degrees", neighbors = 8)` .
@@ -108,7 +106,9 @@ if you have a surface or elevation model as follows:
 ```{r import-aspect-data }
 
 # calculate aspect of cropped DTM
+# example code: 
 # aspect <- terrain(all.data[[3]], opt = "aspect", unit = "degrees", neighbors = 8)
+# read in aspect .tif
 aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarAspect.tif")
 
 plot(aspect,
@@ -203,5 +203,8 @@ threshold values that make sense given the distribution of values in the data.
 Be sure to document your workflow as you go using Markdown within your R Markdown
 document.
 
-When you are done, knit your outputs to HTML and push them to your Git directory.
+When you are done, knit your outputs to HTML. Save the file as 
+LastName_Tues_classifyThreshold.html. Add these to the Tuesday directory in your 
+**DI16-NEON-participants** Git direcotry and push them to your fork in GitHub. 
+Merge with the central repository using a pull request. 
 </div>

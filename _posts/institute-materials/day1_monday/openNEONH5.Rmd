@@ -32,8 +32,8 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/data-institute-2016") #Mac
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016") #Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 ```
 
 ## Explore HDF5 Files
@@ -277,7 +277,7 @@ Finally, we may want to export our new raster to a GeoTIFF format.
 ```{r export-tif, eval=FALSE}
 
 writeRaster(b56r,
-            file="band56.tif",
+            file="Outputs/TEAK/band56.tif",
             format="GTiff",
             naFlag=-9999)
 ```

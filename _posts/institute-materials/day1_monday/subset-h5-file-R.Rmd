@@ -30,8 +30,8 @@ comments: false
 <h3>Goals / Objectives</h3>
 After completing this activity, you will be able to:
 <ol>
-<li>Extract and plot spectra from an HDF5 file.</li>
-<li>Work with groups and datasets within an HDF5 file.</li>
+<li>Subset an HDF5 file.</li>
+
 </ol>
 
 </div>
@@ -52,8 +52,8 @@ library(rgdal)
 library(ggplot2)
 
 # be sure to set your working directory
-# setwd("~/Documents/data/data-institute-2016") # Mac
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 ```
 
