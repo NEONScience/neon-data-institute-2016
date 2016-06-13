@@ -33,8 +33,8 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/data-institute-2016") # Mac
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 ```
 
 
@@ -244,7 +244,7 @@ open_band <- function(fileName, bandNum, epsg){
 
 ```{r define-data-wd, results='hide' }
 # set wd - if you haven't done so already
-# setwd("~/Documents/data/data-institute-2016/")
+# setwd("~/Documents/data/NEONDI-2016/")
 
 # define the CRS definition by EPSG code
 epsg <- 32611

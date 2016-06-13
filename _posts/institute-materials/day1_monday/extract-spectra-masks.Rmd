@@ -52,8 +52,8 @@ library(rgdal)
 library(ggplot2)
 
 # be sure to set your working directory
-setwd("~/Documents/data/1_data-institute-2016") # Mac
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 ```
 
