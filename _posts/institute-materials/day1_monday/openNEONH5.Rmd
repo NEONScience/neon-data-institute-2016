@@ -277,7 +277,7 @@ Finally, we may want to export our new raster to a GeoTIFF format.
 ```{r export-tif, eval=FALSE}
 
 writeRaster(b56r,
-            file="band56.tif",
+            file="Outputs/TEAK/band56.tif",
             format="GTiff",
             naFlag=-9999)
 ```
