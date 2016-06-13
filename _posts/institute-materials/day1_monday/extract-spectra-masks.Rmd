@@ -30,8 +30,7 @@ comments: false
 <h3>Goals / Objectives</h3>
 After completing this activity, you will be able to:
 <ol>
-<li>Extract and plot spectra from an HDF5 file.</li>
-<li>Work with groups and datasets within an HDF5 file.</li>
+<li>Extract spectra from an HDF5 file using masks.</li>
 </ol>
 
 </div>
