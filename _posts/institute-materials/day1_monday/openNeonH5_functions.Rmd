@@ -294,7 +294,7 @@ plot(band,
 
 # extract 3 bands
 # create  alist of the bands
-bands <- list(58,34,19)
+bands <- list(58, 34, 19)
 
 # use lapply to run the band function across all three of the bands
 rgb_rast <- lapply(bands, open_band,
@@ -330,13 +330,11 @@ plotRGB(rgb_rast,
 #'
 
 #
-create_stack <- function(file, bands, epsg, subset=FALSE, dims){
+create_stack <- function(file, bands, epsg, subset=FALSE, dims=NULL){
   # use lapply to run the band function across all three of the bands
   rgb_rast <- lapply(bands, open_band,
                      fileName=file,
-                     epsg=epsg,
-                     subset=subset,
-                     dims=dims)
+                     epsg=epsg)
 
   # create a raster stack from the output
   rgb_rast <- stack(rgb_rast)
@@ -367,8 +365,11 @@ plot_stack <- function(aStack, title="3 band RGB Composite", theStretch='lin'){
 ```{r plot-band-combos}
 
 # CIR create  alist of the bands
-bands <- list(90,34,19)
-CIRStack <- create_stack(f, bands, epsg)
+bands <- c(90, 34, 19)
+
+CIRStack <- create_stack(f, 
+                         bands, 
+                         epsg)
 plot_stack(CIRStack,
            title="Color Infrared (CIR) Image")
 
