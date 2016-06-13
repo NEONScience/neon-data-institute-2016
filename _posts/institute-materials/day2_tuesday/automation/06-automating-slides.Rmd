@@ -47,7 +47,7 @@ our `tests/` folder.
 test_dir("tests/")
 ```
 
-Let's turn it into a function, so we'll be able to add some additional
+Let's turn it into a function so we'll be able to add some additional
 functionalities to it a little later. We are also going to save it at the root
 of our working directory in the file called `make.R`:
 
@@ -238,7 +238,7 @@ clean_all <- function() {
 
 ## More comprehensive  {.smaller}
 
-and before we continue, we are going to replace the make_tests function with
+Before we continue, we are going to replace the make_tests function with
 something a little more comprehensive:
 
 ```{r, purl=TRUE}

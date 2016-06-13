@@ -47,7 +47,7 @@ the `gather_gdp_data()`.
 
 > ### Instructor notes
 >
-> There is not enough time to cover in details how Travis works and use it with
+> There is not enough time to cover in detail how Travis works and use it with
 > the manuscript here. However, I have the manuscript in a different repository
 > https://github.com/fmichonneau/teaching-automation with Travis enabled. I
 > typically demonstrate what it looks like, change something in the data that
