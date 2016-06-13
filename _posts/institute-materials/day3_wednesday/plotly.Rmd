@@ -30,27 +30,35 @@ image:
 
 # load libraries
 library(ggplot2)
+library(dplyr)
 
 options(stringsAsFactors = FALSE)
 
 # set working directory
-setwd("~/Documents/data/1_data-institute-2016")
+setwd("~/Documents/data/NEONDI-2016")
 ```
+
+After completing the [previous tutorial]({{site.baseurl}}/compare-lidar-to-field-data-R/), 
+you have an R object `p` that contains a 
+ggplot plot. We'll now make an interactive plot.ly plot.
+
+If you have not completed the previous tutorial, the code for `p` can be found 
+in the downloadable R code for this lesson, or complete the previous tutorial. 
 
 ```{r import-chm, echo=FALSE, results='hide', message=FALSE }
 
 # import canopy height model (CHM).
-SJER_chm <- raster("NEONdata/SJER/2013/lidar/SJER_lidarCHM.tif")
+SJER_chm <- raster("NEONdata/D17-California/SJER/2013/lidar/SJER_lidarCHM.tif")
 SJER_chm
 
 # set values of 0 to NA as these are not trees
 SJER_chm[SJER_chm==0] <- NA
 
 # import plot centroids 
-SJER_plots <- readOGR("NEONdata/SJER/vector_data",
-                      "sjer_plot_centroids")
+SJER_plots <- readOGR("NEONdata/D17-California/SJER/vector_data",
+                      "SJER_plot_centroids")
 
-# Insitu sampling took place within 40m x 40m square plots so we use a 20m radius.	
+# In situ sampling took place within 40m x 40m square plots so we use a 20m radius.	
 # Note that below will return a dataframe containing the max height
 # calculated from all pixels in the buffer for each plot
 SJER_height <- extract(SJER_chm,
@@ -62,7 +70,7 @@ SJER_height <- extract(SJER_chm,
 
 
 # import the centroid data and the vegetation structure data
-SJER_insitu <- read.csv("NEONdata/SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv",
+SJER_insitu <- read.csv("NEONdata/D17-California/SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv",
                         stringsAsFactors = FALSE)
 
 
@@ -89,10 +97,7 @@ p <- ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) +
 
 ```
 
-
-After completing the [previous tutorial]({{site.baseurl}}/compare-lidar-to-field-data-R/), 
-we have an object, "p" that contains a 
-ggplot, plot. Let's create an interactive plotly plot.
+Now we can create an interactive plot.ly plot from the `p` R object. 
 
 ## Create Plot.ly Interactive Plot
 
