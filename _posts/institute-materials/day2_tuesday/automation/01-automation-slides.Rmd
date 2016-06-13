@@ -9,7 +9,7 @@ output:
 ## 
 
 <center>
-"Reproducibilty is actually all about being as lazy as possible!",
+"Reproducibilty is actually all about being as lazy as possible!"
 
 -- Hadley Wickham (via
 [Twitter](https://twitter.com/hadleywickham/status/598532170160873472),
@@ -29,10 +29,10 @@ efficient practices right away.
 
 - Main goal: learn to use R Markdown to more effectively manage a research project involving: 
     - multiple sources of raw data;
-    - that are combined to create multiple intermediate  datasets that are themselves combined to generate figures and tables. We will show you some tips and tricks that will make your life easier with R
+    - that are combined to create multiple intermediate datasets that are themselves combined to generate figures and tables. We will show you some tips and tricks that will make your life easier with R
 Markdown.
 - Learn to structure the components of your research project to make it easy to automate and connect together.
-- Learn to automate the repeatable steps in your research (using Make and Makefiles).  
+- Learn to automate the repeatable steps in your research (using Make and Makefiles). 
 - Introduction to tools commonly used in research software projects supporting automation, such as Travis CI.
 
 **Start small**: You don't need to adopt all of these practices at once. Start with only one dataset, one figure first, and later learn how to use Make, and then Travis. 
@@ -44,7 +44,7 @@ Markdown.
 - In the process of learning these tools, you will learn transferable skills useful in other aspects of your research. For example: 
     - Interested in writing a package in R? Many of the advice and tools included
     in this lesson will greatly help you get started.
-    - Want or need to learn to use Linux or UNIX environments? The lessons on Make and Travis CI  will provide an opportunity
+    - Want or need to learn to use Linux or UNIX environments? The lessons on Make and Travis CI will provide an opportunity
     to learn some basics of UNIX and Linux. You can then build on these skills to be able to run robust and efficient  analysis of large datasets (e.g., set up runs on 
     an HPC cluster).
     
@@ -57,7 +57,7 @@ Markdown.
 manuscript and refining your ideas, adjusting the aim of your paper, deciding on the data you are going to include, etc.
 
 R Markdown allows you to mix code and prose, which is wonderful and very 
-powerful but can be difficult to manage, if you don't have a good plan to get
+powerful but can be difficult to manage if you don't have a good plan to get
 organized. Make allows you to keep things in sync. If you change one component of your research projects, you can easily check how other components are affected and update other outputs. 
 
 # Challenge 1: Code organisation 
@@ -73,7 +73,7 @@ Structuring and *software engineering* your code to make it easier to maintain, 
 
 Demonstrate writing functions to approach different tasks: clean version of your data, your figures, your tables and your manuscript. 
 
-- **Why?** Having all the code in your script structured into  functions will greatly facilitate the maintenance of your script as it forces it to be organized, easier to read, reuse and extend. 
+- **Why?** Having all the code in your script structured into functions will greatly facilitate the maintenance of your script as it forces it to be organized, easier to read, reuse and extend. 
 
 - **Additional benefits:**
     1. Modularity.
@@ -94,9 +94,9 @@ that can be reused and interact with each other. The dependencies between differ
 
 - **Avoid having to track large number of variables:** If your script is one big chunk of code without functions, you are likely to create and accumulate many variables. You will have to worry about avoiding name conflicts among all these variables that store intermediate versions of your datasets but you will not eventually need in 
 your analysis.
-    - By learning how to use functions, passing arguments, local variables and returning values you can focus on the important stuff: the inputs  and the outputs of your workflow.
+    - By learning how to use functions, passing arguments, local variables and returning values you can focus on the important stuff: the inputs and the outputs of your workflow.
 
-- **Keep track of dependencies easily:** Using functions to clean or transform data, calculate  
+- **Keep track of dependencies easily:** Using functions to clean or transform data, calculate 
 results, generate figures will help you see dependencies more clearly, understand how changes in different components may affect each other and so on.
 
 
@@ -118,10 +118,10 @@ your collaborators, and your future self.
 
 ##### Documenting whole scripts vs. documenting functions
 
-- If all your analysis is made up of scripts not organised in functions, with pieces that are repeated in
+- If all your analysis is made up of scripts, not organised in functions, with pieces that are repeated in
 multiple parts of your document, things can get out of hand pretty quickly. 
 
-- Not only it is more difficult to maintain because you will have to find and 
+- Not only is it more difficult to maintain because you will have to find and 
 replace the thing that you need to change in multiple places of your code, but 
 maintaining and updating documentation is also challenging. 
     - Do you also duplicate your comments where you duplicate parts of your 
@@ -135,10 +135,10 @@ on.
 
 ##### Tips for documenting your code
 
--  Easiest way: add comments around your functions to explicitly indicate the 
+- Easiest way: add comments around your functions to explicitly indicate the 
 purpose of each function, what the arguments are supposed to be (class and 
 format) and the kind of output you will get from it.
-- Document the input (arguments) for your function (type etc.).
+- Document the input (arguments) for your function (type, etc.).
 - Document the output (what your function returns).
 
 ##### Documentation, kicked up a notch
@@ -170,8 +170,8 @@ easily, but more often than not, these issues might produce subtle differences
 in your results that you may not be able to detect.
 
 - If all your code is made up of functions, then you can control the input and
-test for the output. It is something that would be difficult if not impossible
-to do if all your analysis is in the form of a long script. In short you can test each function individually. 
+test for the output. It is something that would be difficult, if not impossible,
+to do if all your analysis is in the form of a long script. In short, you can test each function individually. 
 
 ##### Testing, kicked up a notch
 
@@ -205,7 +205,7 @@ all our data is included in the analysis.
 
 ## What's next?
 
-Today we are going to work on functionalizing a `knitr` document that is more
+Today, we are going to work on functionalizing a `knitr` document that is more
 complex than what we have seen so far but not quite as complex as a "real"
 research document could look like.
 

@@ -33,8 +33,8 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/data-institute-2016") # Mac
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 ```
 
 
@@ -170,7 +170,7 @@ clean_refl_data <- function(fileName, reflMatrix, epsg){
 
 ```
 
-# Open Band of your choice
+# Open Band of Choice
 
 Here we create a function to open a band of choice from a H5 file. 
 
@@ -240,11 +240,11 @@ open_band <- function(fileName, bandNum, epsg){
 
 ```
 
-## Define the working directory
+## Set Up The Data
 
 ```{r define-data-wd, results='hide' }
 # set wd - if you haven't done so already
-# setwd("~/Documents/data/data-institute-2016/")
+# setwd("~/Documents/data/NEONDI-2016/")
 
 # define the CRS definition by EPSG code
 epsg <- 32611
@@ -266,7 +266,7 @@ wavelengths<- h5read(f,"wavelength")
 
 ```
 
-# Run Actual Code!
+# Run the Code with Functions
 
 Now we will combine our functions!
 
@@ -379,7 +379,7 @@ aStack <- create_stack(f, bands, epsg)
 plot_stack(aStack,
            title="another combo")
 
-# FALSE COLOR create  alist of the bands
+# FALSE COLOR create a list of the bands
 bands <- list(363, 246, 58)
 falseStack <- create_stack(f, bands, epsg)
 plot_stack(falseStack,
@@ -387,11 +387,11 @@ plot_stack(falseStack,
 
 ```
 
-# Export the 3 band image as a gtif
+# Export the 3 Band Image as a GeoTIFF
 
 ```{r write-raster, eval=FALSE}
 
-# export as a gtif
+# export as a GeoTIFF
 writeRaster(CIRStack,
             file="Outputs/TEAK/cirImage_2013.tif",
             format="GTiff",

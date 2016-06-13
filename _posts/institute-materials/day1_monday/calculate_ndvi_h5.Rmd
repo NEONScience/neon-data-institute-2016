@@ -58,8 +58,8 @@ red and near-infrared bands that we need to calculate NDVI.
 ```{r create-NDVI }
 
 # set working directory
-# setwd("~/Documents/data/data-institute-2016")
-# setwd("~/data/data-institute-2016")  # Windows
+# setwd("~/Documents/data/NEONDI-2016")
+# setwd("~/data/NEONDI-2016")  # Windows
 
 # Define the file name to be opened
 f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"

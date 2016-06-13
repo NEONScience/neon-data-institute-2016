@@ -44,7 +44,7 @@ gather_data <- function(path = "data-raw", pattern = "gdp-percapita\\.csv$") {
 > ## A word of warning
 >
 > - the code here is pretty simple because we know that all datasets have
->   exactly the same column, but in a real life example, we might way to add
+>   exactly the same columns, but in a real life example, we might way to add
 >   additional checks to ensure that we won't be introducing any issues.
 > - this also illustrates how general you need to be when writing your
 >   functions. We could spend a lot of time optimizing and writing a function
