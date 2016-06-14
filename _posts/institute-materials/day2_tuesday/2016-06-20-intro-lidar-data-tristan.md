@@ -14,7 +14,6 @@ mainTag: institute-day2
 tags: [R, HDF5]
 tutorialSeries: [institute-day2]
 description: "Introduction to Light Detection and Randing."
-code1: institute-materials/day2_tuesday/classify-raster-threshold.R
 image:
   feature:
   credit:

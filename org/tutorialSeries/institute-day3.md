@@ -26,10 +26,7 @@ After completing these activities, you will be able to:
 the same metric derived from data collected on the ground.
 
 
-<a class="btn btn-success" href="  " 
-target="_blank">NEON San Joaquin Experimental Range LiDAR Field Site Data</a>
-
-ADD ONCE FINALIZED
+{% include/dataSubsets/_data_Data-Institute-16-SJER.html %}
 
 ****
 

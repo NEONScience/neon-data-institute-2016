@@ -26,16 +26,9 @@ areas of a site with similar physical and other characteristics
 * Describe a statistical approach to data fusion 
 
 
-<a class="btn btn-success" href="https://ndownloader.figshare.com/files/5282317" 
-target="_blank">NEON Lower Teakettle (TEAK) Field Site Data</a>
+## Download the Data
 
-The LiDAR and imagery data used to create this raster teaching data subset were 
-collected over the 
-<a href="http://www.neonscience.org/" target="_blank">National Ecological Observatory Network’s </a>
-<a href="http://www.neonscience.org/science-design/field-sites/lower-teakettle" target="_blank">Lower Teakettle field site </a>
-and processed at NEON 
-headquarters. The entire dataset can be accessed by request from the 
-<a href="http://www.neonscience.org/data-resources/get-data/airborne-data" target="_blank"> NEON Airborne Data Request Page on the NEON website.
+{% include/dataSubsets/_data_Data-Institute-16-TEAK.html %}
 
 
 ****

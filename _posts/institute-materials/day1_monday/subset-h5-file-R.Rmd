@@ -4,7 +4,7 @@ title: "Subset HDF5 file in R"
 date:   2016-06-16
 authors: [Leah A. Wasser]
 instructors:
-contributors:
+contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`

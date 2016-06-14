@@ -209,7 +209,7 @@ ndvi.stack <- create_stack(f,
 
 # calculate NDVI
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-names(ndvi) <- "Teak_hsiNDVI"
+names(ndvi) <- "TEAK_hsiNDVI"
 
 # let's test this out
 plot(ndvi)

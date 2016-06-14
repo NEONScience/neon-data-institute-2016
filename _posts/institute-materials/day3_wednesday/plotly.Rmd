@@ -8,6 +8,7 @@ time:
 packagesLibraries: [plotly]
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka, Kyla]
+contributors: [Megan A. Jones]
 category: remote-sensing
 categories: [Remote Sensing]
 tags : [lidar, R]
@@ -16,7 +17,7 @@ tutorialSeries: institute-day3
 description: "."
 permalink: /plotly-plots-R/
 comments: true
-code1: /institute-day3/plotly.R
+code1: institute-materials/day3_wednesday/plotly.R
 image:
   feature:
   credit:
@@ -133,8 +134,8 @@ for this week!
 
 
 # setup your plot.ly credentials
-Sys.setenv("plotly_username"="NEONDataSkills")
-Sys.setenv("plotly_api_key"="kuu0m1xwne")
+Sys.setenv("plotly_username"="yourUserName")
+Sys.setenv("plotly_api_key"="yourAPIkey")
 
 # generate the plot
 plotly_POST(p,
