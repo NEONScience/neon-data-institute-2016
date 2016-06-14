@@ -4,7 +4,7 @@ title: "Plot a Spectral Signature from Hyperspectral Remote Sensing data in R - 
 date:   2016-06-18
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
-contributors: []
+contributors: [Megan A. Jones]
 time: "4:00"
 dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`

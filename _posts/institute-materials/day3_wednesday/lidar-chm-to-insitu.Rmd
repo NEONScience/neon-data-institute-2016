@@ -17,7 +17,7 @@ tutorialSeries: institute-day3
 description: "Bring LiDAR-derived raster data (DSM and DTM) into R to create a final canopy height model representing the actual vegetation height with the influence of elevation removed. Then compare lidar derived height (CHM) to field measured tree height to estimate uncertainty in lidar estimates."
 permalink: /compare-lidar-to-field-data-R/
 comments: true
-code1: /institute-day3/lidar-chm-to-insitu.R
+code1: institute-materials/day3_wednesday/lidar-chm-to-insitu.R
 image:
   feature:
   credit:

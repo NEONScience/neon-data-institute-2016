@@ -5,7 +5,7 @@ date:   2016-06-17
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time: "4:45"
-contributors: [Edmund Hart]
+contributors: [Edmund Hart, Megan A. Jones]
 dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 packagesLibraries: [rhdf5]
