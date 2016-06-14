@@ -50,6 +50,7 @@ to complete this lesson.
 * **rgdal:** `install.packages("rgdal")`
 * **dplyr:** `install.packages("dplyr")`
 * **ggplot2:** `install.packages("ggplot2")`
+* **plotly:** `install.packages("plotly")`
 
 
 ## Data to Download
@@ -74,7 +75,8 @@ library(dplyr)
 options(stringsAsFactors = FALSE)
 
 # set working directory
-setwd("~/Documents/data/NEONDI-2016")
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 ```
 
 ## Import NEON CHM
@@ -333,6 +335,9 @@ plot.ly library installed, you can quickly export a ggplot graphic into plot.ly!
 an account. Once you've setup an account, you can get your key from the plot.ly
 site (under Settings > API Keys) to make the code below work.
 
+You must be signed into plot.ly online, from your current computer, at the time 
+you use the `plotly_POST` command to upload you plot to your plot.ly account.  
+
 
 ```{r create-plotly, eval=FALSE }
 
@@ -342,6 +347,7 @@ library(plotly)
 Sys.setenv("plotly_username"="Your-User-Name")
 Sys.setenv("plotly_api_key"="Your-plotly-key")
 
+# you must be signed into Plot.ly online on the same computer for this code to work. 
 # generate the plot
 plotly_POST(p,
             filename='NEON SJER CHM vs Insitu Tree Height') # let anyone in the world see the plot!
