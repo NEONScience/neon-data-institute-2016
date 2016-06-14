@@ -134,8 +134,8 @@ for this week!
 
 
 # setup your plot.ly credentials
-Sys.setenv("plotly_username"="NEONDataSkills")
-Sys.setenv("plotly_api_key"="kuu0m1xwne")
+Sys.setenv("plotly_username"="yourUserName")
+Sys.setenv("plotly_api_key"="yourAPIkey")
 
 # generate the plot
 plotly_POST(p,
