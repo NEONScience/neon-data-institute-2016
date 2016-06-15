@@ -53,7 +53,6 @@ library(rgdal)
 # call library
 library(neonAOP)
 
-
 # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ```
@@ -119,8 +118,13 @@ Notice we get an error. Why?
 Let's compare the extents of the two objects. 
 
 ```{r compare-extents }
+# view extents of both objects
 extent(ndvi)
 extent(TEAK_nsAspect)
+
+# are the extents the same?
+extent(ndvi) == extent(TEAK_nsAspect)
+
 ```
 
 The extents are slightly different. They are one pixel apart in ymin and xmax.
