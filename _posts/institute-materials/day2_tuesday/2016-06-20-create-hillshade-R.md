@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Create a Hillshade From a Terrain raster in R"
+title: "Create a Hillshade from a Terrain Raster in R"
 date:   2016-06-18
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time:
-contributors:
+contributors: [Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-05-31
+lastModified: 2016-06-15
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -35,26 +35,39 @@ First, let's load the required libraries.
     library(raster)
     library(rgdal)
     
-    # set your working directory
-    setwd("~/Documents/data/1_data-institute-2016")
+    # be sure to set your working directory
+    # setwd("~/Documents/data/NEONDI-2016") # Mac
+    # setwd("~/data/NEONDI-2016")  # Windows
     
-    # import functions
-    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+    
+    ## import functions
+    # install devtools (only if you have not previously intalled it)
+    #install.packages("devtools")
+    # call devtools library
+    #library(devtools)
+    
+    # install from github
+    #install_github("lwasser/neon-aop-package/neonAOP")
+    # call library
+    library(neonAOP)
+    
+    
+    #source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## Import LiDAR data
 
 To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
-(DSM and DTM) which are in Geotiff format.
+(DSM and DTM) which are in GeoTIFF format.
 
 
     # read LiDAR data
     # dsm = digital surface model == top of canopy
-    dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
+    dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")
     # dtm = digital terrain model = elevation
-    dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
+    dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDTM.tif") 
     
     # lets also import the canopy height model (CHM).
-    chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
+    chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarCHM.tif")
 
 
 
@@ -79,10 +92,12 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 
 ## Export Classified Raster
 
+Now we can export the hillshade raster as a GeoTIFF. 
+
 
     # export geotiff 
     writeRaster(dsm.hill,
-                filename="outputs/TEAK/Teak_dsm_hill.tif",
+                filename="outputs/TEAK/TEAK_dsm_hill.tif",
                 format="GTiff",
                 options="COMPRESS=LZW",
                 overwrite = TRUE,

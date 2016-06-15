@@ -5,7 +5,8 @@ library(rhdf5)
 library(rgdal)
 
 # set wd
-# setwd("~/Documents/data/1_data-institute-2016")
+# setwd("~/Documents/data/NEONDI-2016") #Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 ## ----read-file, results='hide'-------------------------------------------
 # define the file name as an object
@@ -50,7 +51,9 @@ sid <- H5Dget_space(did)
 dims <- H5Sget_simple_extent_dims(sid)$size
 
 # take note that the data seem to come in ROTATED. wavelength is the
-# THIRD dimension rather than the first. Columns are the FIRST dimension, then rows.
+# THIRD dimension rather than the first. Columns are the FIRST dimension, 
+# then rows.
+
 # close everything
 H5Sclose(sid)
 H5Dclose(did)
@@ -65,10 +68,8 @@ str(wavelengths)
 
 
 ## ----read-refl-data------------------------------------------------------
-# if you get an error with the file being "open" just use the generic h5 close below
-# when we are done with our attributes you can skip all of this nonsense :)
-H5close()
-# Extract or "slice" data for band 34 from the HDF5 file
+
+# Extract or "slice" data for band 56 from the HDF5 file
 b56<- h5read(f,"Reflectance", index=list(1:dims[1],1:dims[2],56))
 
 # note the data come in as an array
@@ -85,7 +86,7 @@ image(b56)
 
 # looks like we need to force a stretch
 image(log(b56),
-      main="band 56 with log transformation")
+			main="Band 56 with log Transformation")
 # view distribution of reflectance data
 # force non scientific notation
 options("scipen"=100, "digits"=4)
@@ -104,40 +105,45 @@ b56[b56 == noDataVal] <- NA
 
 # Extract the scale factor as an object
 scaleFactor <- reflInfo$`Scale Factor`
+
 # divide all values in our B56 object by the scale factor to get a range of
 # reflectance values between 0-1 (the valid range)
 b56 <- b56/scaleFactor
 
 # view distribution of reflectance values
 hist(b56,
-     main="distribution with NoData Value considered\nData scaled")
+     main="Distribution with NoData Value Considered\nData Scaled")
 
 ## ----transpose-data------------------------------------------------------
-# Because the data import column, row but we require row, column in R,
-# We need to transpose x and y values in order for our final image to plot properly
+# Because the data import as column, row but we require row, column in R,
+# we need to transpose x and y values in order for our final image to plot 
+# properly
+
 b56<-t(b56)
-image(log(b56), main="Transposed image")
+image(log(b56), main="Band 56\nTransposed Values")
 
 
 ## ------------------------------------------------------------------------
-# so we can extract the lower left hand corner coordinates.
+# We can extract the upper left-hand corner coordinates.
 # the numbers as position 4 and 5 are the UPPER LEFT CORNER (x,y)
 mapInfo<-unlist(strsplit(mapInfo, ","))
 
-# grab the XY left corner coordinate
+# grab the X,Y left corner coordinate
+# ensure the format is numeric with as.numeric()
 xMin <- as.numeric(mapInfo[4])
-# ensure the format is numeric
 yMax <- as.numeric(mapInfo[5])
+
 # we can get the x and y resolution from this string too
 res <- c(mapInfo[2],mapInfo[3])
 res <- as.numeric(res)
 
-#  finally calculate the xMAX value and the YMIN value
-# we grabbed the dimensions above. the xmax is the left corner + number of columns* resolution
+# finally calculate the xMax value and the yMin value from the dimensions 
+# we grabbed above. The xMax is the left corner + number of columns* resolution.
 xMax <- xMin + (dims[1]*res[1])
 yMin <- yMax - (dims[2]*res[2])
 
 # also note that x and y res are the same (1 meter)
+
 # Now, define the raster extent
 # define the extent (left, right, top, bottom)
 rasExt <- extent(xMin, xMax,yMin,yMax)
@@ -150,13 +156,15 @@ extent(b56r) <- rasExt
 
 # view raster object attributes
 b56r
-plot(b56r, main="Raster for Teakettle - B56")
+
+# plot the new image
+plot(b56r, main="Raster for Lower Teakettle \nBand 56")
 
 
 ## ----export-tif, eval=FALSE----------------------------------------------
 ## 
 ## writeRaster(b56r,
-##             file="band56.tif",
+##             file="Outputs/TEAK/band56.tif",
 ##             format="GTiff",
 ##             naFlag=-9999)
 

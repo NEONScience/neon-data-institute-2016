@@ -9,18 +9,27 @@ library(rgdal)
 library(ggplot2)
 
 # be sure to set your working directory
-setwd("~/Documents/data/1_data-institute-2016")
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 
 ## ----import-h5-functions-------------------------------------------------
 
+# install devtools (only if you have not previously intalled it)
+# install.packages("devtools")
+# call devtools library
+#library(devtools)
+
+## install from github
+# install_github("lwasser/neon-aop-package/neonAOP")
+## call library
+library(neonAOP)
+
 # your file will be in your working directory! This one happens to be in a diff dir
 # than our data
-
-# source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
-
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
-
+# source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+# be sure to close any open connection
+H5close()
 
 
 ## ----open-H5-file, results='hide'----------------------------------------
@@ -44,12 +53,41 @@ wavelengths<- h5read(f,"wavelength")
 wavelengths <- wavelengths*1000
 
 
+## ----create-boundary, message=FALSE--------------------------------------
+
+# open file clipping extent
+clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", 
+                       "TEAK_plot")
+
+# create a spatial extent from the h5 file
+# NOTE: this currently doesn't work properly if the file is rotated
+h5.ext <- create_extent(f)
+
+# calculate the index subset dims to extract data from the H5 file
+subset.dims <- calculate_index_extent(clip.extent, 
+                       h5.ext, 
+                       xscale = 1, yscale = 1)
+
+# turn the H5 extent into a polygon to check overlap
+h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
+
+# assign crs to new polygon
+crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+# ensure the two extents overlap
+gIntersects(h5.ext.poly, clip.extent)
+
+# finally determine the subset to extract from the h5 file
+index.bounds <- calculate_index_extent(extent(clip.extent), h5.ext)
+
+
 ## ----subset-h5-file------------------------------------------------------
 
 # array containing the index dimensions to slice
-H5close()
+# H5close()
 subset.h5 <- h5read(f, "Reflectance",
-                    index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row
+                    index=list(index.bounds[1]:index.bounds[2],
+                    					 index.bounds[3]:index.bounds[4], 1:426)) # the column, row
 
 final.spectra <- data.frame(apply(subset.h5,
               MARGIN = c(3), # take the mean value for each z value
@@ -84,7 +122,7 @@ ndvi.stack <- create_stack(f,
 
 # calculate NDVI
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-names(ndvi) <- "Teak_hsiNDVI"
+names(ndvi) <- "TEAK_hsiNDVI"
 
 # let's test this out
 plot(ndvi)

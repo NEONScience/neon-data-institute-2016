@@ -9,18 +9,32 @@ library(rgdal)
 library(ggplot2)
 
 # be sure to set your working directory
-setwd("~/Documents/data/1_data-institute-2016")
-
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 ## ----import-h5-functions-------------------------------------------------
+## VIA dev tools
+
+# install devtools (only if you have not previously intalled it)
+# install.packages("devtools")
+# call devtools library
+library(devtools)
+
+## install from github
+install_github("lwasser/neon-aop-package/neonAOP")
+## call library
+library(neonAOP)
+
+
+
+## VIA SOURCE
 
 # your file will be in your working directory! This one happens to be in a diff dir
 # than our data
 
 # source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
 
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
-
+# source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
 ## ----open-H5-file, results='hide'----------------------------------------
@@ -77,7 +91,6 @@ names(aPixeldf) <- c("reflectance")
 aPixeldf$wavelength <- wavelengths
 
 head(aPixeldf)
-
 
 
 ## ----pull-scale-factor---------------------------------------------------

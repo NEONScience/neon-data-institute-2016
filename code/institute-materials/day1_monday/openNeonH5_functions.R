@@ -5,13 +5,16 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
+# set wd
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 ## ----get-data-dims-------------------------------------------------------
 
-#' Get Data Dimensions
+#' Get Data Dimensions ####
 #'
 #' This function grabs the x,y and z dimemsions of an H5 dataset called "Reflectance"
-#' It would be more robust IF you could pass it the dataset name / path too
+#' It would be more robust if you could pass it the dataset name / path too
 #' @param fileName a path to the H5 file that you'd like to open
 #' @keywords hdf5, dimensions
 #' @export
@@ -140,14 +143,48 @@ read_band <- function(fileName, index){
 
 
 
+## ----function-open-band--------------------------------------------------
+## FUNCTION - Open Band ####
+#'
+#' This function opens a band from an NEON H5 file using an input spatial extent. 
+#' @param fileName the path to the h5 file that you wish to open. 
+#' @param bandNum the band number in the reflectance data that you wish to open
+#' @param epsg the epsg code for the CRS that the data are in.
+#' @param subsetData, a boolean object. default is FALSE. If set to true, then
+#' ... subset a slice out from the h5 file. otherwise take the entire xy extent.
+#' @param dims, an optional object used if subsetData = TRUE that specifies the 
+#' index extent to slice from the h5 file
+#' @keywords hdf5, extent
+#' @export
+#' @examples
+#' open_band(fileName, bandNum, epsg, subsetData=FALSE, dims=NULL)
+#' 
+
+open_band <- function(fileName, bandNum, epsg){
+  # take the specified dims which may be a subset
+  # note subtracting one because R indexes all values 1:3 whereas in a zero based system
+  # that would yield one more value -- double check on this but it creates the proper
+  # resolution
+    dims <- get_data_dims(fileName)
+    index <- list(1:dims[1], 1:dims[2], bandNum)
+    aBand <- read_band(fileName, index)
+    # clean data
+    aBand <- clean_refl_data(fileName, aBand, epsg)
+    extent(aBand) <- create_extent(fileName)
+  
+  # return raster object
+  return(aBand)
+}
+
+
 ## ----define-data-wd, results='hide'--------------------------------------
-# set wd
-# setwd("~/Documents/data/1_data-institute-2016/Teakettle/may1_subset/")
+# set wd - if you haven't done so already
+# setwd("~/Documents/data/NEONDI-2016/")
+
 # define the CRS definition by EPSG code
 epsg <- 32611
 
 # define the file you want to work with
-#f <- "Subset1NIS1_20130614_095740_atmcor.h5"
 f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
 h5ls(f)
@@ -161,6 +198,7 @@ wavelengths<- h5read(f,"wavelength")
 
 ### final Code ####
 # H5close()
+
 # find the dimensions of the data to help determine the slice range
 # returns cols, rows, wavelengths
 dims <- get_data_dims(fileName = f)
@@ -168,25 +206,23 @@ dims <- get_data_dims(fileName = f)
 # open band, return cleaned and scaled raster
 band <- open_band(fileName=f,
                   bandNum = 56,
-                  epsg=epsg,
-                  dims=dims)
+                  epsg=epsg)
 
 # plot data
 plot(band,
-     main="Raster for Teakettle - B56")
+     main="Raster for Lower Teakettle - B56")
 
 
 ## ----extract-many-bands--------------------------------------------------
 
 # extract 3 bands
 # create  alist of the bands
-bands <- list(58,34,19)
+bands <- list(58, 34, 19)
 
 # use lapply to run the band function across all three of the bands
 rgb_rast <- lapply(bands, open_band,
                    fileName=f,
-                   epsg=epsg,
-                   dims=dims)
+                   epsg=epsg)
 
 # create a raster stack from the output
 rgb_rast <- stack(rgb_rast)
@@ -216,21 +252,17 @@ plotRGB(rgb_rast,
 #'
 
 #
-create_stack <- function(file, bands, epsg, subset=FALSE, dims){
-
+create_stack <- function(file, bands, epsg, subset=FALSE, dims=NULL){
   # use lapply to run the band function across all three of the bands
   rgb_rast <- lapply(bands, open_band,
                      fileName=file,
-                     epsg=epsg,
-                     subset=subset,
-                     dims=dims)
+                     epsg=epsg)
 
   # create a raster stack from the output
   rgb_rast <- stack(rgb_rast)
   # reassign band names
   names(rgb_rast) <- bands
   return(rgb_rast)
-
 }
 
 
@@ -252,18 +284,21 @@ plot_stack <- function(aStack, title="3 band RGB Composite", theStretch='lin'){
 ## ----plot-band-combos----------------------------------------------------
 
 # CIR create  alist of the bands
-bands <- list(90,34,19)
-CIRStack <- create_stack(f, bands, epsg)
+bands <- c(90, 34, 19)
+
+CIRStack <- create_stack(f, 
+                         bands, 
+                         epsg)
 plot_stack(CIRStack,
            title="Color Infrared (CIR) Image")
 
-# create  alist of the bands
+# create a list of the bands
 bands <- list(152,90,58)
 aStack <- create_stack(f, bands, epsg)
 plot_stack(aStack,
            title="another combo")
 
-# FALSE COLOR create  alist of the bands
+# FALSE COLOR create a list of the bands
 bands <- list(363, 246, 58)
 falseStack <- create_stack(f, bands, epsg)
 plot_stack(falseStack,
@@ -272,7 +307,7 @@ plot_stack(falseStack,
 
 ## ----write-raster, eval=FALSE--------------------------------------------
 ## 
-## # export as a gtif
+## # export as a GeoTIFF
 ## writeRaster(CIRStack,
 ##             file="Outputs/TEAK/cirImage_2013.tif",
 ##             format="GTiff",

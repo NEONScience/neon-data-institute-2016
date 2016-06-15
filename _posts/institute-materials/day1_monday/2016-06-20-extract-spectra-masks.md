@@ -7,7 +7,7 @@ instructors:
 contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-05-31
+lastModified: 2016-06-15
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -28,10 +28,9 @@ comments: false
 <strong>R Skill Level:</strong> Intermediate
 
 <h3>Goals / Objectives</h3>
-After completing this activity, you will:
+After completing this activity, you will be able to:
 <ol>
-<li>Understand how to extract and plot spectra from an HDF5 file.</li>
-<li>Know how to work with groups and datasets within an HDF5 file.</li>
+<li>Extract spectra from an HDF5 file using masks.</li>
 </ol>
 
 </div>
@@ -51,21 +50,30 @@ from an HDF5 file and plot a spectral profile for that pixel.
     library(ggplot2)
     
     # be sure to set your working directory
-    setwd("~/Documents/data/1_data-institute-2016")
+    # setwd("~/Documents/data/NEONDI-2016") # Mac
+    # setwd("~/data/NEONDI-2016")  # Windows
 
 ## Import H5 Functions
 
-In this scenario, we have built a suite of FUNCTIONS that will allow us to quickly
-open and read NEON hyperspectral imagery data from an `hdf5` file. We can import
-a suite of functions from an `.R` file using the `source` function.
+We have built a suite of **functions** that allow us to quickly open and read 
+NEON hyperspectral imagery data from an `hdf5` file. 
 
 
+    # install devtools (only if you have not previously intalled it)
+    # install.packages("devtools")
+    # call devtools library
+    #library(devtools)
+    
+    ## install from github
+    # install_github("lwasser/neon-aop-package/neonAOP")
+    ## call library
+    library(neonAOP)
+    
     # your file will be in your working directory! This one happens to be in a diff dir
     # than our data
-    
-    # source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
-    
-    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+    # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+    # be sure to close any open connection
+    H5close()
 
 ## Open H5 File
 
@@ -87,21 +95,62 @@ Next, let's read in the wavelength center associated with each band in the HDF5
 file.
 
 
-
     #read in the wavelength information from the HDF5 file
     wavelengths<- h5read(f,"wavelength")
     # convert wavelength to nanometers (nm)
     # NOTE: this is optional!
     wavelengths <- wavelengths*1000
 
+## Create a boundary object
+
+We can use the create_extent function to create a spatial extent object for the 
+h5 file. Currently however, this extent does not consider the rotation that the 
+file may have. 
+
+This rotation will be considered in future iterations of the code!
+
+
+    # open file clipping extent
+    clip.extent <- readOGR("NEONdata/D17-California/TEAK/vector_data", 
+                           "TEAK_plot")
+
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "NEONdata/D17-California/TEAK/vector_data", layer: "TEAK_plot"
+    ## with 1 features
+    ## It has 1 fields
+
+    # create a spatial extent from the h5 file
+    # NOTE: this currently doesn't work properly if the file is rotated
+    h5.ext <- create_extent(f)
+    
+    # calculate the index subset dims to extract data from the H5 file
+    subset.dims <- calculate_index_extent(clip.extent, 
+                           h5.ext, 
+                           xscale = 1, yscale = 1)
+    
+    # turn the H5 extent into a polygon to check overlap
+    h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
+    
+    # assign crs to new polygon
+    crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    
+    # ensure the two extents overlap
+    gIntersects(h5.ext.poly, clip.extent)
+
+    ## [1] TRUE
+
+    # finally determine the subset to extract from the h5 file
+    index.bounds <- calculate_index_extent(extent(clip.extent), h5.ext)
+
 
 ## View Spectra Within Clipped Raster
 
 
     # array containing the index dimensions to slice
-    H5close()
+    # H5close()
     subset.h5 <- h5read(f, "Reflectance",
-                        index=list(index.bounds[1]:index.bounds[2], index.bounds[3]:index.bounds[4], 1:426)) # the column, row
+                        index=list(index.bounds[1]:index.bounds[2],
+                        					 index.bounds[3]:index.bounds[4], 1:426)) # the column, row
     
     final.spectra <- data.frame(apply(subset.h5,
                   MARGIN = c(3), # take the mean value for each z value
@@ -123,16 +172,18 @@ file.
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/subset-h5-file-1.png)
 
 
-Now we've plotted a spectral signature. However, the values are averaged over all pixels in our
-AOI. We may just want to explore the spectral of particular, thresholded object.
+Now we've plotted a spectral signature. However, the values are averaged over 
+all pixels in our AOI. We may just want to explore the spectral of particular, 
+thresholded object.
 
-to do this
+To do this:
 
-* i need to find the new tie point which will be a result of any averageing done above
-* then i can spatially located this and turn it into a raster potentially?
-* then i can create a MASK of just pixels with a particular raster value.
+* We need to find the new tie point which will be a result of any averageing 
+done above,
+* then we can spatially located this and turn it into a raster.
+* Then we can create a **mask** of just pixels with a particular raster value.
 
-Let's give it a go
+Let's give it a go!
 
 
     # create a list of bands
@@ -149,7 +200,7 @@ Let's give it a go
     
     # calculate NDVI
     ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-    names(ndvi) <- "Teak_hsiNDVI"
+    names(ndvi) <- "TEAK_hsiNDVI"
     
     # let's test this out
     plot(ndvi)

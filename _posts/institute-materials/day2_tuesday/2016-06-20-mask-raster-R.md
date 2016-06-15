@@ -1,20 +1,21 @@
 ---
 layout: post
-title: "Mask a raster using threshold values in R"
+title: "Mask a Raster using Threshold Values in R"
 date:   2016-06-16
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time: "11:00"
-contributors:
+contributors: [Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-05-31
+lastModified: 2016-06-15
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
 tags: [R, HDF5]
 tutorialSeries: [institute-day2]
-description: "Classify using threshold."
-code1: institute-materials/day2_tuesday/mask-raster.R
+description: "In this tutorial, we will walk through how to remove parts of a raster based on
+pixel values using a mask from an analysis."
+code1: institute-materials/day2_tuesday/mask-raster-R.R
 image:
   feature: 
   credit: 
@@ -25,8 +26,13 @@ comments: false
 
 ## About
 
-In this tutorial, we will walk through how to classify a raster file using
-defined value ranges in R. 
+In this tutorial, we will walk through how to remove parts of a raster based on
+pixel values using a mask from an analysis. 
+
+A mask raster layer is a layer that contains pixels that won't be used in the 
+analysis. In `R`, these pixels as assigned an `NA` value.
+
+<a class="btn btn-info" href="http://www.inside-r.org/packages/cran/raster/docs/mask" target="_blank"> Read more about raster masks in R. </a>
 
 First, let's load the required libraries.
 
@@ -36,11 +42,23 @@ First, let's load the required libraries.
     library(rhdf5)
     library(rgdal)
     
-    # set your working directory
-    setwd("~/Documents/data/1_data-institute-2016")
+    # be sure to set your working directory
+    # setwd("~/Documents/data/NEONDI-2016") # Mac
+    # setwd("~/data/NEONDI-2016")  # Windows
     
-    # import functions
-    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+    ## import functions
+    # install devtools (only if you have not previously intalled it)
+    #install.packages("devtools")
+    # call devtools library
+    #library(devtools)
+    
+    # install from github
+    #install_github("lwasser/neon-aop-package/neonAOP")
+    # call library
+    library(neonAOP)
+    
+    
+    #source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## Import LiDAR data
 
@@ -49,17 +67,18 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 
 
     # import aspect data from previous lesson
-    teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
+    teak_nsAspect <- raster("outputs/TEAK/TEAK_nsAspect.tif")
     
-    # North face = 1
-    # South face = 2
-    # plot outside of the plot region
+    # North facing slope = 1
+    # South facing slope = 2
+    
+    # legend outside of the plot region
     # make room for a legend
     par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
     
     plot(teak_nsAspect, 
          col=c("white","blue","green"),
-         main="North and South Facing Slopes \nTeakettle",
+         main="North and South Facing Slopes \n Lower Teakettle",
          legend=F)
     
     # allow legend to plot outside of bounds
@@ -74,14 +93,14 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 
 ## Mask Data
 
-Once we have created a threhold classified raster, we can use it for different things.
-One application is to use it as an analysis mask for another dataset. 
+Once we have created a threhold classified raster, we can use it for different 
+things. One application is to use it as an analysis mask for another dataset. 
 
 Let's try to find all pixels that have an NDVI value >.6 and are north facing. 
 
 
     # open NEON NDVI data
-    ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+    ndvi <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/TEAK_NDVI.tif")
     ndvi
 
     ## class       : RasterLayer 
@@ -89,12 +108,12 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
     ## resolution  : 1, 1  (x, y)
     ## extent      : 325963, 326506, 4102905, 4103482  (xmin, xmax, ymin, ymax)
     ## coord. ref. : +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## data source : /Users/lwasser/Documents/data/1_data-institute-2016/NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif 
-    ## names       : NEON.D17.TEAK.DP2.20130614_100459_NDVI 
-    ## values      : -0.2381, 0.9204  (min, max)
+    ## data source : /Users/mjones01/Documents/data/NEONDI-2016/NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/TEAK_NDVI.tif 
+    ## names       : TEAK_NDVI 
+    ## values      : -0.2253, 0.9218  (min, max)
 
     hist(ndvi,
-         main="NDVI for Teakettle Field Site")
+         main="NDVI for Lower Teakettle Field Site")
 
     ## Warning in .hist1(x, maxpixels = maxpixels, main = main, plot = plot, ...):
     ## 32% of the raster cells were used. 100000 values used.
@@ -116,7 +135,7 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
     nFacing.ndvi <- mask(n.face.aspect, ndvi)
     
     plot(nFacing.ndvi,
-         main="North Facing locations \n NDVI > .6",
+         main="North Facing Locations \n NDVI > .6",
          legend=F)
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/mask-raster-R/mask-data-1.png)
@@ -126,7 +145,7 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
 
     # export geotiff 
     writeRaster(nFacing.ndvi,
-                filename="outputs/TEAK/Teak_n_ndvi6.tif",
+                filename="outputs/TEAK/TEAK_n_ndvi6.tif",
                 format="GTiff",
                 options="COMPRESS=LZW",
                 overwrite = TRUE,

@@ -4,20 +4,29 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
-# set your working directory
-setwd("~/Documents/data/1_data-institute-2016")
+# be sure to set your working directory
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
-# import functions
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+## import functions
+# install devtools (only if you have not previously intalled it)
+#install.packages("devtools")
+# call devtools library
+#library(devtools)
+
+# install from github
+#install_github("lwasser/neon-aop-package/neonAOP")
+# call library
+library(neonAOP)
+
+
+# source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
 ## ----import-lidar--------------------------------------------------------
 
-# read LiDAR data
-# dsm = digital surface model == top of canopy
-teak_nsAspect <- raster("outputs/TEAK/Teak_nsAspect.tif")
-# dtm = digital terrain model = elevation
-
+# read aspect data from previous lesson
+TEAK_nsAspect <- raster("outputs/TEAK/TEAK_nsAspect.tif")
 
 
 ## ----mask-data-----------------------------------------------------------
@@ -35,7 +44,7 @@ ndvi.stack <- create_stack(f,
 
 # calculate NDVI
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-names(ndvi) <- "Teak_hsiNDVI"
+names(ndvi) <- "TEAK_hsiNDVI"
 
 # let's test this out
 plot(ndvi)
@@ -45,34 +54,34 @@ ndvi[ndvi<.6] <- NA
 plot(ndvi)
 
 # force the two to have the same CRS
-crs(ndvi) <- crs(asp.ns)
+crs(ndvi) <- crs(TEAK_nsAspect)
 
 ## ----create-stack--------------------------------------------------------
 
-new.stack <- stack(asp.ns, ndvi)
+new.stack <- stack(TEAK_nsAspect, ndvi)
 
 
 ## ----compare-extents-----------------------------------------------------
 extent(ndvi)
-extent(asp.ns)
+extent(TEAK_nsAspect)
 
 ## ----check-extents-------------------------------------------------------
 
 # check the extents of the two layers -- if they are different
 # crop both datasets
-if (extent(ndvi) == extent(asp.ns)){
+if (extent(ndvi) == extent(TEAK_nsAspect)){
   print("Extents are the same, no need to crop")
   } else {
   # calculate overlap between the two datasets
-  overlap <- intersect(extent(ndvi), extent(asp.ns))
+  overlap <- intersect(extent(ndvi), extent(TEAK_nsAspect))
   # now let's crop both datasets to the overlap region
   ndvi <- crop(ndvi, overlap)
-  asp.ns <- crop(asp.ns, overlap)
+  asp.ns <- crop(TEAK_nsAspect, overlap)
   print("Extents are different, cropping data")
   }
 
 # let's try to create a stack again.
-new.stack <- stack(asp.ns,ndvi)
+new.stack <- stack(TEAK_nsAspect, ndvi)
 
 
 ## ----create-mask---------------------------------------------------------
@@ -95,7 +104,7 @@ plot(nsFacing.ndvi,
 # allow legend to plot outside of bounds
 par(xpd=TRUE)
 
-legend((par()$usr[2] + 20), plot.extent@ymax-200, # set xy legend location
+legend((par()$usr[2] + 20), plot.extent@ymax-200, # set x,y legend location
        legend = c("North", "South"),
        fill = c("blue", "green"), 
        bty="n") # turn off border
@@ -104,8 +113,8 @@ legend((par()$usr[2] + 20), plot.extent@ymax-200, # set xy legend location
 ## ----export-geotiff, eval=FALSE------------------------------------------
 ## 
 ## # export geotiff
-## writeRaster(asp.ns,
-##             filename="outputs/TEAK/Teak_nsAspect.tif",
+## writeRaster(nsFacing.ndvi,
+##             filename="outputs/TEAK/TEAK_nsAspect_hsiNDVI.tif",
 ##             format="GTiff",
 ##             options="COMPRESS=LZW",
 ##             overwrite = TRUE,

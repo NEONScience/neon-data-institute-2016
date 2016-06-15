@@ -4,10 +4,10 @@ title: "Plot a Spectral Signature from Hyperspectral Remote Sensing data in R - 
 date:   2016-06-18
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
-contributors: []
+contributors: [Megan A. Jones]
 time: "4:00"
 dateCreated:  2016-05-01
-lastModified: 2016-05-31
+lastModified: 2016-06-15
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -28,10 +28,10 @@ comments: false
 <strong>R Skill Level:</strong> Intermediate
 
 <h3>Goals / Objectives</h3>
-After completing this activity, you will:
+After completing this activity, you will be able to:
 <ol>
-<li>Understand how to extract and plot spectra from an HDF5 file.</li>
-<li>Know how to work with groups and datasets within an HDF5 file.</li>
+<li>Extract and plot spectra from an HDF5 file.</li>
+<li>Work with groups and datasets within an HDF5 file.</li>
 </ol>
 
 </div>
@@ -50,23 +50,44 @@ plot a spectral profile for that pixel.
     library(ggplot2)
     
     # be sure to set your working directory
-    setwd("~/Documents/data/1_data-institute-2016")
+    # setwd("~/Documents/data/NEONDI-2016") # Mac
+    # setwd("~/data/NEONDI-2016")  # Windows
 
 ## Import H5 Functions
 
-In this scenario, we have built a suite of FUNCTIONS that will allow us to quickly
+In this scenario, we have built a suite of **fuctions** that allow us to quickly
 open and read from an H5 file. Rather than code out each step to open the H5 file,
 let's open that file first using the `source` function which reads the functions into
 our working environment. We can then use the funtions to quickly and efficiently
 open the H5 data.
 
 
+    ## VIA dev tools
+    
+    # install devtools (only if you have not previously intalled it)
+    # install.packages("devtools")
+    # call devtools library
+    library(devtools)
+    
+    ## install from github
+    install_github("lwasser/neon-aop-package/neonAOP")
+
+    ## Skipping install for github remote, the SHA1 (79967454) has not changed since last install.
+    ##   Use `force = TRUE` to force installation
+
+    ## call library
+    library(neonAOP)
+    
+    
+    
+    ## VIA SOURCE
+    
     # your file will be in your working directory! This one happens to be in a diff dir
     # than our data
     
     # source("/Users/lwasser/Documents/GitHub/neon-data-institute-2016/_posts/institute-materials/day1_monday/import-HSIH5-functions.R")
     
-    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+    # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 First, we need to access the H5 file.
 
