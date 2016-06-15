@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Lidar and Hyperspectral Data Product Fusion"
+title: "LiDAR and Hyperspectral Data Product Fusion"
 date:   2016-06-20
 dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 authors: [Kyla Dahlin]
 instructors: [Kyla, Leah]
 time: "1:00"
-contributors:
+contributors:[Megan A. Jones]
 packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
 categories: [self-paced-tutorial]
 mainTag: institute-day4
@@ -33,8 +33,10 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
+# set working directory
 # setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016/20160602")
-setwd("~/Documents/data/1_data-institute-2016")
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 ```
 
 
@@ -46,7 +48,8 @@ maintain function code that we use regularly in ONE PLACE.
 ```{r import-h5-functions }
 
 # import NEON aop R package
-library(devtools)
+
+# library(devtools)
 ## install from github
 # install_github("lwasser/neon-aop-package/neonAOP")
 library(neonAOP)
@@ -59,12 +62,12 @@ library(neonAOP)
 ```{r import-lidar }
 
 # import digital surface model (dsm) (top of the surface - includes trees and buildings)
-dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
+dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")
 # import  digital terrain model (dtm), elevation
-dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
+dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDTM.tif") 
 
 # import canopy height model (height of vegetation) 
-chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
+chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarCHM.tif")
 
 ```
 
@@ -76,10 +79,10 @@ Next, let's explore our CHM data.
 
 # Check out the height distribution - do the values seem reasonable?
 plot(chm,
-     main="Canopy Height - Teakettle \nCalifornia") 
+     main="Canopy Height\n Lower Teakettle, California") 
 
 hist(chm,
-     main="Distribution of Canopy Height - Teakettle \nCalifornia",
+     main="Distribution of Canopy Height \nTeakettle, California",
      xlab="Tree Height (m)", 
      col="springgreen")
 
@@ -87,12 +90,14 @@ hist(chm,
 
 ## Valid Data Range
 
-The valid range of data for a NEON CHM is >= 2m. This is because the lidar system
-is not sensitive enough to distinguish objects that are closer than ~2m apart vertically.
+The valid range of data for a NEON canopy height models (CHM) is >= 2m. This is 
+because the LiDAR 
+system is not sensitive enough to distinguish objects that are closer than ~2m 
+apart vertically.
 
 ## Explore Veg Height data
 
-Have a close look at the veg height values. Do they seem reasonable?
+Let's have a close look at the vegetation height values. Do they seem reasonable?
 
 ```{r view-summary-stats}
 # view chm mean and max
@@ -116,9 +121,10 @@ lidar.brick <- brick(dsm, dtm, chm)
 
 Next, let's read in HSI data.
 
-We could use the NDVI data product however, let's calculate NDVI ourselves.
-Note, that there are many bands in HSI data within the red and NIR region.
-Thus simply selecting one band in each region is not always the most 
+We could use the NDVI data product, however, let's calculate NDVI ourselves.
+Note, that there are many bands in HSI data within the red and near-infrared
+(NIR) region.
+Thus, simply selecting one band in each region is not always the most 
 robust way to go. 
 
 
@@ -141,15 +147,15 @@ ndvi.stack <- create_stack(f,
 
 # calculate ndvi
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-names(ndvi) <- "Teak_hsiNDVI"
+names(ndvi) <- "TEAK_hsiNDVI"
 
 # plot ndvi
 plot(ndvi,
-     main="NDVI \nNEON Teakettle Field Site")
+     main="NDVI \nNEON Lower Teakettle Field Site")
 
 ```
 
-## Create Brick of lidar and NDVI
+## Create Brick of LiDAR and NDVI
 
 ```{r create-brick}
 
@@ -171,10 +177,10 @@ extent(ndvi)
 
 ## Dealing with Different Extents
 
-The extents are slightly different. Let's write a if statment that checks the extents
-and crops them in case they are different.
+The extents are slightly different. Let's write a if statment that checks the 
+extents and crops them in case they are different.
 
-Note this could become a function that you use over and over! If you used
+Note: this could become a function that you use over and over! If you used
 it that way you'd want to implement a crop of BOTH datasets just in case
 neither are perfectly within the overlap region.
 
@@ -204,7 +210,7 @@ names(all.data) <- all.names
 
 ```
 
-## Import NEON NDVI data product
+## Import NEON NDVI Data Product
 
 We can import the NEON NDVI data product next to use in our analysis. Let's then
 compare that to NDVI that we calculated. Are they the same?
@@ -212,20 +218,20 @@ compare that to NDVI that we calculated. Are they the same?
 ```{r import-NDVI }
 
 # import NEON NDVI product
-ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/TEAK_NDVI.tif")
 
 # compare the two products
 ndvi.diff <- ndvi-ndvi2
 
 # plot difference
 plot(ndvi.diff,
-     main="NDVI DIFFERENCE, TEAK Field Site")
+     main="NDVI DIFFERENCE \nLower Teakettle Field Site")
 
 ```
 
-## Different extents
+## Different Extents - Optional
 
-OPTIONAL -- Ok - now we've run in to this extent issue twice. Maybe it's time to create a crop
+Ok - now we've run in to this extent issue twice. Maybe it's time to create a crop
 extent function.
 
 ```{r create-extent-function }
@@ -265,13 +271,13 @@ the same HDF5 file.
 
 Next, let's test a simple hypothesis. 
 
-Because California is:
+Because central California is:
 
 * Dry and 
-* In the northern hemisphere.
+* In the northern hemisphere,
 
-We may expect to find taller, greener vegetation on north facing slopes than on 
-south facing slopes. To test this we need to 
+we may expect to find taller, greener vegetation on north facing slopes than on 
+south facing slopes. To test this, we need to: 
 
 1. Import the NEON aspect data product.
 2. Isolate north and south facing slopes. 
@@ -287,7 +293,7 @@ Let's get started.
 ```{r import-aspect }
 
 # 1. Import aspect data product (derived from the DTM)
-aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarAspect.tif")
+aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarAspect.tif")
 # crop the data to the extent of the other rasters we are working with
 aspect <- crop(aspect, extent(chm))
 
@@ -312,13 +318,13 @@ Next we will create a mask using the aspect data product. Values are as follows:
 We can do this by reclassifying the aspect data product using the `reclassify` 
 function in the `raster` package. 
 
-First we need to create MATRIX that has 3 columns. the first two columns
+First we need to create **matrix** that has 3 columns. the first two columns
 represent the data values within a range that we want to classify. The third column
 contains the new value that we will assign that range of values to. For example:
 
-0 to 45 degrees should be classified as 1 (North Facing)
-135 to 225 degrees should be classified as 2 (South Facing)
-Greater than 315 should be classified as 1 (North Facing)
+* 0 to 45 degrees should be classified as 1 (North Facing)
+* 135 to 225 degrees should be classified as 2 (South Facing)
+* Greater than 315 should be classified as 1 (North Facing)
 
 
 ```{r create-aspect-mask}
@@ -356,7 +362,7 @@ ns.extent <- extent(asp.ns)
 plot(asp.ns, 
      col=c("blue","green"),
      axes=F,
-     main="North and South Facing Slopes \nNEON Teakettle Field Site",
+     main="North and South Facing Slopes \nNEON Lower Teakettle Field Site",
      bty="n",
      legend=F)
 
@@ -373,8 +379,9 @@ legend((par()$usr[2] + 20), ns.extent@ymax-100, # set xy legend location
 ## North / South Facing Slopes
 
 Next, we can create a north and south facing mask object. A mask is a layer where
-the pixels that you want to EXCLUDE are set to NA. The pixels that you wish to 
-include in your analysis have a value. In this case, that value is 1.
+the pixels that you want to **exclude** are set to NA. The pixels that you wish to 
+include in your analysis have a value. In this case, that value is 1 if north facing
+and 2 if south facing.
 
 ```{r ns-facing }
 
@@ -388,9 +395,9 @@ south.facing[south.facing == 0] <- NA
 
 ```
 
-## Export North South Aspect Geotiff
+## Export North/South Aspect GeoTIFF
 
-Before we go any further, let's export a geotiff. This could be useful for another
+Before we go any further, let's export a GeoTIFF. This could be useful for another
 analysis. 
 
 ```{r export-gtif-ns, eval=FALSE}
@@ -415,7 +422,7 @@ the most sense.
 
 # histogram of tree ht
 hist(all.data[[4]],
-     main="Distribution of Canopy Height Model (CHM) values \nNEON Teakettle Field Site",
+     main="Distribution of Canopy Height Model (CHM) values \nNEON Lower Teakettle Field Site",
      col="springgreen")
 
 
@@ -432,7 +439,7 @@ all.data.stats
 
 ## Calculate Tall Trees Threshold
 
-Note, that the data aren't normally distributed - something to consider
+Note that the data aren't normally distributed - something to consider
 when you are determining what your thresholds are. 
 
 Uncertainty discussion: selecting thresholds.
@@ -448,7 +455,6 @@ thresholds$height
 ```
 
 Next, look at NDVI.
-
 
 ```{r explore-ndvi}
 # now let's look at ndvi
@@ -469,8 +475,8 @@ thresholds$greenThresh <- all.data.stats["NDVI","Max."] - (thresholds$greenRange
 
 ## 4. Calculate Percent of tall and green pixels 
 
-Next, let's calculate the percent of tall and green pixels that occur on 
-north and south facing slopes. Our pixels are exactly 1 x 1 m in size, thus
+Next, let's calculate the percent of tall, green pixels that occur on 
+north and south facing slopes respectively. Our pixels are exactly 1 x 1 m in size, thus
 we can use the % of pixels as a proxy for % area. 
 
 Remember that 1 = North Facing and 2 = South Facing in our classified aspect
@@ -482,7 +488,7 @@ object `asp.ns`.
 north.count <- freq(asp.ns, value =1)
 south.count <- freq(asp.ns, value =2)
 
-# note there's  more south facing area in this image than north facing
+# note there's more south facing area in this image than north facing
 
 # create a new layer with pixels that are north facing, above the green threshold and
 # above the CHM height threshold
@@ -495,7 +501,6 @@ north.tall.green[north.tall.green == 0] <- NA
 
 # how many pixels fit the "north, tall green" criteria?
 north.tall.green.count <- freq(north.tall.green, value =1)
-
 
 # repeat the same steps for south facing slopes. Note
 # we are repeating code - this could become a nice function!
@@ -510,7 +515,7 @@ south.tall.green[south.tall.green == 0] <- NA
 north.tall.green.frac <- north.tall.green.count/freq(asp.ns, value=1)
 south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 
-# if we look at these fracs, >11% of the pixels on north facing slopes should
+# if we look at these fractions, >11% of the pixels on north facing slopes should
 # meet our tall and green criteria, while <6% of the pixels on south facing
 # slopes do. So that's reassuring. (using original data set)
 
@@ -519,7 +524,7 @@ south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 ## Plot Color Infrared (CIR) Image
 
 Next, let's have a look at the site that we are working with. We can use the 
-Hyperspectral remote sensing data to plot a color infrared image. 
+hyperspectral remote sensing data to plot a color infrared image. 
 
 We will use the following bands:
 
@@ -561,13 +566,13 @@ plot(north.tall.green,
      col = "cyan", 
      add = T, 
      legend = F)
+
 plot(south.tall.green, 
      col = "blue", 
      add = T, 
      legend = F)
 
 ```
-
 
 
 
@@ -614,22 +619,16 @@ NDVI.ttest <- t.test(north.ndvi.df$NDVI,
 
 ```
 
-## Veg Height
-
-Run the same analysis but use veg height!
-Once again we are repeating code. This would make for a nice function! If it's a 
-set of functions, we can change the methods in ONE PLACE and then re run the code!
 
 <div id="challenge" markdown="1">
-## Challenge Activity
+## Challenge Activity: Vegetation Height
 
 Your turn! Using the technique that we used above, run the same analysis
 but this time, use **tree height** instead of NDVI as the variable of interest. 
 Create a boxplot of treeheight compared to aspect. Then run a t-test.
-Are the two variables related?
+Are NDVI and tree height related? Why might this be? 
 
 </div>
-
 
 ```{r veght-aspect-compare, echo=FALSE }
 # mask tall pixels on north and south facing slopes 
@@ -652,7 +651,7 @@ veght.df$aspect <- as.factor(veght.df$aspect)
 boxplot(veght ~ aspect, 
         data = veght.df, 
         col = "cornflowerblue", 
-        main = "veght on North versus South facing slopes")
+        main = "Vegetation Height on North & South Facing Slopes \nLower Teakettle, California")
 
 
 # and now a t-test - note that since these aren't normally distributed, this
@@ -661,4 +660,7 @@ veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = 
 
 ```
 
+Notice, once again we are repeating code. This would make for a nice function! 
+If it's a set of functions, we could have changed the methods in **one place* from
+NDVI to tree height and then simply re-run the code for the challenge!
 
