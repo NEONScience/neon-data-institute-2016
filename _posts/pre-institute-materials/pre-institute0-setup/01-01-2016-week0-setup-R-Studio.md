@@ -34,7 +34,7 @@ install the needed R packages.
 Please make sure all of these packages are installed and up to date on your 
 computer prior to the Institute.
 
-* `install.packages(c("raster", "rastervis", "rgdal", "rgeos", "rmarkdown", "knitr", "plyr", "dyply", "gglot2"))`
+* `install.packages(c("raster", "rastervis", "rgdal", "rgeos", "rmarkdown", "knitr", "plyr", "dyply", "gglot2", "plotly"))`
 * The `Rhdf5` package is not on CRAN and must be downloaded directly from 
 Bioconductor. The can be done using these two commands directly in your R 
 console. 
