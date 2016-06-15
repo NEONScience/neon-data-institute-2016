@@ -21,7 +21,7 @@ library(ggplot2)
 #library(devtools)
 
 ## install from github
-install_github("lwasser/neon-aop-package/neonAOP")
+# install_github("lwasser/neon-aop-package/neonAOP")
 ## call library
 library(neonAOP)
 
@@ -92,8 +92,8 @@ index.bounds <- calculate_index_extent(extent(clip.extent),
 b58_clipped <- open_band(fileName=f,
 												 bandNum=58,
 												 epsg=32611,
-												 subsetData = TRUE
-												 ,dims=index.bounds)
+												 subsetData = TRUE,
+												 dims=index.bounds)
 
 # plot clipped bands
 plot(b58_clipped,

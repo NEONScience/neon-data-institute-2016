@@ -124,6 +124,7 @@ Our range of values are as follows:
 We will assign all north facing slopes "1" and south facing "2".
 
 **North Facing Slopes:** 0-45 degrees, 315-360 degrees; class=1
+
 **South Facing Slopes:** 135-225 degrees; class=2
 
 

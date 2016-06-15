@@ -32,7 +32,7 @@ pixel values using a mask from an analysis.
 A mask raster layer is a layer that contains pixels that won't be used in the 
 analysis. In `R`, these pixels as assigned an `NA` value.
 
-<a href="http://www.inside-r.org/packages/cran/raster/docs/mask" target="_blank" class="btn btn-info>Read more about raster masks in R.</a>
+<a class="btn btn-info" href="http://www.inside-r.org/packages/cran/raster/docs/mask" target="_blank"> Read more about raster masks in R. </a>
 
 First, let's load the required libraries.
 

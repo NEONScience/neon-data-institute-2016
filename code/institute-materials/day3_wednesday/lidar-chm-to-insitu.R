@@ -1,4 +1,4 @@
-## ----import-plot-DSM-----------------------------------------------------
+## ----import-plot-DSM, warning=FALSE--------------------------------------
 
 # Import DSM into R
 library(raster)

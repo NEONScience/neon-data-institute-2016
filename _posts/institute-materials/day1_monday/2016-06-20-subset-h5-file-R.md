@@ -66,11 +66,7 @@ NEON hyperspectral imagery data from an `hdf5` file.
     #library(devtools)
     
     ## install from github
-    install_github("lwasser/neon-aop-package/neonAOP")
-
-    ## Skipping install for github remote, the SHA1 (79967454) has not changed since last install.
-    ##   Use `force = TRUE` to force installation
-
+    # install_github("lwasser/neon-aop-package/neonAOP")
     ## call library
     library(neonAOP)
     
@@ -155,8 +151,8 @@ signature. For example, a plot boundary.
     b58_clipped <- open_band(fileName=f,
     												 bandNum=58,
     												 epsg=32611,
-    												 subsetData = TRUE
-    												 ,dims=index.bounds)
+    												 subsetData = TRUE,
+    												 dims=index.bounds)
 
     ## Error in open_band(fileName = f, bandNum = 58, epsg = 32611, subsetData = TRUE, : unused arguments (subsetData = TRUE, dims = index.bounds)
 
@@ -164,7 +160,7 @@ signature. For example, a plot boundary.
     plot(b58_clipped,
          main="Band 58 Clipped")
 
-    ## Error in plot(b58_clipped, main = "Band 58 Clipped"): error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'b58_clipped' not found
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/subset-h5-file-R/extract-subset-1.png)
 
 ## Run Subset over Many Bands
 

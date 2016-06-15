@@ -154,29 +154,40 @@ the overlap. Let's try it.
       print("Extents are different, cropping data")
       }
 
-    ## [1] "Extents are different, cropping data"
+    ## Error in as.vector(y): no method for coercing this S4 class to a vector
 
     # let's try to create a stack again.
     new.stack <- stack(TEAK_nsAspect, ndvi)
+
+    ## Error in compareRaster(x): different extent
 
 
 
     # mask out only pixels that are north facing and NDVI >.6
     nsFacing.ndvi <- mask(new.stack[[1]], new.stack[[2]])
+
+    ## Error in mask(new.stack[[1]], new.stack[[2]]): error in evaluating the argument 'x' in selecting a method for function 'mask': Error: object 'new.stack' not found
+
     nsFacing.ndvi[nsFacing.ndvi==0] <- NA
+
+    ## Error in nsFacing.ndvi[nsFacing.ndvi == 0] <- NA: object 'nsFacing.ndvi' not found
 
 ## Create Final Plot
 
 
     # plot extent
     plot.extent <- extent(nsFacing.ndvi)
-    
+
+    ## Error in extent(nsFacing.ndvi): error in evaluating the argument 'x' in selecting a method for function 'extent': Error: object 'nsFacing.ndvi' not found
+
     # plot 
     plot(nsFacing.ndvi,
          main="North & South Facing pixels, NDVI > .6",
          col=c("blue","green"),
          legend=F)
-    
+
+    ## Error in plot(nsFacing.ndvi, main = "North & South Facing pixels, NDVI > .6", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'nsFacing.ndvi' not found
+
     # allow legend to plot outside of bounds
     par(xpd=TRUE)
     
@@ -185,7 +196,7 @@ the overlap. Let's try it.
            fill = c("blue", "green"), 
            bty="n") # turn off border
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/mask-raster-lidar-hyperspec-fusion-R/plot-data-1.png)
+    ## Error in xy.coords(x, y): object 'plot.extent' not found
 
 ## Export Classified Raster
 

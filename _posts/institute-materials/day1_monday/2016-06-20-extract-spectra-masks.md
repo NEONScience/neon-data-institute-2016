@@ -302,7 +302,7 @@ Let's give it a go!
                 dims=index.bounds,
                 mask=ndvi, fun=mean)
 
-    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
+    ## [1] 0.02485
 
     # provide a list of bands that you wish to extract summary values for
     bands <- (1:426)
@@ -312,15 +312,11 @@ Let's give it a go!
                   subset=TRUE,
                   dims=index.bounds,
                   fun=mean)
-
-    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
-
+    
+    
     # reformat the output list
     spectra_unmasked <- data.frame(unlist(spectra_unmasked))
     spectra_unmasked$wavelength <- wavelengths
-
-    ## Error in `$<-.data.frame`(`*tmp*`, "wavelength", value = structure(c(382.270008325577, : replacement has 426 rows, data has 852
-
     names(spectra_unmasked)[1] <- "reflectance"
     
     # plot spectra
@@ -330,7 +326,7 @@ Let's give it a go!
           ylab="Reflectance",
           main="Spectra for all pixels")
 
-    ## Error: Aesthetics must be either length 1 or the same as the data (852): x, y
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-1.png)
 
     # run get_spectra for each band to get an average spectral signature
     # because we've specified a mask, it will only return values for pixels that are not
@@ -340,13 +336,10 @@ Let's give it a go!
                   subset=TRUE,
                   dims=index.bounds,
                   mask=ndvi, fun=mean)
-
-    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
-
+    
     spectra_masked <- clean_spectra(spectra_masked, wavelengths)
-
-    ## Error in `$<-.data.frame`(`*tmp*`, "wavelength", value = structure(c(382.270008325577, : replacement has 426 rows, data has 852
-
+    
+    
     # plot spectra
     qplot(spectra_masked$wavelength,
           y=spectra_masked$reflectance,
@@ -354,4 +347,4 @@ Let's give it a go!
           ylab="Reflectance",
           main="Spectra for just green pixels")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-2.png)

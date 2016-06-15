@@ -27,35 +27,18 @@ image:
 ## Background ####
 NEON (National Ecological Observatory Network) will provide derived LiDAR products as one
 of its many free ecological data products. These products will come in a
- [GeoTIFF](http://trac.osgeo.org/geotiff/ "geotiff (read more)") format, which
-is a `tif` raster format that is spatially located on the earth. Geotiffs
-can be accessed using the `raster` package in R.
+<a href="http://trac.osgeo.org/geotiff/" target="_blank"> GeoTIFF</a> 
+format, which is a `tif` raster format that is spatially located on the earth. 
+Geotiffs can be accessed using the `raster` package in R.
 
-A common first analysis using LiDAR data is to derive top of the canopy height values from
-the LiDAR data. These values are often used to track changes in forest structure over time,
-to calculate biomass, and even Leaf Area Index (LAI). Let's dive into the basics of working with raster
-formatted LiDAR data in R! Before we begin, make sure you've downloaded the data required
-to run the code below.
+A common first analysis using LiDAR data is to derive top of the canopy height 
+values from the LiDAR data. These values are often used to track changes in 
+forest structure over time, to calculate biomass, and even Leaf Area Index (LAI). 
+Let's dive into the basics of working with raster formatted LiDAR data in R! 
+Before we begin, make sure you've downloaded the data required to run the code 
+below.
 
 <div id="objectives" markdown="1">
-<h3>What you'll need</h3>
-
-You will need the most current version of R or RStudio loaded on your computer
-to complete this lesson.
-
-### R Libraries to Install:
-
-* **raster:** `install.packages("raster")`
-* **sp:** `install.packages("sp")`
-* **rgdal:** `install.packages("rgdal")`
-* **dplyr:** `install.packages("dplyr")`
-* **ggplot2:** `install.packages("ggplot2")`
-* **plotly:** `install.packages("plotly")`
-
-
-## Data to Download
-
-{% include/dataSubsets/_data_Data-Institute-16-SJER.html %}
 
 ### Recommended Reading
 <a href="http://neondataskills.org/remote-sensing/2_LiDAR-Data-Concepts_Activity2/">
@@ -70,31 +53,7 @@ What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data</a>
     library(rgdal)
     library(ggplot2)
     library(dplyr)
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:rgeos':
-    ## 
-    ##     intersect, setdiff, union
-
-    ## The following objects are masked from 'package:plyr':
-    ## 
-    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-    ##     summarize
-
-    ## The following objects are masked from 'package:raster':
-    ## 
-    ##     intersect, select, union
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
+    
     options(stringsAsFactors = FALSE)
     
     # set working directory
