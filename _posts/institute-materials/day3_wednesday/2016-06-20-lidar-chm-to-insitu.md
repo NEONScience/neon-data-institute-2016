@@ -3,11 +3,12 @@ layout: post
 title: "R: Create a Canopy Height Model from LiDAR derived Rasters (grids) in R"
 date:   2016-05-17
 createdDate:   2016-05-17
-lastModified:   2016-05-25
+lastModified:   2016-06-15
 time: "9:00"
 packagesLibraries: [raster, sp, dplyr, maptools, rgeos]
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka, Kyla]
+contributors: [Megan A. Jones]
 category: remote-sensing
 categories: [Remote Sensing]
 tags : [lidar, R]
@@ -16,32 +17,30 @@ tutorialSeries: institute-day3
 description: "Bring LiDAR-derived raster data (DSM and DTM) into R to create a final canopy height model representing the actual vegetation height with the influence of elevation removed. Then compare lidar derived height (CHM) to field measured tree height to estimate uncertainty in lidar estimates."
 permalink: /compare-lidar-to-field-data-R/
 comments: true
-code1: /institute-day3/lidar-chm-to-insitu.R
+code1: institute-materials/day3_wednesday/lidar-chm-to-insitu.R
 image:
-  feature: 
-  credit: 
+  feature:
+  credit:
   creditlink:
 ---
 
-
-
-## Background ##
-NEON (National Ecological Observatory Network) will provide derived LiDAR products as one 
+## Background ####
+NEON (National Ecological Observatory Network) will provide derived LiDAR products as one
 of its many free ecological data products. These products will come in a
- [geotiff](http://trac.osgeo.org/geotiff/ "geotiff (read more)") format, which 
-is a `tif` raster format that is spatially located on the earth. Geotiffs 
+ [GeoTIFF](http://trac.osgeo.org/geotiff/ "geotiff (read more)") format, which
+is a `tif` raster format that is spatially located on the earth. Geotiffs
 can be accessed using the `raster` package in R.
 
-A common first analysis using LiDAR data is to derive top of the canopy height values from 
-the LiDAR data. These values are often used to track changes in forest structure over time, 
-to calculate biomass, and even LAI. Let's dive into the basics of working with raster 
-formatted lidar data in R! Before we begin, make sure you've downloaded the data required 
+A common first analysis using LiDAR data is to derive top of the canopy height values from
+the LiDAR data. These values are often used to track changes in forest structure over time,
+to calculate biomass, and even Leaf Area Index (LAI). Let's dive into the basics of working with raster
+formatted LiDAR data in R! Before we begin, make sure you've downloaded the data required
 to run the code below.
 
 <div id="objectives" markdown="1">
 <h3>What you'll need</h3>
 
-You will need the most current version of R or R studio loaded on your computer 
+You will need the most current version of R or RStudio loaded on your computer
 to complete this lesson.
 
 ### R Libraries to Install:
@@ -51,47 +50,64 @@ to complete this lesson.
 * **rgdal:** `install.packages("rgdal")`
 * **dplyr:** `install.packages("dplyr")`
 * **ggplot2:** `install.packages("ggplot2")`
+* **plotly:** `install.packages("plotly")`
 
 
 ## Data to Download
 
-Download the raster and <i>insitu</i> collected vegetation structure data:
+{% include/dataSubsets/_data_Data-Institute-16-SJER.html %}
 
-<a href="#" class="btn btn-success"> 
-DOWNLOAD NEON  Sample NEON LiDAR Data</a>
-
-<h3>Recommended Reading</h3>
+### Recommended Reading
 <a href="http://neondataskills.org/remote-sensing/2_LiDAR-Data-Concepts_Activity2/">
 What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data</a>
+
 </div>
 
-> NOTE: The data used in this tutorial were collected by the National Ecological 
-> Observatory Network in their <a href="http://www.neoninc.org/science-design/field-sites/san-joaquin" target="_blank">
-> Domain 17 California field site</a>. The data are available in full, for 
-> no charge, but by request, [from the NEON data portal](http://data.neoninc.org/airborne-data-request "AOP data").
 
 
-
-
-
-    # Import DSM into R 
+    # Import DSM into R
     library(raster)
     library(rgdal)
     library(ggplot2)
     library(dplyr)
-    
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:rgeos':
+    ## 
+    ##     intersect, setdiff, union
+
+    ## The following objects are masked from 'package:plyr':
+    ## 
+    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+    ##     summarize
+
+    ## The following objects are masked from 'package:raster':
+    ## 
+    ##     intersect, select, union
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
     options(stringsAsFactors = FALSE)
     
     # set working directory
-    setwd("~/Documents/data/1_data-institute-2016")
+    # setwd("~/Documents/data/NEONDI-2016") # Mac
+    # setwd("~/data/NEONDI-2016")  # Windows
 
 ## Import NEON CHM
 
-First, we will import the NEON canopy height model. 
+First, we will import the NEON canopy height model.
 
 
     # import canopy height model (CHM).
-    SJER_chm <- raster("NEONdata/SJER/2013/lidar/SJER_lidarCHM.tif")
+    SJER_chm <- raster("NEONdata/D17-California/SJER/2013/lidar/SJER_lidarCHM.tif")
     SJER_chm
 
     ## class       : RasterLayer 
@@ -99,7 +115,7 @@ First, we will import the NEON canopy height model.
     ## resolution  : 1, 1  (x, y)
     ## extent      : 254571, 258867, 4107303, 4112362  (xmin, xmax, ymin, ymax)
     ## coord. ref. : +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## data source : /Users/lwasser/Documents/data/1_data-institute-2016/NEONdata/SJER/2013/lidar/SJER_lidarCHM.tif 
+    ## data source : /Users/mjones01/Documents/data/NEONDI-2016/NEONdata/D17-California/SJER/2013/lidar/SJER_lidarCHM.tif 
     ## names       : SJER_lidarCHM 
     ## values      : 0, 45.88  (min, max)
 
@@ -108,7 +124,7 @@ First, we will import the NEON canopy height model.
     
     # plot the data
     hist(SJER_chm,
-         main="histogram of canopy heights\n NEON SJER Field Site",
+         main="Histogram of Canopy Height\n NEON SJER Field Site",
          col="springgreen")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/import-chm-1.png)
@@ -116,23 +132,23 @@ First, we will import the NEON canopy height model.
 
 ## Part 2. How does our CHM data compare to field measured tree heights?
 
-We now have a canopy height model for our study area in California. However, how 
-do the height values extracted from the CHM compare to our laboriously collected, 
+We now have a canopy height model for our study area in California. However, how
+do the height values extracted from the CHM compare to our laboriously collected,
 field measured canopy height data? To figure this out, we will use *in situ* collected
 tree height data, measured within circular plots across our study area. We will compare
-the maximum measured tree height value to the maximum lidar derived height value 
+the maximum measured tree height value to the maximum LiDAR derived height value
 for each circular plot using regression.
 
-For this activity, we will use the a `csv` (comma separate value) file, 
+For this activity, we will use the a `csv` (comma separate value) file,
 located in `SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv`.
 
 
-    # import plot centroids 
-    SJER_plots <- readOGR("NEONdata/SJER/vector_data",
-                          "sjer_plot_centroids")
+    # import plot centroids
+    SJER_plots <- readOGR("NEONdata/D17-California/SJER/vector_data",
+                          "SJER_plot_centroids")
 
     ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "NEONdata/SJER/vector_data", layer: "sjer_plot_centroids"
+    ## Source: "NEONdata/D17-California/SJER/vector_data", layer: "SJER_plot_centroids"
     ## with 18 features
     ## It has 5 fields
 
@@ -156,14 +172,14 @@ Next, we will create a boundary region (called a buffer) representing the spatia
 extent of each plot (where trees were measured). We will then extract all CHM pixels
 that fall within the plot boundary to use to estimate tree height for that plot.
 
-There are a few ways to go about this task. If your plots are circular, then the 
+There are a few ways to go about this task. If your plots are circular, then the
 extract tool will do the job!
 
 
 <figure>
     <img src="{{ site.baseurl }}/images/spatialData/BufferCircular.png">
-    <figcaption>The extract function in R allows you to specify a circular buffer 
-    radius around an x,y point location. Values for all pixels in the specified 
+    <figcaption>The extract function in R allows you to specify a circular buffer
+    radius around an x,y point location. Values for all pixels in the specified
     raster that fall within the circular buffer are extracted. In this case, we
     will tell R to extract the maximum value of all pixels using the fun=max
     command.
@@ -173,38 +189,38 @@ extract tool will do the job!
 ### Extract Plot Data Using Circle: 20m Radius Plots
 
 
-    # Insitu sampling took place within 40m x 40m square plots so we use a 20m radius.	
+    # Insitu sampling took place within 40m x 40m square plots, so we use a 20m radius.
     # Note that below will return a dataframe containing the max height
     # calculated from all pixels in the buffer for each plot
     SJER_height <- extract(SJER_chm,
                         SJER_plots,
-                        buffer = 20, 
-                        fun=max, 
+                        buffer = 20,
+                        fun=max,
                         sp=TRUE,
                         stringsAsFactors=FALSE)
 
 #### If you want to explore The Data Distribution
 
-If you want to explore the data distribution of pixel height values in each plot, 
-you could remove the `fun` call to max and generate a list. 
-`cent_ovrList <- extract(chm,centroid_sp,buffer = 20)`. It's good to look at the 
-distribution of values we've extracted for each plot. Then you could generate a 
-histogram for each plot `hist(cent_ovrList[[2]])`. If we wanted, we could loop 
+If you want to explore the data distribution of pixel height values in each plot,
+you could remove the `fun` call to max and generate a list.
+`cent_ovrList <- extract(chm,centroid_sp,buffer = 20)`. It's good to look at the
+distribution of values we've extracted for each plot. Then you could generate a
+histogram for each plot `hist(cent_ovrList[[2]])`. If we wanted, we could loop
 through several plots and create histograms using a `for loop`.
 
 
-    #cent_ovrList <- extract(chm,centroid_sp,buffer = 20)
+    # cent_ovrList <- extract(chm,centroid_sp,buffer = 20)
     # create histograms for the first 5 plots of data
-    #for (i in 1:5) {
+    # for (i in 1:5) {
     #  hist(cent_ovrList[[i]], main=(paste("plot",i)))
     #  }
 
 
 
 ### Variation 3: Derive Square Plot boundaries, then CHM values around a point
-For see how to extract square plots using a plot centroid value, check out the
+For how to extract square plots using a plot centroid value, check out the
  [extracting square shapes activity.]({{ site.baseurl }}/working-with-field-data/Field-Data-Polygons-From-Centroids/ "Polygons")
- 
+
  <figure>
     <img src="{{ site.baseurl }}/images/spatialData/BufferSquare.png">
     <figcaption>If you had square shaped plots, the code in the link above would
@@ -214,40 +230,36 @@ For see how to extract square plots using a plot centroid value, check out the
 
 
 
-## Extract descriptive stats from Insitu Data 
-In our final step, we will extract summary height values from our field data. 
+## Extract descriptive stats from Insitu Data
+In our final step, we will extract summary height values from our field data.
 We will use the `dplyr` library to do this efficiently. We'll demonstrate both below
 
-### Extract stats from our data.frame using DPLYR
+### Extract stats from our spatial `data.frame` using the `DPLYR` package.
 
 First let's see how many plots are in the centroid folder.
 
+
     # import the centroid data and the vegetation structure data
-    SJER_insitu <- read.csv("NEONdata/SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv",
+    SJER_insitu <- read.csv("NEONdata/D17-California/SJER/2013/insitu/veg_structure/D17_2013_SJER_vegStr.csv",
                             stringsAsFactors = FALSE)
     
-    # How many plots are there?
-    unique(SJER_plots$Plot_ID) 
+    # get list of unique plots
+    unique(SJER_plots$Plot_ID)
 
     ##  [1] "SJER1068" "SJER112"  "SJER116"  "SJER117"  "SJER120"  "SJER128" 
     ##  [7] "SJER192"  "SJER272"  "SJER2796" "SJER3239" "SJER36"   "SJER361" 
     ## [13] "SJER37"   "SJER4"    "SJER8"    "SJER824"  "SJER916"  "SJER952"
 
+## Extract Max Tree Height
 
-Next, find the maximum MEASURED stem height value for each plot. We will compare 
-this value to the max CHM value.
+Next, find the maximum MEASURED tree height value for each plot. This value represents
+the tallest tree in each plot. We will compare
+this value to the max lidar CHM value.
 
 
-    #get list of unique plot id's 
-    unique(SJER_insitu$plotid) 
-
-    ##  [1] "SJER128"  "SJER2796" "SJER272"  "SJER112"  "SJER1068" "SJER916" 
-    ##  [7] "SJER361"  "SJER3239" "SJER824"  "SJER8"    "SJER952"  "SJER116" 
-    ## [13] "SJER117"  "SJER37"   "SJER4"    "SJER192"  "SJER36"   "SJER120"
-
-    #find the max stem height for each plot
-    insitu_maxStemHeight <- SJER_insitu %>% 
-      group_by(plotid) %>% 
+    # find the max stem height for each plot
+    insitu_maxStemHeight <- SJER_insitu %>%
+      group_by(plotid) %>%
       summarise(max = max(stemheight))
     
     head(insitu_maxStemHeight)
@@ -263,6 +275,7 @@ this value to the max CHM value.
     ## 5  SJER120   8.8
     ## 6  SJER128  18.2
 
+    # let's create better, self documenting column headers
     names(insitu_maxStemHeight) <- c("plotid","insituMaxHt")
     head(insitu_maxStemHeight)
 
@@ -278,57 +291,102 @@ this value to the max CHM value.
     ## 6  SJER128        18.2
 
 
-### Merge the data into the SJER_height SP data.frame
+### Merge InSitu Data With Spatial data.frame
 
-Once we have our summarized insitu data, we can `merge` it into the centroids 
-`data.frame`. Merge requires two data.frames and the names of the columns 
+Once we have our summarized insitu data, we can `merge` it into the centroids
+`data.frame`. Merge requires two data.frames and the names of the columns
 containing the unique ID that we will merge the data on. In this case, we will
-merge the data on the plot_id column. Notice that it's spelled slightly differently 
+merge the data on the plot_id column. Notice that it's spelled slightly differently
 in both data.frames so we'll need to tell R what it's called in each data.frame.
 
 
-    require(sp)
+    #require(sp)
     
     # merge to create a new spatial df
-    SJER_height@data <- data.frame(SJER_height@data, 
+    SJER_height@data <- data.frame(SJER_height@data,
                                    insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], insitu_maxStemHeight$plotid),])
     
+    # the code below is another way to use MERGE however it creates a normal data.frame
+    # rather than a spatial object. Above, we reassigned the "data" slot to
+    # a newly merged data frame
     # merge the insitu data into the centroids data.frame
-    #SJER_height <- merge(SJER_height, 
-    #                     insitu_maxStemHeight, 
-    #                   by.x = 'Plot_ID', 
+    # SJER_height <- merge(SJER_height,
+    #                     insitu_maxStemHeight,
+    #                   by.x = 'Plot_ID',
     #                   by.y = 'plotid')
+    
+    SJER_height@data
+
+    ##     Plot_ID  Point northing easting Remarks SJER_lidarCHM   plotid
+    ## 1  SJER1068 center  4111568  255852    <NA>         19.05 SJER1068
+    ## 2   SJER112 center  4111299  257407    <NA>         24.02  SJER112
+    ## 3   SJER116 center  4110820  256839    <NA>         16.07  SJER116
+    ## 4   SJER117 center  4108752  256177    <NA>         11.06  SJER117
+    ## 5   SJER120 center  4110476  255968    <NA>          5.74  SJER120
+    ## 6   SJER128 center  4111389  257079    <NA>         19.14  SJER128
+    ## 7   SJER192 center  4111071  256683    <NA>         16.55  SJER192
+    ## 8   SJER272 center  4112168  256717    <NA>         11.84  SJER272
+    ## 9  SJER2796 center  4111534  256034    <NA>         20.28 SJER2796
+    ## 10 SJER3239 center  4109857  258497    <NA>         12.91 SJER3239
+    ## 11   SJER36 center  4110162  258278    <NA>          8.99   SJER36
+    ## 12  SJER361 center  4107527  256962    <NA>         18.73  SJER361
+    ## 13   SJER37 center  4107579  256148    <NA>         11.49   SJER37
+    ## 14    SJER4 center  4109767  257228    <NA>          9.53    SJER4
+    ## 15    SJER8 center  4110249  254739    <NA>          4.15    SJER8
+    ## 16  SJER824 center  4110048  256186    <NA>         25.66  SJER824
+    ## 17  SJER916 center  4109617  257460    <NA>         18.73  SJER916
+    ## 18  SJER952 center  4110759  255871    <NA>          6.38  SJER952
+    ##    insituMaxHt
+    ## 1         19.3
+    ## 2         23.9
+    ## 3         16.0
+    ## 4         11.0
+    ## 5          8.8
+    ## 6         18.2
+    ## 7         13.7
+    ## 8         12.4
+    ## 9          9.4
+    ## 10        17.9
+    ## 11         9.2
+    ## 12        11.8
+    ## 13        11.5
+    ## 14        10.8
+    ## 15         5.2
+    ## 16        26.5
+    ## 17        18.4
+    ## 18         7.7
 
 ### Plot Data (CHM vs Measured)
-Let's create a plot that illustrates the relationship between in situ measured 
+Let's create a plot that illustrates the relationship between in situ measured
 max canopy height values and lidar derived max canopy height values.
 
 
 
     # create plot
-    ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) + 
-      geom_point() + 
-      theme_bw() + 
-      ylab("Maximum measured height") + 
+    ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) +
+      geom_point() +
+      theme_bw() +
+      ylab("Maximum measured height") +
       xlab("Maximum LiDAR pixel")+
-      geom_abline(intercept = 0, slope=1) 
+      geom_abline(intercept = 0, slope=1) +
+      ggtitle("Lidar Height Compared to InSitu Measured Height")
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/plot-w-ggplot-1.png)
 
 
-We can also add a regression fit to our plot. Explore the GGPLOT options and 
+We can also add a regression fit to our plot. Explore the GGPLOT options and
 customize your plot.
 
 
     #plot with regression fit
-    p <- ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) + 
-      geom_point() + 
-      ylab("Maximum Measured Height") + 
+    p <- ggplot(SJER_height@data, aes(x=SJER_lidarCHM, y = insituMaxHt)) +
+      geom_point() +
+      ylab("Maximum Measured Height") +
       xlab("Maximum LiDAR Height")+
       geom_abline(intercept = 0, slope=1)+
       geom_smooth(method=lm)
     
-    p + theme(panel.background = element_rect(colour = "grey")) + 
+    p + theme(panel.background = element_rect(colour = "grey")) +
       ggtitle("LiDAR CHM Derived vs Measured Tree Height") +
       theme(plot.title=element_text(family="sans", face="bold", size=20, vjust=1.9)) +
       theme(axis.title.y = element_text(family="sans", face="bold", size=14, angle=90, hjust=0.54, vjust=1)) +
@@ -337,38 +395,44 @@ customize your plot.
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/ggplot-data-1.png)
 
 
-
-You have now successfully created a canopy height model using lidar data AND compared lidar 
+You have now successfully created a canopy height model using LiDAR data AND compared LiDAR
 derived vegetation height, within plots, to actual measured tree height data!
 
+<div id="challenge" markdown="1">
 
-# Challenge 
+## Challenge: LiDAR vs Insitu Comparison
 
-> Create a plot of LiDAR 95th percentile value vs *insitu* max height. Or Lidar 95th 
-> percentile vs *insitu* 95th percentile. Add labels to your plot. Customize the
-> colors, fonts and the look of your plot. If you are happy with the outcome, share
-> your plot in the comments below! 
+Create a plot of LiDAR 95th percentile value vs *insitu* max height. Or LiDAR 95th
+percentile vs *insitu* 95th percentile. Add labels to your plot. Customize the
+colors, fonts and the look of your plot. If you are happy with the outcome, share
+your plot in the comments below!
+ </div>
 
 ## Create Plot.ly Interactive Plot
 
-Plot.ly is a free to use, online interactive data viz site. If you have the 
+Plot.ly is a free to use, online interactive data viz site. If you have the
 plot.ly library installed, you can quickly export a ggplot graphic into plot.ly!
- (NOTE: it also works for python matplotlib)!! To use plotly, you need to setup 
-an account. Once you've setup an account, you can get your key from the plot.ly 
-site to make the code below work.
+ (NOTE: it also works for python matplotlib)!! To use plot.ly, you need to setup
+an account. Once you've setup an account, you can get your key from the plot.ly
+site (under Settings > API Keys) to make the code below work.
+
+You must be signed into plot.ly online, from your current computer, at the time 
+you use the `plotly_POST` command to upload you plot to your plot.ly account.  
 
 
 
     library(plotly)
-    #setup your plot.ly credentials
-    set_credentials_file("yourUserName", "yourKey")
-    p <- plotly(username="yourUserName", key="yourKey")
     
-    #generate the plot
-    py <- plotly()
-    py$ggplotly()
+    # setup your plot.ly credentials
+    Sys.setenv("plotly_username"="Your-User-Name")
+    Sys.setenv("plotly_api_key"="Your-plotly-key")
+    
+    # you must be signed into Plot.ly online on the same computer for this code to work. 
+    # generate the plot
+    plotly_POST(p,
+                filename='NEON SJER CHM vs Insitu Tree Height') # let anyone in the world see the plot!
 
-Check out the results! 
+Check out the results!
 
 NEON Remote Sensing Data compared to NEON Terrestrial Measurements for the SJER Field Site
 

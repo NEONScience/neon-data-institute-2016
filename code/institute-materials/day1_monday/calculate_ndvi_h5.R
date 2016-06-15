@@ -8,13 +8,16 @@ library(rgdal)
 
 ## ----load-functions------------------------------------------------------
 
-source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
+## call function library
+library(neonAOP)
 
 
 ## ----create-NDVI---------------------------------------------------------
 
 # set working directory
-setwd("~/Documents/data/1_data-institute-2016")
+# setwd("~/Documents/data/NEONDI-2016")
+# setwd("~/data/NEONDI-2016")  # Windows
+
 # Define the file name to be opened
 f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
 
@@ -47,7 +50,7 @@ plot(ndvi_rast,
 
 ## ----export-ndvi, eval=FALSE---------------------------------------------
 ## 
-## # export as a gtif
+## # export as a GeoTIFF
 ## writeRaster(ndvi_rast,
 ##             file="outputs/TEAK/ndvi_2013.tif",
 ##             format="GTiff",
@@ -56,7 +59,7 @@ plot(ndvi_rast,
 
 ## ----import-lidar--------------------------------------------------------
 
-DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")  
+DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")  
 
 slope <- terrain(DSM, opt='slope')
 aspect <- terrain(DSM, opt='aspect')
@@ -66,7 +69,7 @@ hill <- hillShade(slope, aspect, 40, 270)
 
 plot(hill,
      col=grey(1:100/100),
-     main="NDVI for the Teakettle Field site",
+     main="NDVI for the Lower Teakettle Field site",
      legend=FALSE)
 
 plot(ndvi_rast,

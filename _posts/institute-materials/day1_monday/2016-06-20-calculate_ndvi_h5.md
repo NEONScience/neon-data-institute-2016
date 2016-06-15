@@ -5,9 +5,9 @@ date:   2016-06-17
 authors: [Leah A. Wasser, Kyla Dahlin]
 instructors: [Leah, Naupaka]
 time: "4:45"
-contributors: [Edmund Hart]
+contributors: [Edmund Hart, Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-05-31
+lastModified: 2016-06-15
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -33,24 +33,27 @@ First, let's load the required libraries.
 
 ## Load Functions
 
-This is a lot like loading a package in R. Except the functions for this package
-are in an R script stored locally on our computers.
-
 Once we have done the work to build our functions, we can perform routine tasks
 over and over using those functions.
 
+Note: if you have not yet loaded the `neonAOP` package, please see directions 
+for how to do this at the top of the 
+<a href="{{ site.basurl }}/R/plot-spectral-signature/" target="_blank"> *Plot a Spectral Signature from Hyperspectral Remote Sensing data in R - HDF5* tutorial</a>. 
 
-    source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
+    ## call function library
+    library(neonAOP)
 
 ## Calculate NDVI
 
-Next we can use the `create_stack` function to create a raster stack of the
+Next, we can use the `create_stack` function to create a raster stack of the
 red and near-infrared bands that we need to calculate NDVI.
 
 
     # set working directory
-    setwd("~/Documents/data/1_data-institute-2016")
+    # setwd("~/Documents/data/NEONDI-2016")
+    # setwd("~/data/NEONDI-2016")  # Windows
+    
     # Define the file name to be opened
     f <- "NEONdata/D17-California/TEAK/2013/spectrometer/reflectance/Subset3NIS1_20130614_100459_atmcor.h5"
     
@@ -81,10 +84,10 @@ red and near-infrared bands that we need to calculate NDVI.
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/calculate_ndvi_h5/create-NDVI-1.png)
 
-## Export to GeoTiff
+## Export to GeoTIFF
 
 
-    # export as a gtif
+    # export as a GeoTIFF
     writeRaster(ndvi_rast,
                 file="outputs/TEAK/ndvi_2013.tif",
                 format="GTiff",
@@ -93,7 +96,7 @@ red and near-infrared bands that we need to calculate NDVI.
 ## Plot NDVI
 
 
-    DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")  
+    DSM <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")  
     
     slope <- terrain(DSM, opt='slope')
     aspect <- terrain(DSM, opt='aspect')
@@ -103,7 +106,7 @@ red and near-infrared bands that we need to calculate NDVI.
     
     plot(hill,
          col=grey(1:100/100),
-         main="NDVI for the Teakettle Field site",
+         main="NDVI for the Lower Teakettle Field site",
          legend=FALSE)
     
     plot(ndvi_rast,
