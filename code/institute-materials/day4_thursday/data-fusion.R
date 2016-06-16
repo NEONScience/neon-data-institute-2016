@@ -4,13 +4,16 @@ library(raster)
 library(rhdf5)
 library(rgdal)
 
+# set working directory
 # setwd("C:/Users/kdahlin/Dropbox/NEON_WWDI_2016/20160602")
-setwd("~/Documents/data/1_data-institute-2016")
+# setwd("~/Documents/data/NEONDI-2016") # Mac
+# setwd("~/data/NEONDI-2016")  # Windows
 
 ## ----import-h5-functions-------------------------------------------------
 
 # import NEON aop R package
-library(devtools)
+
+# library(devtools)
 ## install from github
 # install_github("lwasser/neon-aop-package/neonAOP")
 library(neonAOP)
@@ -19,22 +22,22 @@ library(neonAOP)
 ## ----import-lidar--------------------------------------------------------
 
 # import digital surface model (dsm) (top of the surface - includes trees and buildings)
-dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDSM.tif")
+dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")
 # import  digital terrain model (dtm), elevation
-dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarDTM.tif") 
+dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDTM.tif") 
 
 # import canopy height model (height of vegetation) 
-chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarCHM.tif")
+chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarCHM.tif")
 
 
 ## ----plot-chm------------------------------------------------------------
 
 # Check out the height distribution - do the values seem reasonable?
 plot(chm,
-     main="Canopy Height - Teakettle \nCalifornia") 
+     main="Canopy Height\n Lower Teakettle, California") 
 
 hist(chm,
-     main="Distribution of Canopy Height - Teakettle \nCalifornia",
+     main="Distribution of Canopy Height \nTeakettle, California",
      xlab="Tree Height (m)", 
      col="springgreen")
 
@@ -70,11 +73,11 @@ ndvi.stack <- create_stack(f,
 
 # calculate ndvi
 ndvi <- (ndvi.stack[[2]]-ndvi.stack[[1]]) / (ndvi.stack[[2]]+ndvi.stack[[1]])
-names(ndvi) <- "Teak_hsiNDVI"
+names(ndvi) <- "TEAK_hsiNDVI"
 
 # plot ndvi
 plot(ndvi,
-     main="NDVI \nNEON Teakettle Field Site")
+     main="NDVI \nNEON Lower Teakettle Field Site")
 
 
 ## ----create-brick--------------------------------------------------------
@@ -113,14 +116,14 @@ names(all.data) <- all.names
 ## ----import-NDVI---------------------------------------------------------
 
 # import NEON NDVI product
-ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/NEON.D17.TEAK.DP2.20130614_100459_NDVI.tif")
+ndvi2 <- raster("NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/TEAK_NDVI.tif")
 
 # compare the two products
 ndvi.diff <- ndvi-ndvi2
 
 # plot difference
 plot(ndvi.diff,
-     main="NDVI DIFFERENCE, TEAK Field Site")
+     main="NDVI DIFFERENCE \nLower Teakettle Field Site")
 
 
 ## ----create-extent-function----------------------------------------------
@@ -145,13 +148,22 @@ same_extent <- function(raster1,raster2){
 }
 
 ## ----ndvi-stack----------------------------------------------------------
+# compare NEON data product to our calculated NDVI
 
-
+ndvi.diff <- ndvi-ndvi2
+plot(ndvi.diff,
+     main="Difference - NEON NDVI Product vs Our Calculated NDVI",
+     breaks=c(-.8,.1,0,-.1,.5),
+     col=c("VioletRed","yellow","beige","blue"))
+# view hist of differences
+hist(ndvi.diff,
+     col="springgreen",
+     main="histogram of differences")
 
 ## ----import-aspect-------------------------------------------------------
 
 # 1. Import aspect data product (derived from the DTM)
-aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/Teak_lidarAspect.tif")
+aspect <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarAspect.tif")
 # crop the data to the extent of the other rasters we are working with
 aspect <- crop(aspect, extent(chm))
 
@@ -188,7 +200,7 @@ ns.extent <- extent(asp.ns)
 plot(asp.ns, 
      col=c("blue","green"),
      axes=F,
-     main="North and South Facing Slopes \nNEON Teakettle Field Site",
+     main="North and South Facing Slopes \nNEON Lower Teakettle Field Site",
      bty="n",
      legend=F)
 
@@ -227,7 +239,7 @@ south.facing[south.facing == 0] <- NA
 
 # histogram of tree ht
 hist(all.data[[4]],
-     main="Distribution of Canopy Height Model (CHM) values \nNEON Teakettle Field Site",
+     main="Distribution of Canopy Height Model (CHM) values \nNEON Lower Teakettle Field Site",
      col="springgreen")
 
 
@@ -271,7 +283,7 @@ thresholds$greenThresh <- all.data.stats["NDVI","Max."] - (thresholds$greenRange
 north.count <- freq(asp.ns, value =1)
 south.count <- freq(asp.ns, value =2)
 
-# note there's  more south facing area in this image than north facing
+# note there's more south facing area in this image than north facing
 
 # create a new layer with pixels that are north facing, above the green threshold and
 # above the CHM height threshold
@@ -284,7 +296,6 @@ north.tall.green[north.tall.green == 0] <- NA
 
 # how many pixels fit the "north, tall green" criteria?
 north.tall.green.count <- freq(north.tall.green, value =1)
-
 
 # repeat the same steps for south facing slopes. Note
 # we are repeating code - this could become a nice function!
@@ -299,7 +310,7 @@ south.tall.green[south.tall.green == 0] <- NA
 north.tall.green.frac <- north.tall.green.count/freq(asp.ns, value=1)
 south.tall.green.frac <- south.tall.green.count/freq(asp.ns, value=2)
 
-# if we look at these fracs, >11% of the pixels on north facing slopes should
+# if we look at these fractions, >11% of the pixels on north facing slopes should
 # meet our tall and green criteria, while <6% of the pixels on south facing
 # slopes do. So that's reassuring. (using original data set)
 
@@ -331,6 +342,7 @@ plot(north.tall.green,
      col = "cyan", 
      add = T, 
      legend = F)
+
 plot(south.tall.green, 
      col = "blue", 
      add = T, 
@@ -395,11 +407,12 @@ veght.df$aspect <- as.factor(veght.df$aspect)
 boxplot(veght ~ aspect, 
         data = veght.df, 
         col = "cornflowerblue", 
-        main = "veght on North versus South facing slopes")
+        main = "Vegetation Height on North & South Facing Slopes \nLower Teakettle, California")
 
 
 # and now a t-test - note that since these aren't normally distributed, this
 # might not be the best approach, but ok for a quick assessment.
 veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = "greater")
 
+veght.ttest
 

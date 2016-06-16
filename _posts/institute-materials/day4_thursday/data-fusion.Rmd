@@ -7,13 +7,13 @@ lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 authors: [Kyla Dahlin]
 instructors: [Kyla, Leah]
 time: "1:00"
-contributors:[Megan A. Jones]
+contributors: [Leah A. Wasser, Megan A. Jones]
 packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
 categories: [self-paced-tutorial]
 mainTag: institute-day4
 tags: [R, HDF5]
-tutorialSeries: [institute-day4]
-description: "Intro to data fusion"
+tutorialSeries: institute-day4
+description: "Introduction to data fusion"
 code1:  /institute-materials/day4_thursday/data-fusion.R
 image:
   feature: 
@@ -335,6 +335,7 @@ contains the new value that we will assign that range of values to. For example:
 * 135 to 225 degrees should be classified as 2 (South Facing)
 * Greater than 315 should be classified as 1 (North Facing)
 
+Now we can create the mask.  
 
 ```{r create-aspect-mask}
 
@@ -421,7 +422,7 @@ writeRaster(asp.ns,
 
 ```
 
-## 3. Identify Veg Metrics
+### 3. Identify Vegetation Metrics
 
 Now we want to determine what defines "tall" and "green". We can explore histograms
 of our data and use descriptive statistics to determine what values might make
@@ -482,7 +483,7 @@ thresholds$greenThresh <- all.data.stats["NDVI","Max."] - (thresholds$greenRange
 ```
 
 
-## 4. Calculate Percent of tall and green pixels 
+### 4. Calculate Percent of Tall, Green Pixels 
 
 Next, let's calculate the percent of tall, green pixels that occur on 
 north and south facing slopes respectively. Our pixels are exactly 1 x 1 m in size, thus
@@ -667,9 +668,10 @@ boxplot(veght ~ aspect,
 # might not be the best approach, but ok for a quick assessment.
 veght.ttest <- t.test(north.veght.df$veght, south.veght.df$veght, alternative = "greater")
 
+veght.ttest
 ```
 
 Notice, once again we are repeating code. This would make for a nice function! 
-If it's a set of functions, we could have changed the methods in **one place* from
+If it's a set of functions, we could have changed the methods in **one place** from
 NDVI to tree height and then simply re-run the code for the challenge!
 
