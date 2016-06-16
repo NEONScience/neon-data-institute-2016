@@ -60,7 +60,7 @@ library(neonAOP)
 ## Import LiDAR data
 
 To begin, let's open the NEON LiDAR Digital Surface and Digital Terrain Models
-(DSM and DTM) which are in Geotiff format.
+(DSM and DTM) which are in GeoTIFF format.
 
 ```{r import-lidar }
 
@@ -200,3 +200,4 @@ writeRaster(nsFacing.ndvi,
 
 
 ```
+
