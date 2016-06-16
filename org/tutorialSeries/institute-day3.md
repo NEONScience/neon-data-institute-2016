@@ -25,8 +25,14 @@ After completing these activities, you will be able to:
 * Measure the differences between a metric derived from remote sensing data and 
 the same metric derived from data collected on the ground.
 
+## Download the Data
 
 {% include/dataSubsets/_data_Data-Institute-16-SJER.html %}
+
+**Data for the Group Activities** 
+
+<a href="https://figshare.com/authors/NEON_Data_Skills_Teaching_Data_Subsets/834136" target="_blank"> NEON Data Skills Figshare Repo </a>.
+
 
 ****
 
