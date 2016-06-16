@@ -262,8 +262,17 @@ Next, let's compare the NEON NDVI data product to NDVI that we calculated from
 the same HDF5 file.
 
 ```{r ndvi-stack }
+# compare NEON data product to our calculated NDVI
 
-
+ndvi.diff <- ndvi-ndvi2
+plot(ndvi.diff,
+     main="Difference - NEON NDVI Product vs Our Calculated NDVI",
+     breaks=c(-.8,.1,0,-.1,.5),
+     col=c("VioletRed","yellow","beige","blue"))
+# view hist of differences
+hist(ndvi.diff,
+     col="springgreen",
+     main="histogram of differences")
 ```
 
 
