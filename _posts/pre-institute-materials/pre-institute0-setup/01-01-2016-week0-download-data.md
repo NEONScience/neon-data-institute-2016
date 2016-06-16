@@ -49,10 +49,8 @@ Subset: Data Institute 2016**.
 
 
 ### Download Data
-{% include/dataSubsets/_data_Data-Institute-16-allSubsets.html %}
 
-**The above download is a large data file**, if you have difficulties 
-downloading the complete set you can download each set individually: 
+
 {% include/dataSubsets/_data_Data-Institute-16-TEAK.html %}
 {% include/dataSubsets/_data_Data-Institute-16-SJER.html %}
 {% include/dataSubsets/_data_Data-Institute-16-SOAP.html %}
