@@ -243,9 +243,11 @@ those values to NA.
 Next, let's look at the data.
 
 <figure class="half">
-    <a href="/images/spatialData/teakettle-crop-image.png"><img src="/images/spatialData/teakettle-crop-image.png"></a>
-    <a href="/images/spatialData/view-data-2.png"><img src="/images/spatialData/view-data-2.png"></a>
-    <figcaption>LEFT: Final Teakettle Image, RIGHT: Our Plotted Data. Notice a difference?</figcaption>
+    <a href="{{ site.baseurl }}/images/spatialData/teakettle-crop-image.png">
+    <img src="{{ site.baseurl }}/images/spatialData/teakettle-crop-image.png"></a>
+    <a href="{{ site.baseurl }}/images/spatialData/view-data-2.png">
+    <img src="{{ site.basurel }}/images/spatialData/view-data-2.png"></a>
+    <figcaption>LEFT: Final Lower Teakettle Image, RIGHT: Our Plotted Data. Notice a difference?</figcaption>
 </figure>
 
 
@@ -306,7 +308,7 @@ plot(b56r,
 
 ```
 
-## Export to GTiff
+## Export to GeoTIFF
 
 Finally, we may want to export our new raster to a GeoTIFF format.
 
