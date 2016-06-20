@@ -11,6 +11,8 @@ image:
 
 ## Welcome to the 2016 NEON Data Institute!
 
+<a href="https://public.etherpad-mozilla.org/p/2016-06-20-NEONDI" class="btn btn-info">Click here to go to the Data Institute Etherpad</a>
+
 NEON's Data Institute provides critical skills and foundational knowledge for
 scientists working with heterogeneous
 spatio-temporal data to address ecological questions. Our 2016 Institute focuses
