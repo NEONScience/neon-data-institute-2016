@@ -246,7 +246,7 @@ Next, let's look at the data.
     <a href="{{ site.baseurl }}/images/spatialData/teakettle-crop-image.png">
     <img src="{{ site.baseurl }}/images/spatialData/teakettle-crop-image.png"></a>
     <a href="{{ site.baseurl }}/images/spatialData/view-data-2.png">
-    <img src="{{ site.basurl }}/images/spatialData/view-data-2.png"></a>
+    <img src="{{ site.baseurl }}/images/spatialData/view-data-2.png"></a>
     <figcaption>LEFT: Final Lower Teakettle Image, RIGHT: Our Plotted Data. Notice a difference?</figcaption>
 </figure>
 
