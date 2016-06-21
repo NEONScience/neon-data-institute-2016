@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "10:15"
 contributors: [Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-06-15
+lastModified: 2016-06-20
 packagesLibraries: [raster]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -40,19 +40,6 @@ First, let's load the required libraries.
     # setwd("~/Documents/data/NEONDI-2016") # Mac
     # setwd("~/data/NEONDI-2016")  # Windows
     
-    
-    ## import functions
-    # install devtools (only if you have not previously intalled it)
-    #install.packages("devtools")
-    # call devtools library
-    #library(devtools)
-    
-    # install from github
-    #install_github("lwasser/neon-aop-package/neonAOP")
-    # call library
-    library(neonAOP)
-    
-    
     #source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## Import LiDAR data
@@ -61,13 +48,7 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
 (DSM and DTM) which are in Geotiff format.
 
 
-    # read LiDAR data
-    # dsm = digital surface model == top of canopy
-    dsm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDSM.tif")
-    # dtm = digital terrain model = elevation
-    dtm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarDTM.tif")
-    
-    # lets also import the canopy height model (CHM).
+    # read LiDAR canopy height model
     chm <- raster("NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarCHM.tif")
 
 ## View CHM
@@ -76,8 +57,7 @@ To begin, we will open the NEON LiDAR Digital Surface and Digital Terrain Models
     # assign chm values of 0 to NA
     chm[chm==0] <- NA
     
-    # do the numbers look reasonable? 60 m is tall for a tree, but
-    # this is Ponderosa pine territory (I think), so not out of the question.
+    # do the values in the data look reasonable?
     plot(chm,
          main="Canopy Height \n LowerTeakettle, California")
 
@@ -142,7 +122,9 @@ We will assign all north facing slopes "1" and south facing "2".
     ##  [1]   0  45   1  45 135  NA 135 225   2 225 315  NA 315 360   1
 
     # reshape the object into a matrix with columns and rows
-    rcl.m <- matrix(class.m, ncol=3, byrow=TRUE)
+    rcl.m <- matrix(class.m, 
+                    ncol=3, 
+                    byrow=TRUE)
     rcl.m
 
     ##      [,1] [,2] [,3]
@@ -153,7 +135,8 @@ We will assign all north facing slopes "1" and south facing "2".
     ## [5,]  315  360    1
 
     # reclassify the raster using the reclass object - rcl.m
-    asp.ns <- reclassify(aspect, rcl.m)
+    asp.ns <- reclassify(aspect, 
+                         rcl.m)
     
     # plot outside of the plot region
     

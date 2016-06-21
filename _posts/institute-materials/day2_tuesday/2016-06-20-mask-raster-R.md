@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "11:00"
 contributors: [Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-06-15
+lastModified: 2016-06-20
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -108,9 +108,9 @@ Let's try to find all pixels that have an NDVI value >.6 and are north facing.
     ## resolution  : 1, 1  (x, y)
     ## extent      : 325963, 326506, 4102905, 4103482  (xmin, xmax, ymin, ymax)
     ## coord. ref. : +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## data source : /Users/mjones01/Documents/data/NEONDI-2016/NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/TEAK_NDVI.tif 
+    ## data source : /Users/lwasser/Documents/data/1_NEON-DI2016/NEONdata/D17-California/TEAK/2013/spectrometer/veg_index/TEAK_NDVI.tif 
     ## names       : TEAK_NDVI 
-    ## values      : -0.2253, 0.9218  (min, max)
+    ## values      : -0.2252816, 0.9218391  (min, max)
 
     hist(ndvi,
          main="NDVI for Lower Teakettle Field Site")
