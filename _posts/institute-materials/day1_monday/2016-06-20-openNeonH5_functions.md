@@ -34,6 +34,20 @@ First, let's load the required libraries.
     # set wd
     # setwd("~/Documents/data/NEONDI-2016") # Mac
     # setwd("~/data/NEONDI-2016")  # Windows
+    
+    
+    ## import functions
+    # install devtools (if you have not previously intalled it)
+    # install.packages("devtools")
+    # call devtools library
+    #library(devtools)
+    
+    # install from github
+    # install_github("lwasser/neon-aop-package/neonAOP")
+    # call library
+    library(neonAOP)
+    # source a R script
+    # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
 ## Get Reflectance Matrix Dimensions
