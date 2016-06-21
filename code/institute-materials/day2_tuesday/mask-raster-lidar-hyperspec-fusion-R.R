@@ -19,7 +19,6 @@ library(rgdal)
 # call library
 library(neonAOP)
 
-
 # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
@@ -62,8 +61,13 @@ new.stack <- stack(TEAK_nsAspect, ndvi)
 
 
 ## ----compare-extents-----------------------------------------------------
+# view extents of both objects
 extent(ndvi)
 extent(TEAK_nsAspect)
+
+# are the extents the same?
+extent(ndvi) == extent(TEAK_nsAspect)
+
 
 ## ----check-extents-------------------------------------------------------
 
