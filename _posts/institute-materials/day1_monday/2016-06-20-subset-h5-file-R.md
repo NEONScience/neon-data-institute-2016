@@ -7,7 +7,7 @@ instructors:
 contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-06-15
+lastModified: 2016-06-20
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -160,7 +160,7 @@ signature. For example, a plot boundary.
     plot(b58_clipped,
          main="Band 58 Clipped")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/subset-h5-file-R/extract-subset-1.png)
+    ## Error in plot(b58_clipped, main = "Band 58 Clipped"): object 'b58_clipped' not found
 
 ## Run Subset over Many Bands
 

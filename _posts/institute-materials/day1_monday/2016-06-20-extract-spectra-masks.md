@@ -7,7 +7,7 @@ instructors:
 contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-06-15
+lastModified: 2016-06-20
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -46,6 +46,12 @@ from an HDF5 file and plot a spectral profile for that pixel.
     library(raster)
     library(plyr)
     library(rgeos)
+
+    ## rgeos version: 0.3-19, (SVN revision 524)
+    ##  GEOS runtime version: 3.4.2-CAPI-1.8.2 r3921 
+    ##  Linking to sp version: 1.2-3 
+    ##  Polygon checking: TRUE
+
     library(rgdal)
     library(ggplot2)
     
@@ -302,7 +308,7 @@ Let's give it a go!
                 dims=index.bounds,
                 mask=ndvi, fun=mean)
 
-    ## [1] 0.02485
+    ## [1] 0.02485417
 
     # provide a list of bands that you wish to extract summary values for
     bands <- (1:426)

@@ -22,13 +22,14 @@ h5ls(f, all = TRUE)
 # Map Info contains some key coordinate reference system information
 # Including the UPPER LEFT corner coordinate in UTM (meters) of the Reflectance
 # data.
-mapInfo <- h5read(f,"map info", read.attributes = TRUE)
+mapInfo <- h5read(f, "map info", read.attributes = TRUE)
 mapInfo
+
 
 ## ----view-attr-----------------------------------------------------------
 
 # r  get attributes for the Reflectance dataset
-reflInfo <- h5readAttributes(f,"Reflectance")
+reflInfo <- h5readAttributes(f, "Reflectance")
 
 # view the scale factor for the data
 reflInfo$`Scale Factor`
@@ -42,6 +43,7 @@ reflInfo$`data ignore value`
 
 # open the file for viewing
 fid <- H5Fopen(f)
+
 # open the reflectance dataset
 did <- H5Dopen(fid, "Reflectance")
 did
@@ -70,7 +72,7 @@ str(wavelengths)
 ## ----read-refl-data------------------------------------------------------
 
 # Extract or "slice" data for band 56 from the HDF5 file
-b56<- h5read(f,"Reflectance", index=list(1:dims[1],1:dims[2],56))
+b56 <- h5read(f, "Reflectance", index=list(1:dims[1], 1:dims[2], 56))
 
 # note the data come in as an array
 class(b56)
@@ -114,16 +116,17 @@ b56 <- b56/scaleFactor
 hist(b56,
      main="Distribution with NoData Value Considered\nData Scaled")
 
+
 ## ----transpose-data------------------------------------------------------
 # Because the data import as column, row but we require row, column in R,
 # we need to transpose x and y values in order for our final image to plot 
 # properly
 
-b56<-t(b56)
+b56 <- t(b56)
 image(log(b56), main="Band 56\nTransposed Values")
 
 
-## ------------------------------------------------------------------------
+## ----read-map-info-------------------------------------------------------
 # We can extract the upper left-hand corner coordinates.
 # the numbers as position 4 and 5 are the UPPER LEFT CORNER (x,y)
 mapInfo<-unlist(strsplit(mapInfo, ","))
@@ -134,7 +137,7 @@ xMin <- as.numeric(mapInfo[4])
 yMax <- as.numeric(mapInfo[5])
 
 # we can get the x and y resolution from this string too
-res <- c(mapInfo[2],mapInfo[3])
+res <- c(mapInfo[6],mapInfo[7])
 res <- as.numeric(res)
 
 # finally calculate the xMax value and the yMin value from the dimensions 
@@ -146,7 +149,7 @@ yMin <- yMax - (dims[2]*res[2])
 
 # Now, define the raster extent
 # define the extent (left, right, top, bottom)
-rasExt <- extent(xMin, xMax,yMin,yMax)
+rasExt <- extent(xMin, xMax, yMin, yMax)
 
 # now we can create a raster and assign it it's spatial extent
 b56r <- raster(b56,
@@ -158,7 +161,8 @@ extent(b56r) <- rasExt
 b56r
 
 # plot the new image
-plot(b56r, main="Raster for Lower Teakettle \nBand 56")
+plot(b56r, 
+     main="Raster for Lower Teakettle \nBand 56")
 
 
 ## ----export-tif, eval=FALSE----------------------------------------------

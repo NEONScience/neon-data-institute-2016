@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time: "4:45"
 contributors: [Edmund Hart, Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-06-15
+lastModified: 2016-06-20
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
