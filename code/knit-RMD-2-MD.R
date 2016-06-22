@@ -28,7 +28,7 @@ add.date <- "2016-06-20-"
 # set working dir - this is where the data are located
 #wd <- "~/Documents/data/1_data-institute-2016"
 
-wd <- "~/Documents/data/NEONDI-2016"
+wd <- "~/Documents/data/1_NEON-DI2016"
 
 ################### CONFIG BELOW IS REQUIRED BY JEKYLL - DON'T CHANGE ##########
 #set data working dir

@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 time:
 contributors: [Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-06-15
+lastModified: 2016-06-20
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day2
@@ -53,13 +53,12 @@ First, let's load the required libraries.
     # call library
     library(neonAOP)
     
-    
     # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 ## Import LiDAR data
 
 To begin, let's open the NEON LiDAR Digital Surface and Digital Terrain Models
-(DSM and DTM) which are in Geotiff format.
+(DSM and DTM) which are in GeoTIFF format.
 
 
     # read aspect data from previous lesson
@@ -116,6 +115,7 @@ Notice we get an error. Why?
 Let's compare the extents of the two objects. 
 
 
+    # view extents of both objects
     extent(ndvi)
 
     ## class       : Extent 
@@ -131,6 +131,11 @@ Let's compare the extents of the two objects.
     ## xmax        : 326506 
     ## ymin        : 4102905 
     ## ymax        : 4103482
+
+    # are the extents the same?
+    extent(ndvi) == extent(TEAK_nsAspect)
+
+    ## [1] FALSE
 
 The extents are slightly different. They are one pixel apart in ymin and xmax.
 Thus, when we try to create a stack, we get an error. All layers in a stack
@@ -154,40 +159,29 @@ the overlap. Let's try it.
       print("Extents are different, cropping data")
       }
 
-    ## Error in as.vector(y): no method for coercing this S4 class to a vector
+    ## [1] "Extents are different, cropping data"
 
     # let's try to create a stack again.
     new.stack <- stack(TEAK_nsAspect, ndvi)
-
-    ## Error in compareRaster(x): different extent
 
 
 
     # mask out only pixels that are north facing and NDVI >.6
     nsFacing.ndvi <- mask(new.stack[[1]], new.stack[[2]])
-
-    ## Error in mask(new.stack[[1]], new.stack[[2]]): error in evaluating the argument 'x' in selecting a method for function 'mask': Error: object 'new.stack' not found
-
     nsFacing.ndvi[nsFacing.ndvi==0] <- NA
-
-    ## Error in nsFacing.ndvi[nsFacing.ndvi == 0] <- NA: object 'nsFacing.ndvi' not found
 
 ## Create Final Plot
 
 
     # plot extent
     plot.extent <- extent(nsFacing.ndvi)
-
-    ## Error in extent(nsFacing.ndvi): error in evaluating the argument 'x' in selecting a method for function 'extent': Error: object 'nsFacing.ndvi' not found
-
+    
     # plot 
     plot(nsFacing.ndvi,
          main="North & South Facing pixels, NDVI > .6",
          col=c("blue","green"),
          legend=F)
-
-    ## Error in plot(nsFacing.ndvi, main = "North & South Facing pixels, NDVI > .6", : error in evaluating the argument 'x' in selecting a method for function 'plot': Error: object 'nsFacing.ndvi' not found
-
+    
     # allow legend to plot outside of bounds
     par(xpd=TRUE)
     
@@ -196,7 +190,7 @@ the overlap. Let's try it.
            fill = c("blue", "green"), 
            bty="n") # turn off border
 
-    ## Error in xy.coords(x, y): object 'plot.extent' not found
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day2_tuesday/mask-raster-lidar-hyperspec-fusion-R/plot-data-1.png)
 
 ## Export Classified Raster
 
@@ -208,3 +202,4 @@ the overlap. Let's try it.
                 options="COMPRESS=LZW",
                 overwrite = TRUE,
                 NAflag = -9999)
+

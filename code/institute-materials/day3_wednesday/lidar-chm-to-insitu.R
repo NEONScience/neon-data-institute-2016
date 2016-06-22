@@ -95,7 +95,6 @@ head(insitu_maxStemHeight)
 
 
 ## ----merge-dataframe-----------------------------------------------------
-#require(sp)
 
 # merge to create a new spatial df
 SJER_height@data <- data.frame(SJER_height@data,

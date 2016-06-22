@@ -7,7 +7,7 @@ instructors: [Leah, Naupaka]
 contributors: [Megan A. Jones]
 time: "4:00"
 dateCreated:  2016-05-01
-lastModified: 2016-06-20
+lastModified: 2016-06-22
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -72,29 +72,8 @@ open the H5 data.
     ## install from github
     install_github("lwasser/neon-aop-package/neonAOP")
 
-    ## Downloading GitHub repo lwasser/neon-aop-package@master
-    ## from URL https://api.github.com/repos/lwasser/neon-aop-package/zipball/master
-
-    ## Installing neonAOP
-
-    ## '/Library/Frameworks/R.framework/Resources/bin/R' --no-site-file  \
-    ##   --no-environ --no-save --no-restore --quiet CMD INSTALL  \
-    ##   '/private/var/folders/0p/x8phw1_156511_jqkryx2t8m2vn2t3/T/Rtmpxubzky/devtools7012e95d7b9/lwasser-neon-aop-package-5b9a37f/neonAOP'  \
-    ##   --library='/Library/Frameworks/R.framework/Versions/3.3/Resources/library'  \
-    ##   --install-tests
-
-    ## 
-
-    ## Reloading installed neonAOP
-
-    ## 
-    ## Attaching package: 'neonAOP'
-
-    ## The following objects are masked _by_ '.GlobalEnv':
-    ## 
-    ##     clean_refl_data, clean_spectra, create_extent, create_stack,
-    ##     extract_av_refl, get_data_dims, get_spectra, open_band,
-    ##     read_band
+    ## Skipping install for github remote, the SHA1 (5b9a37fe) has not changed since last install.
+    ##   Use `force = TRUE` to force installation
 
     ## call library
     library(neonAOP)
