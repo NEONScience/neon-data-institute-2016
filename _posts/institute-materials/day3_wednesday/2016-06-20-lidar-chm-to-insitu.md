@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "R: Create a Canopy Height Model from LiDAR derived Rasters (grids) in R"
+title: "Extract Values from Rasters in R & Compare Ground to Airborne"
 date:   2016-05-17
 createdDate:   2016-05-17
 lastModified:   2016-06-21
@@ -177,8 +177,8 @@ through several plots and create histograms using a `for loop`.
 
 
 ### Variation 3: Derive Square Plot boundaries, then CHM values around a point
-For how to extract square plots using a plot centroid value, check out the
- [extracting square shapes activity.]({{ site.baseurl }}/working-with-field-data/Field-Data-Polygons-From-Centroids/ "Polygons")
+For how to extract square plots using a plot centroid value, check out the 
+<a href="http://neondataskills.org/working-with-field-data/Field-Data-Polygons-From-Centroids" target="_blank">extracting square shapes activity</a>.
 
  <figure>
     <img src="{{ site.baseurl }}/images/spatialData/BufferSquare.png">
