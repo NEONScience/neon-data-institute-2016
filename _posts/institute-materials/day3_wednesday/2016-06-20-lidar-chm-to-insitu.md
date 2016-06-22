@@ -3,7 +3,7 @@ layout: post
 title: "R: Create a Canopy Height Model from LiDAR derived Rasters (grids) in R"
 date:   2016-05-17
 createdDate:   2016-05-17
-lastModified:   2016-06-15
+lastModified:   2016-06-21
 time: "9:00"
 packagesLibraries: [raster, sp, dplyr, maptools, rgeos]
 authors: [Leah A. Wasser, Kyla Dahlin]
@@ -74,7 +74,7 @@ First, we will import the NEON canopy height model.
     ## resolution  : 1, 1  (x, y)
     ## extent      : 254571, 258867, 4107303, 4112362  (xmin, xmax, ymin, ymax)
     ## coord. ref. : +proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-    ## data source : /Users/mjones01/Documents/data/NEONDI-2016/NEONdata/D17-California/SJER/2013/lidar/SJER_lidarCHM.tif 
+    ## data source : /Users/lwasser/Documents/data/1_NEON-DI2016/NEONdata/D17-California/SJER/2013/lidar/SJER_lidarCHM.tif 
     ## names       : SJER_lidarCHM 
     ## values      : 0, 45.88  (min, max)
 
@@ -259,8 +259,6 @@ merge the data on the plot_id column. Notice that it's spelled slightly differen
 in both data.frames so we'll need to tell R what it's called in each data.frame.
 
 
-    #require(sp)
-    
     # merge to create a new spatial df
     SJER_height@data <- data.frame(SJER_height@data,
                                    insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], insitu_maxStemHeight$plotid),])
@@ -276,25 +274,25 @@ in both data.frames so we'll need to tell R what it's called in each data.frame.
     
     SJER_height@data
 
-    ##     Plot_ID  Point northing easting Remarks SJER_lidarCHM   plotid
-    ## 1  SJER1068 center  4111568  255852    <NA>         19.05 SJER1068
-    ## 2   SJER112 center  4111299  257407    <NA>         24.02  SJER112
-    ## 3   SJER116 center  4110820  256839    <NA>         16.07  SJER116
-    ## 4   SJER117 center  4108752  256177    <NA>         11.06  SJER117
-    ## 5   SJER120 center  4110476  255968    <NA>          5.74  SJER120
-    ## 6   SJER128 center  4111389  257079    <NA>         19.14  SJER128
-    ## 7   SJER192 center  4111071  256683    <NA>         16.55  SJER192
-    ## 8   SJER272 center  4112168  256717    <NA>         11.84  SJER272
-    ## 9  SJER2796 center  4111534  256034    <NA>         20.28 SJER2796
-    ## 10 SJER3239 center  4109857  258497    <NA>         12.91 SJER3239
-    ## 11   SJER36 center  4110162  258278    <NA>          8.99   SJER36
-    ## 12  SJER361 center  4107527  256962    <NA>         18.73  SJER361
-    ## 13   SJER37 center  4107579  256148    <NA>         11.49   SJER37
-    ## 14    SJER4 center  4109767  257228    <NA>          9.53    SJER4
-    ## 15    SJER8 center  4110249  254739    <NA>          4.15    SJER8
-    ## 16  SJER824 center  4110048  256186    <NA>         25.66  SJER824
-    ## 17  SJER916 center  4109617  257460    <NA>         18.73  SJER916
-    ## 18  SJER952 center  4110759  255871    <NA>          6.38  SJER952
+    ##     Plot_ID  Point northing  easting Remarks SJER_lidarCHM   plotid
+    ## 1  SJER1068 center  4111568 255852.4    <NA>         19.05 SJER1068
+    ## 2   SJER112 center  4111299 257407.0    <NA>         24.02  SJER112
+    ## 3   SJER116 center  4110820 256838.8    <NA>         16.07  SJER116
+    ## 4   SJER117 center  4108752 256176.9    <NA>         11.06  SJER117
+    ## 5   SJER120 center  4110476 255968.4    <NA>          5.74  SJER120
+    ## 6   SJER128 center  4111389 257078.9    <NA>         19.14  SJER128
+    ## 7   SJER192 center  4111071 256683.4    <NA>         16.55  SJER192
+    ## 8   SJER272 center  4112168 256717.5    <NA>         11.84  SJER272
+    ## 9  SJER2796 center  4111534 256034.4    <NA>         20.28 SJER2796
+    ## 10 SJER3239 center  4109857 258497.1    <NA>         12.91 SJER3239
+    ## 11   SJER36 center  4110162 258277.8    <NA>          8.99   SJER36
+    ## 12  SJER361 center  4107527 256961.8    <NA>         18.73  SJER361
+    ## 13   SJER37 center  4107579 256148.2    <NA>         11.49   SJER37
+    ## 14    SJER4 center  4109767 257228.3    <NA>          9.53    SJER4
+    ## 15    SJER8 center  4110249 254738.6    <NA>          4.15    SJER8
+    ## 16  SJER824 center  4110048 256185.6    <NA>         25.66  SJER824
+    ## 17  SJER916 center  4109617 257460.5    <NA>         18.73  SJER916
+    ## 18  SJER952 center  4110759 255871.2    <NA>          6.38  SJER952
     ##    insituMaxHt
     ## 1         19.3
     ## 2         23.9
@@ -352,6 +350,11 @@ customize your plot.
       theme(axis.title.x = element_text(family="sans", face="bold", size=14, angle=00, hjust=0.54, vjust=-.2))
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/ggplot-data-1.png)
+
+## QGIS Check
+
+Here's a link to add imagery to QGIS.
+<a href="https://ieqgis.wordpress.com/2014/08/09/adding-esris-online-world-imagery-dataset-to-qgis/" target="_blank">Add Imagery to QGIS</a>
 
 
 You have now successfully created a canopy height model using LiDAR data AND compared LiDAR

@@ -8,7 +8,7 @@ instructors: [Leah, Naupaka]
 time: "3:15"
 contributors: [Edmund Hart, Megan A. Jones]
 dateCreated:  2016-05-01
-lastModified: 2016-06-20
+lastModified: 2016-06-22
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -34,6 +34,20 @@ First, let's load the required libraries.
     # set wd
     # setwd("~/Documents/data/NEONDI-2016") # Mac
     # setwd("~/data/NEONDI-2016")  # Windows
+    
+    
+    ## import functions
+    # install devtools (if you have not previously intalled it)
+    # install.packages("devtools")
+    # call devtools library
+    #library(devtools)
+    
+    # install from github
+    # install_github("lwasser/neon-aop-package/neonAOP")
+    # call library
+    library(neonAOP)
+    # source a R script
+    # source("/Users/lwasser/Documents/GitHub/neon-aop-package/neonAOP/R/aop-data.R")
 
 
 ## Get Reflectance Matrix Dimensions

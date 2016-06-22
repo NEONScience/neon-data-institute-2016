@@ -252,7 +252,6 @@ Next, let's look at the data.
 
 
 
-
 ```{r transpose-data }
 # Because the data import as column, row but we require row, column in R,
 # we need to transpose x and y values in order for our final image to plot 

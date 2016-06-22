@@ -7,7 +7,7 @@ instructors:
 contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-06-20
+lastModified: 2016-06-22
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -148,33 +148,35 @@ signature. For example, a plot boundary.
     																			 h5.ext)
     
     # open a band that is subsetted using the clipping extent
-    b58_clipped <- open_band(fileName=f,
-    												 bandNum=58,
-    												 epsg=32611,
-    												 subsetData = TRUE,
-    												 dims=index.bounds)
-
-    ## Error in open_band(fileName = f, bandNum = 58, epsg = 32611, subsetData = TRUE, : unused arguments (subsetData = TRUE, dims = index.bounds)
-
+    b58_clipped <- neonAOP::open_band(fileName=f,
+    								bandNum=58,
+    								epsg=32611,
+    								subsetData = TRUE,
+    								dims=index.bounds)
+    
     # plot clipped bands
     plot(b58_clipped,
          main="Band 58 Clipped")
 
-    ## Error in plot(b58_clipped, main = "Band 58 Clipped"): object 'b58_clipped' not found
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/subset-h5-file-R/extract-subset-1.png)
 
 ## Run Subset over Many Bands
 
 
+    # within the clipping extent
+    index.bounds <- calculate_index_extent(extent(clip.extent),
+    																			 h5.ext)
     # create  alist of the bands
     bands <- list(19,34,58)
     # within the clipping extent
     index.bounds <- calculate_index_extent(extent(clip.extent),
-                                                h5.ext)
-    rgbRast.clip <- create_stack(file=f,
-                             bands=bands,
-                             epsg=epsg,
-                             subset=TRUE,
-                             dims=index.bounds)
+                  h5.ext)
+    # clip out raster
+    rgbRast.clip <- neonAOP::create_stack(file=f,
+                bands=bands,
+                epsg=epsg,
+                subset=TRUE,
+                dims=index.bounds)
     
     plotRGB(rgbRast.clip,
             stretch="lin")
@@ -199,7 +201,7 @@ on top.
          border="yellow",
          lwd=3)
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/subset-h5-file-R/unnamed-chunk-1-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/subset-h5-file-R/plot-RGB-stack-1.png)
 
 ## View Spectra Within Clipped Raster
 

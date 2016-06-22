@@ -7,7 +7,7 @@ instructors:
 contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-06-20
+lastModified: 2016-06-22
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -46,12 +46,6 @@ from an HDF5 file and plot a spectral profile for that pixel.
     library(raster)
     library(plyr)
     library(rgeos)
-
-    ## rgeos version: 0.3-19, (SVN revision 524)
-    ##  GEOS runtime version: 3.4.2-CAPI-1.8.2 r3921 
-    ##  Linking to sp version: 1.2-3 
-    ##  Polygon checking: TRUE
-
     library(rgdal)
     library(ggplot2)
     
@@ -301,25 +295,56 @@ Let's give it a go!
 ## Plot Spectra
 
 
+    index.bounds <- calculate_index_extent(extent(clip.extent),
+                                                h5.ext)
+    
+    # check to see if the mask and the clip extent are the same
+    # if this returns false, the function won't work.
+    extent(clip.extent)==extent(ndvi)
+
+    ## [1] FALSE
+
+    # crop mask to clip extent
+    ndvi.clip <- crop(ndvi, clip.extent)
+    
     # if you run get_spectra on it's own, it returns a min, max or mean value for a raster
-    get_spectra(f, bandNum=1,
+    neonAOP::get_spectra(f, bandNum=1,
                 epsg=32611,
                 subset=TRUE,
                 dims=index.bounds,
-                mask=ndvi, fun=mean)
+                mask=ndvi.clip, fun=mean)
 
-    ## [1] 0.02485417
+    ## [1] 0.02524
 
     # provide a list of bands that you wish to extract summary values for
     bands <- (1:426)
     
-    spectra_unmasked <- lapply(bands, FUN = get_spectra,
+    spectra_unmasked <- lapply(bands, FUN = neonAOP::get_spectra,
                   fileName=f, epsg=32611,
                   subset=TRUE,
                   dims=index.bounds,
                   fun=mean)
     
-    
+    head(spectra_unmasked)
+
+    ## [[1]]
+    ## [1] 0.04723
+    ## 
+    ## [[2]]
+    ## [1] 0.05474
+    ## 
+    ## [[3]]
+    ## [1] 0.06643
+    ## 
+    ## [[4]]
+    ## [1] 0.06576
+    ## 
+    ## [[5]]
+    ## [1] 0.05321
+    ## 
+    ## [[6]]
+    ## [1] 0.0556
+
     # reformat the output list
     spectra_unmasked <- data.frame(unlist(spectra_unmasked))
     spectra_unmasked$wavelength <- wavelengths
@@ -337,11 +362,11 @@ Let's give it a go!
     # run get_spectra for each band to get an average spectral signature
     # because we've specified a mask, it will only return values for pixels that are not
     # in masked areas
-    spectra_masked <- lapply(bands, FUN = get_spectra,
+    spectra_masked <- lapply(bands, FUN = neonAOP::get_spectra,
                   fileName=f, epsg=32611,
                   subset=TRUE,
                   dims=index.bounds,
-                  mask=ndvi, fun=mean)
+                  mask=ndvi.clip, fun=mean)
     
     spectra_masked <- clean_spectra(spectra_masked, wavelengths)
     

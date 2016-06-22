@@ -237,7 +237,6 @@ merge the data on the plot_id column. Notice that it's spelled slightly differen
 in both data.frames so we'll need to tell R what it's called in each data.frame.
 
 ```{r merge-dataframe}
-#require(sp)
 
 # merge to create a new spatial df
 SJER_height@data <- data.frame(SJER_height@data,
@@ -295,6 +294,11 @@ p + theme(panel.background = element_rect(colour = "grey")) +
   theme(axis.title.x = element_text(family="sans", face="bold", size=14, angle=00, hjust=0.54, vjust=-.2))
 
 ```
+
+## QGIS Check
+
+Here's a link to add imagery to QGIS.
+<a href="https://ieqgis.wordpress.com/2014/08/09/adding-esris-online-world-imagery-dataset-to-qgis/" target="_blank">Add Imagery to QGIS</a>
 
 
 You have now successfully created a canopy height model using LiDAR data AND compared LiDAR
