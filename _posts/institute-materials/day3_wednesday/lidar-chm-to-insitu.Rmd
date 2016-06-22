@@ -295,6 +295,25 @@ p + theme(panel.background = element_rect(colour = "grey")) +
 
 ```
 
+
+## view Differences
+
+```{r view-diff}
+
+SJER_height@data$ht_diff <-  (SJER_height@data$SJER_lidarCHM - SJER_height@data$insituMaxHt)
+
+boxplot(SJER_height@data$ht_diff)
+barplot(SJER_height@data$ht_diff,
+        xlab = SJER_height@data$Plot_ID)
+
+
+# create bar plot
+library(ggplot2)
+ggplot(data=SJER_height@data, aes(x=Plot_ID, y=ht_diff, fill=Plot_ID)) +
+    geom_bar(stat="identity")
+
+```
+
 ## QGIS Check
 
 Here's a link to add imagery to QGIS.
