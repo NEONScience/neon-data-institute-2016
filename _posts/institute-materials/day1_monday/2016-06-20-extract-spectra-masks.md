@@ -7,7 +7,7 @@ instructors:
 contributors: [Megan A. Jones]
 time:
 dateCreated:  2016-05-10
-lastModified: 2016-06-20
+lastModified: 2016-06-22
 packagesLibraries: [rhdf5]
 categories: [self-paced-tutorial]
 mainTag: institute-day1
@@ -46,12 +46,6 @@ from an HDF5 file and plot a spectral profile for that pixel.
     library(raster)
     library(plyr)
     library(rgeos)
-
-    ## rgeos version: 0.3-19, (SVN revision 524)
-    ##  GEOS runtime version: 3.4.2-CAPI-1.8.2 r3921 
-    ##  Linking to sp version: 1.2-3 
-    ##  Polygon checking: TRUE
-
     library(rgdal)
     library(ggplot2)
     
@@ -308,7 +302,7 @@ Let's give it a go!
                 dims=index.bounds,
                 mask=ndvi, fun=mean)
 
-    ## [1] 0.02485417
+    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
 
     # provide a list of bands that you wish to extract summary values for
     bands <- (1:426)
@@ -318,11 +312,15 @@ Let's give it a go!
                   subset=TRUE,
                   dims=index.bounds,
                   fun=mean)
-    
-    
+
+    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
+
     # reformat the output list
     spectra_unmasked <- data.frame(unlist(spectra_unmasked))
     spectra_unmasked$wavelength <- wavelengths
+
+    ## Error in `$<-.data.frame`(`*tmp*`, "wavelength", value = structure(c(382.270008325577, : replacement has 426 rows, data has 852
+
     names(spectra_unmasked)[1] <- "reflectance"
     
     # plot spectra
@@ -332,7 +330,7 @@ Let's give it a go!
           ylab="Reflectance",
           main="Spectra for all pixels")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-1.png)
+    ## Error: Aesthetics must be either length 1 or the same as the data (852): x, y
 
     # run get_spectra for each band to get an average spectral signature
     # because we've specified a mask, it will only return values for pixels that are not
@@ -342,10 +340,13 @@ Let's give it a go!
                   subset=TRUE,
                   dims=index.bounds,
                   mask=ndvi, fun=mean)
-    
+
+    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
+
     spectra_masked <- clean_spectra(spectra_masked, wavelengths)
-    
-    
+
+    ## Error in `$<-.data.frame`(`*tmp*`, "wavelength", value = structure(c(382.270008325577, : replacement has 426 rows, data has 852
+
     # plot spectra
     qplot(spectra_masked$wavelength,
           y=spectra_masked$reflectance,
@@ -353,4 +354,4 @@ Let's give it a go!
           ylab="Reflectance",
           main="Spectra for just green pixels")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-2.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-1.png)
