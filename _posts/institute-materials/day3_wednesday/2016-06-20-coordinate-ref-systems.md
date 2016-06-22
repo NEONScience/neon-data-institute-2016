@@ -10,9 +10,9 @@ dateCreated:  2016-05-01
 lastModified: 2016-06-15
 packagesLibraries:
 categories: [self-paced-tutorial]
-mainTag: institute-day2
+mainTag: institute-day3
 tags: [R]
-tutorialSeries: [institute-day2]
+tutorialSeries: [institute-day3]
 description: "Raster 101 Review & Intro to Coordinate Reference Systems"
 code1:
 image:
