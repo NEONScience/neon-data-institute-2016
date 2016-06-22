@@ -212,23 +212,33 @@ clean_spectra <- function(spectra, wavelengths){
 
 ## ----plot-spectra-unmasked-----------------------------------------------
 
+index.bounds <- calculate_index_extent(extent(clip.extent),
+                                            h5.ext)
+
+# check to see if the mask and the clip extent are the same
+# if this returns false, the function won't work.
+extent(clip.extent)==extent(ndvi)
+
+# crop mask to clip extent
+ndvi.clip <- crop(ndvi, clip.extent)
 
 # if you run get_spectra on it's own, it returns a min, max or mean value for a raster
-get_spectra(f, bandNum=1,
+neonAOP::get_spectra(f, bandNum=1,
             epsg=32611,
             subset=TRUE,
             dims=index.bounds,
-            mask=ndvi, fun=mean)
+            mask=ndvi.clip, fun=mean)
 
 # provide a list of bands that you wish to extract summary values for
 bands <- (1:426)
 
-spectra_unmasked <- lapply(bands, FUN = get_spectra,
+spectra_unmasked <- lapply(bands, FUN = neonAOP::get_spectra,
               fileName=f, epsg=32611,
               subset=TRUE,
               dims=index.bounds,
               fun=mean)
 
+head(spectra_unmasked)
 
 # reformat the output list
 spectra_unmasked <- data.frame(unlist(spectra_unmasked))
@@ -246,11 +256,11 @@ qplot(spectra_unmasked$wavelength,
 # run get_spectra for each band to get an average spectral signature
 # because we've specified a mask, it will only return values for pixels that are not
 # in masked areas
-spectra_masked <- lapply(bands, FUN = get_spectra,
+spectra_masked <- lapply(bands, FUN = neonAOP::get_spectra,
               fileName=f, epsg=32611,
               subset=TRUE,
               dims=index.bounds,
-              mask=ndvi, fun=mean)
+              mask=ndvi.clip, fun=mean)
 
 spectra_masked <- clean_spectra(spectra_masked, wavelengths)
 

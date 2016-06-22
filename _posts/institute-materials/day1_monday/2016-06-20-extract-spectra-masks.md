@@ -295,32 +295,59 @@ Let's give it a go!
 ## Plot Spectra
 
 
+    index.bounds <- calculate_index_extent(extent(clip.extent),
+                                                h5.ext)
+    
+    # check to see if the mask and the clip extent are the same
+    # if this returns false, the function won't work.
+    extent(clip.extent)==extent(ndvi)
+
+    ## [1] FALSE
+
+    # crop mask to clip extent
+    ndvi.clip <- crop(ndvi, clip.extent)
+    
     # if you run get_spectra on it's own, it returns a min, max or mean value for a raster
-    get_spectra(f, bandNum=1,
+    neonAOP::get_spectra(f, bandNum=1,
                 epsg=32611,
                 subset=TRUE,
                 dims=index.bounds,
-                mask=ndvi, fun=mean)
+                mask=ndvi.clip, fun=mean)
 
-    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
+    ## [1] 0.02524
 
     # provide a list of bands that you wish to extract summary values for
     bands <- (1:426)
     
-    spectra_unmasked <- lapply(bands, FUN = get_spectra,
+    spectra_unmasked <- lapply(bands, FUN = neonAOP::get_spectra,
                   fileName=f, epsg=32611,
                   subset=TRUE,
                   dims=index.bounds,
                   fun=mean)
+    
+    head(spectra_unmasked)
 
-    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
+    ## [[1]]
+    ## [1] 0.04723
+    ## 
+    ## [[2]]
+    ## [1] 0.05474
+    ## 
+    ## [[3]]
+    ## [1] 0.06643
+    ## 
+    ## [[4]]
+    ## [1] 0.06576
+    ## 
+    ## [[5]]
+    ## [1] 0.05321
+    ## 
+    ## [[6]]
+    ## [1] 0.0556
 
     # reformat the output list
     spectra_unmasked <- data.frame(unlist(spectra_unmasked))
     spectra_unmasked$wavelength <- wavelengths
-
-    ## Error in `$<-.data.frame`(`*tmp*`, "wavelength", value = structure(c(382.270008325577, : replacement has 426 rows, data has 852
-
     names(spectra_unmasked)[1] <- "reflectance"
     
     # plot spectra
@@ -330,23 +357,20 @@ Let's give it a go!
           ylab="Reflectance",
           main="Spectra for all pixels")
 
-    ## Error: Aesthetics must be either length 1 or the same as the data (852): x, y
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-1.png)
 
     # run get_spectra for each band to get an average spectral signature
     # because we've specified a mask, it will only return values for pixels that are not
     # in masked areas
-    spectra_masked <- lapply(bands, FUN = get_spectra,
+    spectra_masked <- lapply(bands, FUN = neonAOP::get_spectra,
                   fileName=f, epsg=32611,
                   subset=TRUE,
                   dims=index.bounds,
-                  mask=ndvi, fun=mean)
-
-    ## Error in open_band(fileName, bandNum, epsg, subset, dims): unused arguments (subset, dims)
-
+                  mask=ndvi.clip, fun=mean)
+    
     spectra_masked <- clean_spectra(spectra_masked, wavelengths)
-
-    ## Error in `$<-.data.frame`(`*tmp*`, "wavelength", value = structure(c(382.270008325577, : replacement has 426 rows, data has 852
-
+    
+    
     # plot spectra
     qplot(spectra_masked$wavelength,
           y=spectra_masked$reflectance,
@@ -354,4 +378,4 @@ Let's give it a go!
           ylab="Reflectance",
           main="Spectra for just green pixels")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day1_monday/extract-spectra-masks/plot-spectra-unmasked-2.png)

@@ -109,13 +109,13 @@ index.bounds <- calculate_index_extent(extent(clip.extent),
 bands <- list(19,34,58)
 # within the clipping extent
 index.bounds <- calculate_index_extent(extent(clip.extent),
-                                            h5.ext)
+              h5.ext)
 # clip out raster
 rgbRast.clip <- neonAOP::create_stack(file=f,
-                  bands=bands,
-                  epsg=epsg,
-                  subset=TRUE,
-                  dims=index.bounds)
+            bands=bands,
+            epsg=epsg,
+            subset=TRUE,
+            dims=index.bounds)
 
 plotRGB(rgbRast.clip,
         stretch="lin")
