@@ -10,9 +10,9 @@ dateCreated:  2016-05-01
 lastModified: 2016-06-15
 packagesLibraries:
 categories: [self-paced-tutorial]
-mainTag: institute-day3
+mainTag: institute-day4
 tags: [R]
-tutorialSeries: [institute-day3]
+tutorialSeries: [institute-day4]
 description: "Raster 101 Review & Intro to Coordinate Reference Systems"
 code1:
 image:
@@ -24,37 +24,6 @@ comments: false
 ---
 
 ## REVIEW
-
-## Raster Data structure - Pixels
-
-<figure>
-    <a href="http://neondataskills.org/images/dc-spatial-raster/raster_concept.png">
-    <img src="http://neondataskills.org/images/dc-spatial-raster/raster_concept.png">
-    </a>
-    <figcaption>Raster Data Structure.</figcaption>
-</figure>
-
-
-## Single vs Multiple Band rasters
-
-<figure>
-    <a href="http://neondataskills.org/images/dc-spatial-raster/single_multi_raster.png">
-    <img src="http://neondataskills.org/images/dc-spatial-raster/single_multi_raster.png">
-    </a>
-    <figcaption>A raster can have 1 or more bands.
-    </figcaption>
-</figure>
-
-### Data Cubes
-
-<figure>
-    <a href="http://neondataskills.org/images/hyperspectral/DataCube.png">
-    <img src="http://neondataskills.org/images/hyperspectral/DataCube.png">
-    </a>
-    <figcaption>A multi-band raster is sometimes
-    referred to as a data cube.
-    </figcaption>
-</figure>
 
 
 ## Spatial Resolution & Spatial Extent
@@ -98,9 +67,18 @@ A raster consists of a series of pixels, each with the same dimensions and shape
     </figcaption>
 </figure>
 
-
-
 ## Coordinate Reference Systems
+
+### R Functions
+
+    # reproject a vector object:
+    spTransform(vectorObject, crs)
+
+    # reproject a raster objects
+    projectRaster(raster, crs)
+
+    # set crs using EPSG code
+    CRS("+init=epsg: 32611")
 
 <figure>
     <a href="https://source.opennews.org/media/cache/b9/4f/b94f663c79024f0048ae7b4f88060cb5.jpg">
@@ -112,6 +90,7 @@ A raster consists of a series of pixels, each with the same dimensions and shape
 
 
 #### Getting Started with CRS
+
 Check out this short video highlighting how map projections can make continents
 look proportionally larger or smaller than they actually are!
 
@@ -189,6 +168,15 @@ tasks.
 excellent <a href="http://spatialreference.org/ref/epsg/" target="_blank">online
 library of CRS information.</a>
 {: .notice}
+
+## Datums
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xKGlMp__jog" frameborder="0" allowfullscreen></iframe>
+
+Another nice explanation of projections and datums.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Z41Dt7_R180" frameborder="0" allowfullscreen></iframe>
+
 
 ## UTM Zones
 

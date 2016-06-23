@@ -5,8 +5,8 @@ date:   2016-06-20
 dateCreated:  2016-05-01
 lastModified: `r format(Sys.time(), "%Y-%m-%d")`
 authors: [Kyla Dahlin]
-instructors: [Kyla, Leah]
-time: "1:00"
+instructors: [Kyla]
+time: "10:00"
 contributors: [Leah A. Wasser, Megan A. Jones]
 packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
 categories: [self-paced-tutorial]

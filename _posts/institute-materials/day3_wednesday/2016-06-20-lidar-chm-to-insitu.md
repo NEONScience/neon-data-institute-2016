@@ -3,7 +3,7 @@ layout: post
 title: "Extract Values from Rasters in R & Compare Ground to Airborne"
 date:   2016-05-17
 createdDate:   2016-05-17
-lastModified:   2016-06-21
+lastModified:   2016-06-22
 time: "9:00"
 packagesLibraries: [raster, sp, dplyr, maptools, rgeos]
 authors: [Leah A. Wasser, Kyla Dahlin]
@@ -177,8 +177,8 @@ through several plots and create histograms using a `for loop`.
 
 
 ### Variation 3: Derive Square Plot boundaries, then CHM values around a point
-For how to extract square plots using a plot centroid value, check out the 
-<a href="http://neondataskills.org/working-with-field-data/Field-Data-Polygons-From-Centroids" target="_blank">extracting square shapes activity</a>.
+For how to extract square plots using a plot centroid value, check out the
+<a href="http://neondataskills.org/working-with-field-data/Field-Data-Polygons-From-Centroids" target="_blank"> extracting square shapes activity </a>.
 
  <figure>
     <img src="{{ site.baseurl }}/images/spatialData/BufferSquare.png">
@@ -350,6 +350,30 @@ customize your plot.
       theme(axis.title.x = element_text(family="sans", face="bold", size=14, angle=00, hjust=0.54, vjust=-.2))
 
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/ggplot-data-1.png)
+
+
+## view Differences
+
+
+    SJER_height@data$ht_diff <-  (SJER_height@data$SJER_lidarCHM - SJER_height@data$insituMaxHt)
+    
+    boxplot(SJER_height@data$ht_diff)
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/view-diff-1.png)
+
+    barplot(SJER_height@data$ht_diff,
+            xlab = SJER_height@data$Plot_ID)
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/view-diff-2.png)
+
+    # create bar plot
+    library(ggplot2)
+    ggplot(data=SJER_height@data, aes(x=Plot_ID, y=ht_diff, fill=Plot_ID)) +
+        geom_bar(stat="identity")
+
+    ## Warning: Stacking not well defined when ymin != 0
+
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/view-diff-3.png)
 
 ## QGIS Check
 

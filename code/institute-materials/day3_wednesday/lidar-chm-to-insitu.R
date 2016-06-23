@@ -141,6 +141,21 @@ p + theme(panel.background = element_rect(colour = "grey")) +
   theme(axis.title.x = element_text(family="sans", face="bold", size=14, angle=00, hjust=0.54, vjust=-.2))
 
 
+## ----view-diff-----------------------------------------------------------
+
+SJER_height@data$ht_diff <-  (SJER_height@data$SJER_lidarCHM - SJER_height@data$insituMaxHt)
+
+boxplot(SJER_height@data$ht_diff)
+barplot(SJER_height@data$ht_diff,
+        xlab = SJER_height@data$Plot_ID)
+
+
+# create bar plot
+library(ggplot2)
+ggplot(data=SJER_height@data, aes(x=Plot_ID, y=ht_diff, fill=Plot_ID)) +
+    geom_bar(stat="identity")
+
+
 ## ----create-plotly, eval=FALSE-------------------------------------------
 ## 
 ## library(plotly)
