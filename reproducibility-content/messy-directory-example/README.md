@@ -8,10 +8,10 @@ directory. This was taught as part of the [NEON Data Science Institute
 2016](http://neon-workwithdata.github.io/neon-data-institute-2016/) by
 [Naupaka Zimmerman](https://github.com/naupaka). The data and files are
 for the most part derived from various NEON remote sensing (AOP)
-    products from the D17 sites.
+    products from the D17 California sites.
 
 Students are shown the introductory slides ([available
-        here](https://github.com/NEON-WorkWithData/slide-shows/blob/gh-pages/intro-reprod-science.md):)  and then asked to identify problems in the directory.
+        here](https://github.com/NEON-WorkWithData/slide-shows/blob/gh-pages/intro-reprod-science.md)) and then asked to identify problems in the directory.
 
 Some of the problems are:
 
