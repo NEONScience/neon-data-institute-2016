@@ -345,7 +345,9 @@ Now we can create the mask.
     # first create a matrix of values that represent the classification ranges
     # North face = 1
     # South face = 2
-    class.m <- c(0, 45, 1, 
+    # classify classes start to the RIGHT of the beginning value. So we start at -99
+    # to capture zeros
+    class.m <- c(-.99, 45, 1, 
                  45, 135, NA, 
                  135, 225, 2,  
                  225 , 315, NA, 
@@ -356,12 +358,12 @@ Now we can create the mask.
                     byrow=TRUE)
     rcl.m
 
-    ##      [,1] [,2] [,3]
-    ## [1,]    0   45    1
-    ## [2,]   45  135   NA
-    ## [3,]  135  225    2
-    ## [4,]  225  315   NA
-    ## [5,]  315  360    1
+    ##        [,1] [,2] [,3]
+    ## [1,]  -0.99   45    1
+    ## [2,]  45.00  135   NA
+    ## [3,] 135.00  225    2
+    ## [4,] 225.00  315   NA
+    ## [5,] 315.00  360    1
 
     # classify the aspect product using the classification matrix
     asp.ns <- reclassify(aspect, rcl.m)
@@ -381,8 +383,11 @@ Now we can create the mask.
          axes=F,
          main="North and South Facing Slopes \nNEON Lower Teakettle Field Site",
          bty="n",
-         legend=F)
+         legend=F,
+         box=F)
     
+    # force a border
+    plot(extent(asp.ns), add=T) 
     # allow legend to plot outside of bounds
     par(xpd=TRUE)
     
@@ -649,13 +654,13 @@ Are NDVI and tree height related? Why might this be?
     ## 	Welch Two Sample t-test
     ## 
     ## data:  north.veght.df$veght and south.veght.df$veght
-    ## t = 75.354, df = 41598, p-value < 2.2e-16
+    ## t = 75.357, df = 41602, p-value < 2.2e-16
     ## alternative hypothesis: true difference in means is greater than 0
     ## 95 percent confidence interval:
-    ##  4.316303      Inf
+    ##  4.316169      Inf
     ## sample estimates:
     ## mean of x mean of y 
-    ##  6.069187  1.656562
+    ##  6.069046  1.656562
 
 Notice, once again we are repeating code. This would make for a nice function! 
 If it's a set of functions, we could have changed the methods in **one place** from

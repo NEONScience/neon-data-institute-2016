@@ -79,11 +79,14 @@ First, let's load the required libraries.
     RGBStack <- create_stack(f, 
                              bands, 
                              epsg)
+
+    ## Error in all_wavelengths[bands]: invalid subscript type 'list'
+
     # plot the stack
     plotRGB(RGBStack, 
             stretch='lin')
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/create-stack-1.png)
+    ## Error in plotRGB(RGBStack, stretch = "lin"): object 'RGBStack' not found
 
     # CIR create  alist of the bands
     bands <- c(90, 34, 19)
@@ -95,7 +98,7 @@ First, let's load the required libraries.
     plotRGB(CIRStack, 
             stretch='lin')
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/create-stack-2.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/create-stack-1.png)
 
 ## Try some other band combos:
 
@@ -173,26 +176,32 @@ Next, let's extract a spatial SUBSET from a H5 file.
                 epsg=epsg,
                 subset=TRUE,
                 dims=index.bounds)
-    
+
+    ## Error in all_wavelengths[bands]: invalid subscript type 'list'
+
     plotRGB(rgbRast.clip,
             stretch="lin")
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/extract-stack-1.png)
+    ## Error in plotRGB(rgbRast.clip, stretch = "lin"): object 'rgbRast.clip' not found
 
     rgbRast <- create_stack(file=f,
                              bands=bands,
                              epsg=epsg,
                              subset=FALSE)
-    
+
+    ## Error in all_wavelengths[bands]: invalid subscript type 'list'
+
     plotRGB(rgbRast,
             stretch="lin")
-    
+
+    ## Error in plotRGB(rgbRast, stretch = "lin"): object 'rgbRast' not found
+
     plot(clip.extent,
          add=T,
          border="yellow",
          lwd=3)
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/extract-stack-2.png)
+    ## Error in polypath(x = mcrds[, 1], y = mcrds[, 2], border = border, col = col, : plot.new has not been called yet
 
 ## Extract Spectra
 
