@@ -1,25 +1,25 @@
 ---
 layout: post
 title: "Use NEON AOP Package"
-date:   2016-06-20
+date:   2016-06-18
 dateCreated:  2016-05-01
-lastModified: 2016-06-22
+lastModified: 2016-06-23
 authors: [Leah A. Wasser]
 instructors: 
-time: "11:00"
+time: "1:00"
 contributors: []
 packagesLibraries: [neonAOP]
 categories: [self-paced-tutorial]
 mainTag: institute-day4
 tags: [R, HDF5]
 tutorialSeries: institute-day4
-description: "Short vignettes that showcase the use of the NEON AOp Package."
-code1:  /institute-materials/day4_thursday/data-fusion.R
+description: "Short vignettes that showcase the use of the NEON AOP Package."
+code1:  /institute-materials/day4_thursday/use-neon-aop-package.R
 image:
   feature: 
   credit: 
   creditlink:
-permalink: /R/use-aop-package/
+permalink: /R/use-neon-aop-package/
 comments: true
 ---
 
@@ -269,7 +269,7 @@ Next, let's extract a spatial SUBSET from a H5 file.
           main="Spectra for all pixels",
           ylim = c(0, .35))
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/get-spectra-bands-1.png)
+    ## Error in eval(expr, envir, enclos): could not find function "qplot"
 
 
 ## Get Spectra From Masked Bands Only
@@ -325,5 +325,5 @@ This represents vegetation.
           main="Spectra for pixels NDVI> .6",
           ylim = c(0, .35))
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/spectra-masked-bands-3.png)
+    ## Error in eval(expr, envir, enclos): could not find function "qplot"
 

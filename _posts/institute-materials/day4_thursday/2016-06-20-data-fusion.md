@@ -3,7 +3,7 @@ layout: post
 title: "LiDAR and Hyperspectral Data Product Fusion"
 date:   2016-06-20
 dateCreated:  2016-05-01
-lastModified: 2016-06-22
+lastModified: 2016-06-23
 authors: [Kyla Dahlin]
 instructors: [Kyla]
 time: "10:00"
