@@ -226,7 +226,7 @@ this value to the max lidar CHM value.
     ## Source: local data frame [6 x 2]
     ## 
     ##     plotid   max
-    ##      (chr) (dbl)
+    ##      <chr> <dbl>
     ## 1 SJER1068  19.3
     ## 2  SJER112  23.9
     ## 3  SJER116  16.0
@@ -241,7 +241,7 @@ this value to the max lidar CHM value.
     ## Source: local data frame [6 x 2]
     ## 
     ##     plotid insituMaxHt
-    ##      (chr)       (dbl)
+    ##      <chr>       <dbl>
     ## 1 SJER1068        19.3
     ## 2  SJER112        23.9
     ## 3  SJER116        16.0
@@ -260,58 +260,39 @@ in both data.frames so we'll need to tell R what it's called in each data.frame.
 
 
     # merge to create a new spatial df
-    SJER_height@data <- data.frame(SJER_height@data,
-                                   insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], insitu_maxStemHeight$plotid),])
+    #SJER_height@data <- data.frame(SJER_height@data,
+    #                               insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], #insitu_maxStemHeight$plotid),])
     
     # the code below is another way to use MERGE however it creates a normal data.frame
     # rather than a spatial object. Above, we reassigned the "data" slot to
     # a newly merged data frame
     # merge the insitu data into the centroids data.frame
-    # SJER_height <- merge(SJER_height,
-    #                     insitu_maxStemHeight,
-    #                   by.x = 'Plot_ID',
-    #                   by.y = 'plotid')
+    SJER_height <- merge(SJER_height,
+                         insitu_maxStemHeight,
+                       by.x = 'Plot_ID',
+                       by.y = 'plotid')
     
     SJER_height@data
 
-    ##     Plot_ID  Point northing  easting Remarks SJER_lidarCHM   plotid
-    ## 1  SJER1068 center  4111568 255852.4    <NA>         19.05 SJER1068
-    ## 2   SJER112 center  4111299 257407.0    <NA>         24.02  SJER112
-    ## 3   SJER116 center  4110820 256838.8    <NA>         16.07  SJER116
-    ## 4   SJER117 center  4108752 256176.9    <NA>         11.06  SJER117
-    ## 5   SJER120 center  4110476 255968.4    <NA>          5.74  SJER120
-    ## 6   SJER128 center  4111389 257078.9    <NA>         19.14  SJER128
-    ## 7   SJER192 center  4111071 256683.4    <NA>         16.55  SJER192
-    ## 8   SJER272 center  4112168 256717.5    <NA>         11.84  SJER272
-    ## 9  SJER2796 center  4111534 256034.4    <NA>         20.28 SJER2796
-    ## 10 SJER3239 center  4109857 258497.1    <NA>         12.91 SJER3239
-    ## 11   SJER36 center  4110162 258277.8    <NA>          8.99   SJER36
-    ## 12  SJER361 center  4107527 256961.8    <NA>         18.73  SJER361
-    ## 13   SJER37 center  4107579 256148.2    <NA>         11.49   SJER37
-    ## 14    SJER4 center  4109767 257228.3    <NA>          9.53    SJER4
-    ## 15    SJER8 center  4110249 254738.6    <NA>          4.15    SJER8
-    ## 16  SJER824 center  4110048 256185.6    <NA>         25.66  SJER824
-    ## 17  SJER916 center  4109617 257460.5    <NA>         18.73  SJER916
-    ## 18  SJER952 center  4110759 255871.2    <NA>          6.38  SJER952
-    ##    insituMaxHt
-    ## 1         19.3
-    ## 2         23.9
-    ## 3         16.0
-    ## 4         11.0
-    ## 5          8.8
-    ## 6         18.2
-    ## 7         13.7
-    ## 8         12.4
-    ## 9          9.4
-    ## 10        17.9
-    ## 11         9.2
-    ## 12        11.8
-    ## 13        11.5
-    ## 14        10.8
-    ## 15         5.2
-    ## 16        26.5
-    ## 17        18.4
-    ## 18         7.7
+    ##     Plot_ID  Point northing  easting Remarks SJER_lidarCHM insituMaxHt
+    ## 1  SJER1068 center  4111568 255852.4    <NA>         19.05        19.3
+    ## 2   SJER112 center  4111299 257407.0    <NA>         24.02        23.9
+    ## 3   SJER116 center  4110820 256838.8    <NA>         16.07        16.0
+    ## 4   SJER117 center  4108752 256176.9    <NA>         11.06        11.0
+    ## 5   SJER120 center  4110476 255968.4    <NA>          5.74         8.8
+    ## 6   SJER128 center  4111389 257078.9    <NA>         19.14        18.2
+    ## 7   SJER192 center  4111071 256683.4    <NA>         16.55        13.7
+    ## 8   SJER272 center  4112168 256717.5    <NA>         11.84        12.4
+    ## 9  SJER2796 center  4111534 256034.4    <NA>         20.28         9.4
+    ## 10 SJER3239 center  4109857 258497.1    <NA>         12.91        17.9
+    ## 11   SJER36 center  4110162 258277.8    <NA>          8.99         9.2
+    ## 12  SJER361 center  4107527 256961.8    <NA>         18.73        11.8
+    ## 13   SJER37 center  4107579 256148.2    <NA>         11.49        11.5
+    ## 14    SJER4 center  4109767 257228.3    <NA>          9.53        10.8
+    ## 15    SJER8 center  4110249 254738.6    <NA>          4.15         5.2
+    ## 16  SJER824 center  4110048 256185.6    <NA>         25.66        26.5
+    ## 17  SJER916 center  4109617 257460.5    <NA>         18.73        18.4
+    ## 18  SJER952 center  4110759 255871.2    <NA>          6.38         7.7
 
 ### Plot Data (CHM vs Measured)
 Let's create a plot that illustrates the relationship between in situ measured
@@ -352,7 +333,7 @@ customize your plot.
 ![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day3_wednesday/lidar-chm-to-insitu/ggplot-data-1.png)
 
 
-## view Differences
+## View Differences
 
 
     SJER_height@data$ht_diff <-  (SJER_height@data$SJER_lidarCHM - SJER_height@data$insituMaxHt)

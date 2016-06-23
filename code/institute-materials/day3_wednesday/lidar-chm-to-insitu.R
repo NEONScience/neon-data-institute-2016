@@ -97,17 +97,17 @@ head(insitu_maxStemHeight)
 ## ----merge-dataframe-----------------------------------------------------
 
 # merge to create a new spatial df
-SJER_height@data <- data.frame(SJER_height@data,
-                               insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], insitu_maxStemHeight$plotid),])
+#SJER_height@data <- data.frame(SJER_height@data,
+#                               insitu_maxStemHeight[match(SJER_height@data[,"Plot_ID"], #insitu_maxStemHeight$plotid),])
 
 # the code below is another way to use MERGE however it creates a normal data.frame
 # rather than a spatial object. Above, we reassigned the "data" slot to
 # a newly merged data frame
 # merge the insitu data into the centroids data.frame
-# SJER_height <- merge(SJER_height,
-#                     insitu_maxStemHeight,
-#                   by.x = 'Plot_ID',
-#                   by.y = 'plotid')
+SJER_height <- merge(SJER_height,
+                     insitu_maxStemHeight,
+                   by.x = 'Plot_ID',
+                   by.y = 'plotid')
 
 SJER_height@data
 
