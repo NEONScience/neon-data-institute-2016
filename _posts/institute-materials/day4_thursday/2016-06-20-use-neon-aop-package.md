@@ -38,10 +38,9 @@ First, let's load the required libraries.
     library(neonAOP)
     
     # load packages
-    library(raster)
+    library(raster, rgeos, rgdao)
     library(rhdf5)
-    library(rgdal)
-    library(rgeos)
+    library(ggplot2)
     
     # set wd
     # setwd("~/Documents/data/NEONDI-2016") # Mac
@@ -74,19 +73,16 @@ First, let's load the required libraries.
 
     # extract 3 bands
     # create  alist of the bands
-    # RGB COmbo
-    bands <- list(58, 34, 19)
+    # RGB Combo
+    bands <- c(58, 34, 19)
     RGBStack <- create_stack(f, 
                              bands, 
                              epsg)
-
-    ## Error in all_wavelengths[bands]: invalid subscript type 'list'
-
     # plot the stack
     plotRGB(RGBStack, 
             stretch='lin')
 
-    ## Error in plotRGB(RGBStack, stretch = "lin"): object 'RGBStack' not found
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/create-stack-1.png)
 
     # CIR create  alist of the bands
     bands <- c(90, 34, 19)
@@ -98,12 +94,12 @@ First, let's load the required libraries.
     plotRGB(CIRStack, 
             stretch='lin')
 
-![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/create-stack-1.png)
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/create-stack-2.png)
 
 ## Try some other band combos:
 
-* `bands <- list(152,90,58)`
-* FALSE COLOR: `bands <- list(363, 246, 58)`
+* `bands <- c(152,90,58)`
+* FALSE COLOR: `bands <- c(363, 246, 58)`
 
 Next, let's extract a spatial SUBSET from a H5 file.
 
@@ -134,7 +130,8 @@ Next, let's extract a spatial SUBSET from a H5 file.
     crs(h5.ext.poly) <- crs(clip.extent)
     
     # test to see that the extents overlap
-    gIntersects(h5.ext.poly, clip.extent)
+    gIntersects(h5.ext.poly, 
+                clip.extent)
 
     ## [1] TRUE
 
@@ -144,7 +141,7 @@ Next, let's extract a spatial SUBSET from a H5 file.
     # all units will be rounded which means the pixel must occupy a majority (.5 or greater)
     # within the clipping extent
     index.bounds <- calculate_index_extent(extent(clip.extent),
-    																			 h5.ext)
+    								h5.ext)
     index.bounds
 
     ## [1]  39 127  21  92
@@ -168,7 +165,7 @@ Next, let's extract a spatial SUBSET from a H5 file.
 
 
     # create  alist of the bands
-    bands <- list(19,34,58)
+    bands <- c(19,34,58)
     
     # clip out raster
     rgbRast.clip <- create_stack(file=f,
@@ -176,32 +173,26 @@ Next, let's extract a spatial SUBSET from a H5 file.
                 epsg=epsg,
                 subset=TRUE,
                 dims=index.bounds)
-
-    ## Error in all_wavelengths[bands]: invalid subscript type 'list'
-
+    
     plotRGB(rgbRast.clip,
             stretch="lin")
 
-    ## Error in plotRGB(rgbRast.clip, stretch = "lin"): object 'rgbRast.clip' not found
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/extract-stack-1.png)
 
     rgbRast <- create_stack(file=f,
-                             bands=bands,
-                             epsg=epsg,
-                             subset=FALSE)
-
-    ## Error in all_wavelengths[bands]: invalid subscript type 'list'
-
+                  bands=bands,
+                  epsg=epsg,
+                  subset=FALSE)
+    
     plotRGB(rgbRast,
             stretch="lin")
-
-    ## Error in plotRGB(rgbRast, stretch = "lin"): object 'rgbRast' not found
-
+    
     plot(clip.extent,
          add=T,
          border="yellow",
          lwd=3)
 
-    ## Error in polypath(x = mcrds[, 1], y = mcrds[, 2], border = border, col = col, : plot.new has not been called yet
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/extract-stack-2.png)
 
 ## Extract Spectra
 
@@ -223,36 +214,46 @@ Next, let's extract a spatial SUBSET from a H5 file.
     
     # calculate the index subset dims to extract data from the H5 file
     subset.dims <- calculate_index_extent(clip.extent, 
-                           h5.ext, 
-                           xscale = 1, yscale = 1)
+                        h5.ext, 
+                        xscale = 1, yscale = 1)
     
     
     # turn the H5 extent into a polygon to check overlap
-    h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
+    h5.ext.poly <- as(extent(h5.ext),
+                    "SpatialPolygons")
     
     # assign crs to new polygon
     crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
     
     # ensure the two extents overlap
-    gIntersects(h5.ext.poly, clip.extent)
+    gIntersects(h5.ext.poly, 
+                clip.extent)
 
     ## [1] TRUE
 
     # finally determine the subset to extract from the h5 file
-    index.bounds <- calculate_index_extent(extent(clip.extent), h5.ext)
+    index.bounds <- calculate_index_extent(extent(clip.extent), 
+                    h5.ext)
     
     # open a band
-    a.raster <- open_band(f, 56, epsg)
+    a.raster <- open_band(f, 
+                          56, 
+                          epsg)
     
     # grab the average reflectance value for a band
-    refl <- extract_av_refl(a.raster, aFun = mean)
+    refl <- extract_av_refl(a.raster, 
+                            aFun = mean)
+    
+    refl
+
+    ## [1] 0.1037593
 
 
 ## Get Spectra from Many Bands
 
 
     # grab all bands
-    bands <- (1:426)
+    bands <- c(1:426)
     
     # get stack
     all.bands.stack <- create_stack(f, 
@@ -260,11 +261,13 @@ Next, let's extract a spatial SUBSET from a H5 file.
                              epsg)
     
     # get spectra for each band
-    spectra <- extract_av_refl(all.bands.stack, aFun = mean)
+    spectra <- extract_av_refl(all.bands.stack, 
+                               aFun = mean)
     spectra <- as.data.frame(spectra)
     
     # read in the wavelength information from the HDF5 file
     wavelengths<- h5read(f, "wavelength")
+    
     # convert wavelength to nanometers (nm)
     wavelengths <- wavelengths * 1000
     
@@ -278,7 +281,7 @@ Next, let's extract a spatial SUBSET from a H5 file.
           main="Spectra for all pixels",
           ylim = c(0, .35))
 
-    ## Error in eval(expr, envir, enclos): could not find function "qplot"
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/get-spectra-bands-1.png)
 
 
 ## Get Spectra From Masked Bands Only
@@ -286,6 +289,16 @@ Next, let's extract a spatial SUBSET from a H5 file.
 In this instance, we are using a mask to extract only the pixels where NDVI > .6.
 This represents vegetation.
 
+
+    index.bounds <- calculate_index_extent(extent(clip.extent),
+    								h5.ext)
+    head(bands)
+
+    ## [1] 1 2 3 4 5 6
+
+    epsg
+
+    ## [1] 32611
 
     # clip out raster
     rgbRast.clip <- create_stack(file=f,
@@ -334,5 +347,5 @@ This represents vegetation.
           main="Spectra for pixels NDVI> .6",
           ylim = c(0, .35))
 
-    ## Error in eval(expr, envir, enclos): could not find function "qplot"
+![ ]({{ site.baseurl }}/images/rfigs/institute-materials/day4_thursday/use-neon-aop-package/spectra-masked-bands-3.png)
 

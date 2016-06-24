@@ -248,10 +248,18 @@ hist(all.data[[4]],
      col="springgreen")
 
 
+
 # get mean, min max stats for all layers
-all.data.stats <- data.frame(t(summary(all.data, na.rm=T)))
-all.data.stats$mean <- ht.mean <- cellStats(all.data, mean, na.rm=T)
-all.data.stats$sd <- ht.mean <- cellStats(all.data, sd, na.rm=T)
+all.data.stats <- data.frame(t(summary(all.data, 
+                                       na.rm=T)))
+
+all.data.stats$mean <- ht.mean <- cellStats(all.data, 
+                                            mean, 
+                                            na.rm=T)
+
+all.data.stats$sd <- ht.mean <- cellStats(all.data, 
+                                          sd, 
+                                          na.rm=T)
 
 row.names(all.data.stats) <- all.names
 
@@ -263,7 +271,7 @@ all.data.stats
 thresholds <- data.frame(id=1)
 
 # let's be semi-robust and call 'tall' trees those with mean + 1 sd
-thresholds$height <- all.data.stats["CHM","mean"] + all.data.stats["CHM","sd"]
+thresholds$height <- all.data.stats["CHM","mean"] + all.data.stats["CHM", "sd"]
 thresholds$height
 
 

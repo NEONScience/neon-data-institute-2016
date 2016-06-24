@@ -12,10 +12,9 @@
 library(neonAOP)
 
 # load packages
-library(raster)
+library(raster, rgeos, rgdao)
 library(rhdf5)
-library(rgdal)
-library(rgeos)
+library(ggplot2)
 
 # set wd
 # setwd("~/Documents/data/NEONDI-2016") # Mac
@@ -44,8 +43,8 @@ plot(band56,
 
 # extract 3 bands
 # create  alist of the bands
-# RGB COmbo
-bands <- list(58, 34, 19)
+# RGB Combo
+bands <- c(58, 34, 19)
 RGBStack <- create_stack(f, 
                          bands, 
                          epsg)
@@ -83,7 +82,8 @@ h5.ext.poly <- as(extent(h5.ext),
 crs(h5.ext.poly) <- crs(clip.extent)
 
 # test to see that the extents overlap
-gIntersects(h5.ext.poly, clip.extent)
+gIntersects(h5.ext.poly, 
+            clip.extent)
 
 # Use the clip extent to create the index extent that can be used to slice out data from the 
 # H5 file
@@ -91,7 +91,7 @@ gIntersects(h5.ext.poly, clip.extent)
 # all units will be rounded which means the pixel must occupy a majority (.5 or greater)
 # within the clipping extent
 index.bounds <- calculate_index_extent(extent(clip.extent),
-																			 h5.ext)
+								h5.ext)
 index.bounds
 
 
@@ -111,7 +111,7 @@ plot(b58_clipped,
 ## ----extract-stack-------------------------------------------------------
 
 # create  alist of the bands
-bands <- list(19,34,58)
+bands <- c(19,34,58)
 
 # clip out raster
 rgbRast.clip <- create_stack(file=f,
@@ -125,9 +125,9 @@ plotRGB(rgbRast.clip,
 
 
 rgbRast <- create_stack(file=f,
-                         bands=bands,
-                         epsg=epsg,
-                         subset=FALSE)
+              bands=bands,
+              epsg=epsg,
+              subset=FALSE)
 
 plotRGB(rgbRast,
         stretch="lin")
@@ -151,33 +151,40 @@ h5.ext <- create_extent(f)
 
 # calculate the index subset dims to extract data from the H5 file
 subset.dims <- calculate_index_extent(clip.extent, 
-                       h5.ext, 
-                       xscale = 1, yscale = 1)
+                    h5.ext, 
+                    xscale = 1, yscale = 1)
 
 
 # turn the H5 extent into a polygon to check overlap
-h5.ext.poly <- as(extent(h5.ext), "SpatialPolygons")
+h5.ext.poly <- as(extent(h5.ext),
+                "SpatialPolygons")
 
 # assign crs to new polygon
 crs(h5.ext.poly) <- CRS("+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
 # ensure the two extents overlap
-gIntersects(h5.ext.poly, clip.extent)
+gIntersects(h5.ext.poly, 
+            clip.extent)
 
 # finally determine the subset to extract from the h5 file
-index.bounds <- calculate_index_extent(extent(clip.extent), h5.ext)
+index.bounds <- calculate_index_extent(extent(clip.extent), 
+                h5.ext)
 
 # open a band
-a.raster <- open_band(f, 56, epsg)
+a.raster <- open_band(f, 
+                      56, 
+                      epsg)
 
 # grab the average reflectance value for a band
-refl <- extract_av_refl(a.raster, aFun = mean)
+refl <- extract_av_refl(a.raster, 
+                        aFun = mean)
 
+refl
 
 ## ----get-spectra-bands---------------------------------------------------
 
 # grab all bands
-bands <- (1:426)
+bands <- c(1:426)
 
 # get stack
 all.bands.stack <- create_stack(f, 
@@ -185,11 +192,13 @@ all.bands.stack <- create_stack(f,
                          epsg)
 
 # get spectra for each band
-spectra <- extract_av_refl(all.bands.stack, aFun = mean)
+spectra <- extract_av_refl(all.bands.stack, 
+                           aFun = mean)
 spectra <- as.data.frame(spectra)
 
 # read in the wavelength information from the HDF5 file
 wavelengths<- h5read(f, "wavelength")
+
 # convert wavelength to nanometers (nm)
 wavelengths <- wavelengths * 1000
 
@@ -203,7 +212,13 @@ qplot(x=spectra$wavelength,
       main="Spectra for all pixels",
       ylim = c(0, .35))
 
+
 ## ----spectra-masked-bands------------------------------------------------
+
+index.bounds <- calculate_index_extent(extent(clip.extent),
+								h5.ext)
+head(bands)
+epsg
 
 # clip out raster
 rgbRast.clip <- create_stack(file=f,
