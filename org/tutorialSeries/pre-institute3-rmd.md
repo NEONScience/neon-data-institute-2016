@@ -13,7 +13,7 @@ image:
 
 In week 3, you will use the R Markdown file format to document code and efficiently
 publish code results & outputs. You will practice your Git skills by publishing
-your work in the **NEON-WorkWithData/DI16-NEON-participants** GitHub repository.
+your work in the **NEONScience/DI-NEON-participants** GitHub repository.
 
 
 <a class="btn btn-info" href="{{ site.baseurl}}/tutorial-series/pre-institute3/pre-week-3-activity">

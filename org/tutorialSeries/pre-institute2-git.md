@@ -14,7 +14,7 @@ image:
 
 The goal of the pre-institute materials is to ensure that everyone comes to the
 Institute ready to work in a collaborative research environment. If you recall,
-from last week, the <a href="http://neon-workwithdata.github.io/slide-shows/intro-reprod-science.html" target="blank">four facets of reproducibility</a> include:
+from last week, the <a href="http://neonscience.github.io/slide-shows/intro-reprod-science.html" target="blank">four facets of reproducibility</a> include:
 
 * Documentation
 * Organization
@@ -31,7 +31,7 @@ organization, and an effective way to save your work.
 
 The assignment for this week is to revise the Data Institute capstone project
 summary that you developed last week. You will submit your project summary, with
-a brief biography to introduce yourself, to a shared <a href="https://github.com/NEON-WorkWithData/DI16-NEON-participants" target="_blank">GitHub repository - https://github.com/NEON-WorkWithData/DI16-NEON-participants</a>.
+a brief biography to introduce yourself, to a shared <a href="https://github.com/NEONScience/DI-NEON-participants" target="_blank">GitHub repository - https://github.com/NEONScience/DI-NEON-participants</a>.
 
 <a class="btn btn-info" href="{{ site.baseurl}}/tutorial-series/pre-institute2/git-culmination">View Full Assignment</a>
 

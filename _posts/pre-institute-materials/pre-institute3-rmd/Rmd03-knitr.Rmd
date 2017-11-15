@@ -63,10 +63,10 @@ To complete this tutorial you need:
 
 1. The R `knitr` package to complete this tutorial. If it's not installed,
 visit
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/" target="_blank"> the NEON Institute setup instruction page</a>.
+<a href="http://neonscience.github.io/neon-data-institute-2016/tutorial-series/pre-institute0/" target="_blank"> the NEON Institute setup instruction page</a>.
 2. An R Markdown document that contains a YAML header, code chunks and markdown
 segments. If you don't have an **.Rmd** file, visit
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank"> the R Markdown tutorial</a> to create one.
+<a href="http://neonscience.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank"> the R Markdown tutorial</a> to create one.
 
 <i class="fa fa-star"></i> **When To Knit**: Knitting is a useful exercise
 throughout your scientific workflow. It allows you to see what your outputs
@@ -104,7 +104,7 @@ using: `render(“input.Rmd”, “all”)`.
 ## Activity: Knit Script
 
 Knit the **.Rmd** file that you built in
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank">the last tutorial</a>.
+<a href="http://neonscience.github.io/neon-data-institute-2016/tutorial-series/pre-institute3/rmd03" target="_blank">the last tutorial</a>.
 What does it look like?
 </div>
 
@@ -135,7 +135,7 @@ required by assignment.
 way you think it should!
 * When you are complete, submit your .Rmd and .html files to the 
 NEON Institute participants GitHub repository 
-(**NEON-WorkWithData/DI16-NEON-participants**). 
+(**NEONScience/DI-NEON-participants**). 
 * The files will have automatically saved to your R working directory, you will 
 need to transfer the files to the **/participants/pre-institute3-rmd/** 
 directory and submitted via a **pull request**.

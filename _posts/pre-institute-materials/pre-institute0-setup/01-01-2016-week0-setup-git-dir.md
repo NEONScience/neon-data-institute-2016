@@ -128,7 +128,7 @@ system and how you have customized your filesystem.)
 alphabetical order, arranged neatly into columns.
 
 <i class="fa fa-star"></i> **Data Tip:** What is a directory? That is a folder! Read this section on
-<a href="http://neondataskills.org/R/Set-Working-Directory#directory-vs-folder" target="_blank"> Directory & Folder </a>
+<a href="http://www.neonscience.org/set-working-directory-r" target="_blank"> Directory & Folder </a>
 if you find the wording confusing.
 {: .notice} 
 
@@ -168,7 +168,7 @@ data/  elements/  animals.txt  planets.txt  sunspot.txt
 ```
 
 To use `cd`, you need to be familiar with paths, if not, read the section on 
-<a href="http://neondataskills.org/R/Set-Working-Directory#full-base-and-relative-paths" target="_blank"> Full, Base, and Relative Paths </a>.
+<a href="http://www.neonscience.org/set-working-directory-r" target="_blank"> Full, Base, and Relative Paths </a>.
 
 ### Make a directory -- mkdir
 Now we can create a new directory called `GitHub` that will contain our GitHub 

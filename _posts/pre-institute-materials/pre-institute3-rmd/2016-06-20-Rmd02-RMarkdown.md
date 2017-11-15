@@ -25,7 +25,7 @@ comments: true
 
 You will need to have the `rmarkdown` and `knitr`
 packages installed on your computer prior to completing this tutorial. Refer to 
-<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/tutorial-series/install-R-packages" target="_blank"> the setup materials</a> to get these installed. 
+<a href="http://neonscience.github.io/neon-data-institute-2016/tutorial-series/install-R-packages" target="_blank"> the setup materials</a> to get these installed. 
 
 <div id="objectives" markdown="1">
 
@@ -256,7 +256,7 @@ in R, and sets the working directory.
  ```</code></pre>
 
 (For help setting the working directory, see the NEON Data Skills tutorial
-<a href="http://neondataskills.org/R/Set-Working-Directory" target="_blank">*Set A Working Directory in R*</a>.)
+<a href="http://www.neonscience.org/set-working-directory-r" target="_blank">*Set A Working Directory in R*</a>.)
 
 Then, add another chunk that loads the `TEAK_lidarDSM` raster file.
 

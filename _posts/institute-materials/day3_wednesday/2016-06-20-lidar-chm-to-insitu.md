@@ -41,8 +41,7 @@ below.
 <div id="objectives" markdown="1">
 
 ### Recommended Reading
-<a href="http://neondataskills.org/remote-sensing/2_LiDAR-Data-Concepts_Activity2/">
-What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data</a>
+<a href="http://www.neonscience.org/chm-dsm-dtm-gridded-lidar-data" target="_blank"> What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data</a>
 
 </div>
 
@@ -178,7 +177,7 @@ through several plots and create histograms using a `for loop`.
 
 ### Variation 3: Derive Square Plot boundaries, then CHM values around a point
 For how to extract square plots using a plot centroid value, check out the
-<a href="http://neondataskills.org/working-with-field-data/Field-Data-Polygons-From-Centroids" target="_blank"> extracting square shapes activity </a>.
+<a href="http://www.neonscience.org/field-data-polygons-centroids" target="_blank"> extracting square shapes activity </a>.
 
  <figure>
     <img src="{{ site.baseurl }}/images/spatialData/BufferSquare.png">

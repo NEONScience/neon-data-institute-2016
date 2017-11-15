@@ -28,7 +28,7 @@ comments: true
 ## NEON Teaching Datasets
 Many NEON tutorials, available through the 
 [NEON Data Skills portal](http://www.NEONdataskills.org) and the 
-[NEON Data Institute 2016 portal](http://neon-workwithdata.github.io/neon-data-institute-2016/),
+[NEON Data Institute 2016 portal](http://neonscience.github.io/neon-data-institute-2016/),
 utilize teaching data subsets which are hosted on the NEON Data Skills 
 <a href="https://figshare.com/authors/NEON_Data_Skills_Teaching_Data_Subsets/834136" target="_blank">fig**share** repository</a>. 
 

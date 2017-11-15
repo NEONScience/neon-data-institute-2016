@@ -53,11 +53,11 @@ links:
   - title: Friday
     url: /tutorial-series/institute-day5/
               
-  - title: NEONDataSkills.org
-    url: http://neondataskills.org
+  - title: NEON Data Skills
+    url: http://neonscience.org/neondataskills
     external: true
     
-  - title: NEON Website
+  - title: NEON 
     url: http://neonscience.org
     external: true
 
