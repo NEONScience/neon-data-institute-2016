@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Week 2 -- Version Control & Collaborative Science with Git & GitHub'
-categories: [tutorial-series]
-tutorialSeriesName: pre-institute2-git
+layout: redirected
+sitemap: false
 permalink: tutorial-series/pre-institute2-git/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 
 ## Welcome to Pre-Institute Week 2

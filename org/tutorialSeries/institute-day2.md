@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Tuesday 21 June - LiDAR Data & Automation'
-categories: [tutorial-series]
-tutorialSeriesName: institute-day2
+layout: redirected
+sitemap: false
 permalink: tutorial-series/institute-day2/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 
 # About

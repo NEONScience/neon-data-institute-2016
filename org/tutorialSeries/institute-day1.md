@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Monday 20 June: Intro to NEON, HDF5 & Hyperspectral Data in R'
-categories: [tutorial-series]
-tutorialSeriesName: institute-day1
+layout: redirected
+sitemap: false
 permalink: tutorial-series/institute-day1/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 ## Welcome to Day One of the Institute!
 

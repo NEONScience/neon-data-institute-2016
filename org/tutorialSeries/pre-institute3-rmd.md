@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Week 3 - Documentation of Your Workflow'
-categories: [tutorial-series]
-tutorialSeriesName: pre-institute3-rmd
+layout: redirected
+sitemap: false
 permalink: tutorial-series/pre-institute3-rmd/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 ## Welcome to pre-Institute Week 3
 

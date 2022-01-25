@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Setup Up Your Laptop'
-categories: [tutorial-series]
-tutorialSeriesName: pre-institute0
+layout: redirected
+sitemap: false
 permalink: tutorial-series/pre-institute0/
-image:
-  feature: data-institute-2016.png
-  credit: 
-  creditlink: 
 ---
 
 ## Get Started

@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Friday 24 June: Applied Remote Sensing Data Fusion - Project Work Day'
-categories: [tutorial-series]
-tutorialSeriesName: institute-day5
+layout: redirected
+sitemap: false
 permalink: tutorial-series/institute-day5/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 ## About
 

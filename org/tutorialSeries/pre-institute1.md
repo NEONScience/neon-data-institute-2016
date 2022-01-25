@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Week 1 -- Introduction to NEON and Reproducible Science'
-categories: [tutorial-series]
-tutorialSeriesName: pre-institute1
+layout: redirected
+sitemap: false
 permalink: tutorial-series/pre-institute1/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 ## Welcome to Pre-Institute Week 1
 

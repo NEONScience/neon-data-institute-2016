@@ -1,13 +1,7 @@
 ---
-layout: tutorial-series-landing
-title: 'Pre-institute Materials'
-categories: [tutorial-series]
-tutorialSeriesName: pre-institute-materials
+layout: redirected
+sitemap: false
 permalink: pre-institute-materials/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
 ---
 ## Pre-Institute Materials
 
