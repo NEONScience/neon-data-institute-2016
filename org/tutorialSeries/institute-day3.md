@@ -1,13 +1,8 @@
 ---
-layout: tutorial-series-landing
-title: 'Wednesday 22 June: Comparing Ground to Airborne - Uncertainty'
-categories: [tutorial-series]
-tutorialSeriesName: institute-day3
+layout: redirected
+sitemap: false
 permalink: tutorial-series/institute-day3/
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
+redirect_to: {{ site.url }}
 ---
 
 ## About
