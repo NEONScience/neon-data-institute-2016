@@ -2,6 +2,6 @@
 layout: redirected
 sitemap: false
 permalink: tutorial-series/institute-day3/
-redirect_to:  {{ site.baseurl }}
+redirect_to:  {{ baseurl }}
 ---
 
