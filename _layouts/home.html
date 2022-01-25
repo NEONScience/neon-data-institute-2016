@@ -44,45 +44,45 @@
 {% endfor %}
 {% endcomment %}
 
-#<h2>Agenda</h2>
+<!-- <h2>Agenda</h2> -->
 
-#{% for member in site.data.tutorialSeries %}
-#{% assign counter = 0 %}
-#<!-- this code counts the number of posts associated with each tutorial series member (tutorialSeries.yml -->
-
-
-
-#{% for post in site.posts %}
-#	{% if post.tutorialSeries contains member.slug %}
-#	{% assign counter = counter | plus: 1 %}
-#	{% endif %}
-
-#{% endfor %}
-
-#  <article class="tutorial-series">
-#            <a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" class="list-group-item">
-#                <h2 class="list-group-item-heading">{{ member.name  }}</h2>
-#                <span class="post-date">
-#                {% comment %}
-#                {% if member.lastModified %}last modified: {{ member.lastModified | date: "%b %-d, %Y" }}{% endif %}</span>
-#				{% endcomment %}
-#            <p>{{ member.description }}</p>
-#            </a>
-#   </article>
-#{% endfor %}
+<!-- {% for member in site.data.tutorialSeries %} -->
+<!-- {% assign counter = 0 %} -->
+<!-- this code counts the number of posts associated with each tutorial series member (tutorialSeries.yml -->
 
 
 
+<!-- {% for post in site.posts %} -->
+<!--	{% if post.tutorialSeries contains member.slug %} -->
+<!--	{% assign counter = counter | plus: 1 %} -->
+<!--	{% endif %} -->
 
-#</div><!-- /#index -->
+<!-- {% endfor %}
 
-#<div class="footer-wrap">
-#  <footer>
-#    {% include _footer.html %}
-#  </footer>
-#</div><!-- /.footer-wrap -->
+  <article class="tutorial-series">
+            <a href="{{ site.baseurl }}/tutorial-series/{{ member.slug }}" class="list-group-item">
+                <h2 class="list-group-item-heading">{{ member.name  }}</h2>
+                <span class="post-date">
+                {% comment %}
+                {% if member.lastModified %}last modified: {{ member.lastModified | date: "%b %-d, %Y" }}{% endif %}</span>
+				{% endcomment %}
+            <p>{{ member.description }}</p>
+            </a>
+   </article>
+{% endfor %} -->
 
-#{% include _scripts.html %}
+
+
+
+<!-- </div> /#index
+
+<div class="footer-wrap">
+  <footer>
+    {% include _footer.html %}
+    </footer>
+</div> /.footer-wrap
+
+{% include _scripts.html %} -->
 
 </body>
 </html>
