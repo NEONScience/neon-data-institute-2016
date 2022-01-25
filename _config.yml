@@ -14,11 +14,11 @@ disqus_shortname: neondataskills
 # Social networking links are used in author-bio sidebar. Update and remove as you like.
 
 # Owner/author information
-owner: 		
+owner:
   name: NEON EDUCATION
   avatar: profilePic.png
   bio: ""
-  email: "neondataskills@BattellEcology.org"
+  email: "neondataskills@BattelleEcology.org"
   twitter: "NEON_sci"
   github: "NEONScience"
   youtube: "NEONBetaEDU"
@@ -34,32 +34,32 @@ owner:
 
 # Links to include in top navigation
 # For external links add external: true
-links:  
-  - title: Pre-Institute
-    url: /pre-institute-materials/
-      
-  - title: Monday
-    url: /tutorial-series/institute-day1/
+#links:
+#  - title: Pre-Institute
+#    url: /pre-institute-materials/
 
-  - title: Tuesday
-    url: /tutorial-series/institute-day2/
-    
-  - title: Wednesday
-    url: /tutorial-series/institute-day3/
-    
-  - title: Thursday
-    url: /tutorial-series/institute-day4/
-    
-  - title: Friday
-    url: /tutorial-series/institute-day5/
-              
-  - title: NEON Data Skills
-    url: http://neonscience.org/neondataskills
-    external: true
-    
-  - title: NEON 
-    url: http://neonscience.org
-    external: true
+#  - title: Monday
+#    url: /tutorial-series/institute-day1/
+
+#  - title: Tuesday
+#    url: /tutorial-series/institute-day2/
+
+#  - title: Wednesday
+#    url: /tutorial-series/institute-day3/
+
+#  - title: Thursday
+#    url: /tutorial-series/institute-day4/
+
+#  - title: Friday
+#    url: /tutorial-series/institute-day5/
+
+#  - title: NEON Data Skills
+#    url: http://neonscience.org/neondataskills
+#    external: true
+
+#  - title: NEON
+#    url: http://neonscience.org
+#    external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    America/Denver
@@ -76,7 +76,7 @@ kramdown:
   enable_coderay: false
 
   coderay:
-    coderay_line_numbers: 
+    coderay_line_numbers:
     coderay_line_numbers_start: 1
     coderay_tab_width: 4
     coderay_bold_every: 10

@@ -9,21 +9,14 @@ image:
 ---
 
 
-## Welcome to the 2016 NEON Data Institute!
+## This page has been archived.
 
-<a href="https://public.etherpad-mozilla.org/p/2016-06-20-NEONDI" class="btn btn-info" target="_blank">Click here to go to the Data Institute Etherpad</a>
+Links to material on the NEON website that you might have been looking for here:
 
-NEON's Data Institute provides critical skills and foundational knowledge for
-scientists working with heterogeneous
-spatio-temporal data to address ecological questions. Our 2016 Institute focuses
-on remote sensing of vegetation using open source tools and reproducible
-science approaches.
+NEON data tutorials can be found in the <a href="https://www.neonscience.org/resources/learning-hub/tutorials" target="_blank">NEON Learning Hub</a>
 
-|Time | Day | Description
-|---|---|---|
-|7:50am - 10:00pm| Monday|Intro to NEON, Intro to HDF5 / Hyperspectral RS|
-|8:00am - 6:30pm| Tuesday|Intro to LiDAR data, Automated Workflows|
-|8:00am - 6:30pm| Wednesday|Remote Sensing Uncertainty|
-|8:00am - 6:30pm| Thursday|Data Fusion|
-|8:00am - 6:30pm| Friday|Group projects|
-|9:00am - 2:00pm| Saturday|Group project presentations|
+NEON code resources can be found in the <a href="https://www.neonscience.org/resources/code-hub" target="_blank">NEON Code Hub</a>
+
+Future NEON workshops will be advertised in <a href="https://www.neonscience.org/get-involved/upcoming-events" target="_blank">Upcoming Events</a>
+
+<a href="https://www.neonscience.org" target="_blank">NEON web portal home page</a>
