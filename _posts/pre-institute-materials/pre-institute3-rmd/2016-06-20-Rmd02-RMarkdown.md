@@ -1,24 +1,7 @@
 ---
-layout: post
-title: "Document Code with R Markdown"
-description: "This tutorial cover how to use R Markdown files to document code."
-date: 2016-05-18
-dateCreated: 2016-01-01
-lastModified: 2016-06-10
-estimatedTime:
-packagesLibraries: [knitr, rmarkdown]
-authors:
-categories: [tutorial-series]
-tags: 
-mainTag: pre-institute3-rmd
-tutorialSeries: pre-institute3-rmd
-code1:
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/pre-institute3/rmd02
-comments: true
 ---
 
 {% include _toc.html %}

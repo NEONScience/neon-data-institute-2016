@@ -1,25 +1,7 @@
 ---
-layout: post
-title: "Install Required R Packages "
-description: "This tutorial covers the R packages that you will need to have 
-installed for the Institute."
-date: 2016-05-18
-dateCreated: 2014-05-06
-lastModified: 2016-05-18
-estimatedTime: 1.0 - 1.5 Hours
-packagesLibraries:
-authors:
-contributors:
-categories: [tutorial-series]
-tutorialSeries: [pre-institute0]
-mainTag: pre-institute0
-code1: 
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/install-R-packages
-comments: true
 ---
 
 ## R and RStudio

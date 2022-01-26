@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "NEON Hyperspectral Remote Sensing Data in R - Efficient Processing Using Functions"
-description: "Intro to HDF5"
-date:   2016-06-19
-authors: [Leah A. Wasser]
-instructors: [Leah, Naupaka]
-time: "3:15"
-contributors: [Edmund Hart, Megan A. Jones]
-dateCreated:  2016-05-01
-lastModified: 2016-06-22
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, HDF5]
-tutorialSeries: [institute-day1]
-code1: institute-materials/day1_monday/openNeonH5_functions.R
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/open-NEON-hdf5-functions/
-comments: false
 ---
 
 First, let's load the required libraries.

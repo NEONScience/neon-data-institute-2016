@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Classify a Raster using Threshold Values in R"
-date:   2016-06-17
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka]
-time: "10:15"
-contributors: [Megan A. Jones]
-dateCreated:  2016-05-01
-lastModified: 2016-06-20
-packagesLibraries: [raster]
-categories: [self-paced-tutorial]
-mainTag: institute-day2
-tags: [R, HDF5]
-tutorialSeries: [institute-day2]
-description: "Classify rasters in R using threshold values."
-code1: institute-materials/day2_tuesday/classify-raster-threshold-R.R
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/classify-by-threshold-R/
-comments: false
 ---
 
 ## About

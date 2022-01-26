@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Extract Spectra Using Masks in R"
-date:   2016-06-14
-authors: [Leah A. Wasser]
-instructors:
-contributors: [Megan A. Jones]
-time:
-dateCreated:  2016-05-10
-lastModified: 2016-06-22
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, HDF5]
-tutorialSeries: [institute-day1]
-description: "Learn how to extract a spectra using masked regions in R."
-code1: institute-materials/day1_monday/extract-spectra-masks.R
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/extract-spectra-masks-R/
-comments: false
 ---
 
 

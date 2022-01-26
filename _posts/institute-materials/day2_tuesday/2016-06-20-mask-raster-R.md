@@ -1,27 +1,7 @@
 ---
-layout: post
-title: "Mask a Raster using Threshold Values in R"
-date:   2016-06-16
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka]
-time: "11:00"
-contributors: [Megan A. Jones]
-dateCreated:  2016-05-01
-lastModified: 2016-06-20
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day2
-tags: [R, HDF5]
-tutorialSeries: [institute-day2]
-description: "In this tutorial, we will walk through how to remove parts of a raster based on
-pixel values using a mask from an analysis."
-code1: institute-materials/day2_tuesday/mask-raster-R.R
-image:
-  feature: 
-  credit: 
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/mask-raster-threshold-R/
-comments: false
 ---
 
 ## About

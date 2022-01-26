@@ -1,24 +1,7 @@
 ---
-layout: post
-title: "Document & Publish Your Workflow: R Markdown & knitr"
-description: "This tutorial introduces the importance of tools supporting documenting & publishing a workflow."
-date: 2016-05-19
-dateCreated: 2016-01-01
-lastModified: 2016-06-10
-estimatedTime:
-packagesLibraries:
-authors:
-categories: [tutorial-series]
-tags:
-mainTag: pre-institute3-rmd
-tutorialSeries: pre-institute3-rmd
-code1:
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/pre-institute3/rmd01
-comments: true
 ---
 
 {% include _toc.html %}

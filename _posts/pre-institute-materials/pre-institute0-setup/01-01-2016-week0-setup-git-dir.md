@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Setup GitHub Working Directory - Quick Intro to Bash"
-description: "This page reviews how to check that github is installed on your 
-computer. It also provides a quick overview of Bash shell. Finally we will setup
-a working GitHub directory."
-date: 2016-05-19
-dateCreated: 2014-05-06
-lastModified: 2016-05-18
-estimatedTime: 1.0 - 1.5 Hours
-packagesLibraries: []
-authors:
-contributors:
-categories: [tutorial-series]
-tutorialSeries: [pre-institute0]
-mainTag: pre-institute0
-code1: 
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/bash-setup-git
-comments: true
 ---
 
 {% include _toc.html %} 

@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Coordinate Reference Systems 101"
-date:   2016-06-08
-authors: [Leah A. Wasser]
-instructors:
-time:
-contributors:
-dateCreated:  2016-05-01
-lastModified: 2016-06-15
-packagesLibraries:
-categories: [self-paced-tutorial]
-mainTag: institute-day4
-tags: [R]
-tutorialSeries: [institute-day4]
-description: "Raster 101 Review & Intro to Coordinate Reference Systems"
-code1:
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/intro-CRS/
-comments: false
 ---
 
 ## REVIEW

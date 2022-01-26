@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Plot a Spectral Signature from Hyperspectral Remote Sensing data in R -  HDF5"
-date:   2016-06-18
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka]
-contributors: [Megan A. Jones]
-time: "4:00"
-dateCreated:  2016-05-01
-lastModified: 2016-06-22
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, HDF5]
-tutorialSeries: [institute-day1]
-description: "Learn how to plot a spectral signature from a NEON HDF5 file in R."
-code1: institute-materials/day1_monday/plot-HSIspectral-signature-R.R
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/plot-spectral-signature/
-comments: false
 ---
 
 

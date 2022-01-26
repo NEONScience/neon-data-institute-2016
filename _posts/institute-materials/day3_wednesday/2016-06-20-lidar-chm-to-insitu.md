@@ -1,27 +1,7 @@
 ---
-layout: post
-title: "Extract Values from Rasters in R & Compare Ground to Airborne"
-date:   2016-05-17
-createdDate:   2016-05-17
-lastModified:   2016-06-22
-time: "9:00"
-packagesLibraries: [raster, sp, dplyr, maptools, rgeos]
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka, Kyla]
-contributors: [Megan A. Jones]
-category: remote-sensing
-categories: [Remote Sensing]
-tags : [lidar, R]
-mainTag: institute-day3
-tutorialSeries: institute-day3
-description: "Bring LiDAR-derived raster data (DSM and DTM) into R to create a final canopy height model representing the actual vegetation height with the influence of elevation removed. Then compare lidar derived height (CHM) to field measured tree height to estimate uncertainty in lidar estimates."
+layout: redirected
+sitemap: false
 permalink: /compare-lidar-to-field-data-R/
-comments: true
-code1: institute-materials/day3_wednesday/lidar-chm-to-insitu.R
-image:
-  feature:
-  credit:
-  creditlink:
 ---
 
 ## Background ####

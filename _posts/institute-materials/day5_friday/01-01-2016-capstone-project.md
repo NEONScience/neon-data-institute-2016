@@ -1,27 +1,7 @@
 ---
-layout: post
-title: "2016 NEON Data Institute Capstone Project"
-description: "This page details the capstone project that each Data Institute
-participant will develop and implement during the Institute."
-date: 2016-05-19
-dateCreated: 2014-05-06
-lastModified: 2016-05-18
-time: "8:00"
-estimatedTime:
-packagesLibraries:
-authors: NEON
-contributors:
-categories: [tutorial-series]
-mainTag: institute-day5
-tutorialSeries: institute-day5
-tags:
-code1:
-image:
-  feature: data-institute-2016.png
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/capstone
-comments: true
 ---
 
 {% include _toc.html %}

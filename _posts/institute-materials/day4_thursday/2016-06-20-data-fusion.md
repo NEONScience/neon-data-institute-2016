@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "LiDAR and Hyperspectral Data Product Fusion"
-date:   2016-06-20
-dateCreated:  2016-05-01
-lastModified: 2016-06-23
-authors: [Kyla Dahlin]
-instructors: [Kyla]
-time: "10:00"
-contributors: [Leah A. Wasser, Megan A. Jones]
-packagesLibraries: [rhdf5, raster, rgdal, rgeos, sp]
-categories: [self-paced-tutorial]
-mainTag: institute-day4
-tags: [R, HDF5]
-tutorialSeries: institute-day4
-description: "Introduction to data fusion"
-code1:  /institute-materials/day4_thursday/data-fusion.R
-image:
-  feature: 
-  credit: 
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/neon-data-fusion-R/
-comments: false
 ---
 
 

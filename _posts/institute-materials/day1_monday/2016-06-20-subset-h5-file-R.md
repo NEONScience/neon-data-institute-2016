@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Subset HDF5 file in R"
-date:   2016-06-16
-authors: [Leah A. Wasser]
-instructors:
-contributors: [Megan A. Jones]
-time:
-dateCreated:  2016-05-10
-lastModified: 2016-06-22
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, HDF5]
-tutorialSeries: [institute-day1]
-description: "Learn how to subset an H5 file in R."
-code1: institute-materials/day1_monday/subset-h5-file-R.R
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/subset-hdf5-R/
-comments: false
 ---
 
 

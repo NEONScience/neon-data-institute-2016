@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Use NEON AOP Package"
-date:   2016-06-18
-dateCreated:  2016-05-01
-lastModified: 2016-06-23
-authors: [Leah A. Wasser]
-instructors: 
-time: "1:00"
-contributors: []
-packagesLibraries: [neonAOP]
-categories: [self-paced-tutorial]
-mainTag: institute-day4
-tags: [R, HDF5]
-tutorialSeries: institute-day4
-description: "Short vignettes that showcase the use of the NEON AOP Package."
-code1:  /institute-materials/day4_thursday/use-neon-aop-package.R
-image:
-  feature: 
-  credit: 
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/use-neon-aop-package/
-comments: true
 ---
 
 First, let's load the required libraries.

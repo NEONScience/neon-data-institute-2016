@@ -1,25 +1,7 @@
 ---
-layout: post
-title: "Download the Data"
-description: "This tutorial covers the data and set up the data directory you 
-will need for the Institute."
-date: 2016-05-17
-dateCreated: 2016-06-09
-lastModified: 2016-06-09
-estimatedTime: 
-packagesLibraries:
-authors: Megan A. Jones
-contributors:
-categories: [tutorial-series]
-tutorialSeries: [pre-institute0]
-mainTag: pre-institute0
-code1: 
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/download-data
-comments: true
 ---
 
 

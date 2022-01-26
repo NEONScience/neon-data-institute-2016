@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "The Importance of Reproducible Science"
-description: "This page outlines the tools and resources that you will need to
- complete the Data Institute activities."
-date: 2016-05-18
-dateCreated: 2014-05-06
-lastModified: 2016-05-18
-estimatedTime: 1.0 - 1.5 Hours
-packagesLibraries:
-authors:
-contributors:
-categories: [tutorial-series]
-tags:
-mainTag: pre-institute1
-tutorialSeries: pre-institute1
-code1:
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/pre-institute1/rep-sci
-comments: true
 ---
 
 {% include _toc.html %}

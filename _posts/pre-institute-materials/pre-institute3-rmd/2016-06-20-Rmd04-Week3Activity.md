@@ -1,24 +1,7 @@
 ---
-layout: post
-title: "Pre-Institute Week 3 Assignment"
-description: "This page details how to complete the assignment for pre-Institute week 3."
-date: 2016-05-16
-dateCreated: 2016-01-01
-lastModified: 2016-06-10
-estimatedTime:
-packagesLibraries:
-authors:
-categories: [tutorial-series]
-tags:
-mainTag: pre-institute3-rmd
-tutorialSeries: pre-institute3-rmd
-code1:
-image:
- feature: data-institute-2016.png
- credit:
- creditlink:
+layout: redirected
+sitemap: false
 permalink: /tutorial-series/pre-institute3/pre-week-3-activity
-comments: true
 ---
 
 ## About

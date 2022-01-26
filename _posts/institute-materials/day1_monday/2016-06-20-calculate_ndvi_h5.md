@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Calculate NDVI from NEON Hyperspectral Remote Sensing Data in R"
-date:   2016-06-17
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka]
-time: "4:45"
-contributors: [Edmund Hart, Megan A. Jones]
-dateCreated:  2016-05-01
-lastModified: 2016-06-22
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day1
-tags: [R, HDF5]
-tutorialSeries: [institute-day1]
-description: "Intro to HDF5"
-code1: institute-materials/day1_monday/calculate_ndvi_h5.R
-image:
-  feature:
-  credit:
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/calculate-ndvi/
-comments: false
 ---
 
 First, let's load the required libraries.

@@ -1,27 +1,7 @@
 ---
-layout: post
-title: "Dealing with Spatial Extents when working with Heterogeneous Data"
-date:   2016-06-10
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka]
-time:
-contributors: [Megan A. Jones]
-dateCreated:  2016-05-01
-lastModified: 2016-06-20
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day2
-tags: [R, HDF5]
-tutorialSeries: [institute-day2]
-description: "This tutorials covers one way to manage data with varying spatial 
-extent coverage."
-code1: institute-materials/day2_tuesday/mask-raster-lidar-hyperspec-fusion-R.R
-image:
-  feature: 
-  credit: 
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/masks-data-fusion-R/
-comments: false
 ---
 
 ## About

@@ -1,26 +1,7 @@
 ---
-layout: post
-title: "Create a Hillshade from a Terrain Raster in R"
-date:   2016-06-18
-authors: [Leah A. Wasser, Kyla Dahlin]
-instructors: [Leah, Naupaka]
-time:
-contributors: [Megan A. Jones]
-dateCreated:  2016-05-01
-lastModified: 2016-06-20
-packagesLibraries: [rhdf5]
-categories: [self-paced-tutorial]
-mainTag: institute-day2
-tags: [R, HDF5]
-tutorialSeries: [institute-day2]
-description: "Create a hillshade from a raster object in R."
-code1: institute-materials/day2_tuesday/create-hillshade-R.R
-image:
-  feature: 
-  credit: 
-  creditlink:
+layout: redirected
+sitemap: false
 permalink: /R/create-hillshade-R/
-comments: false
 ---
 
 ## About
