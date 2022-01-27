@@ -13,10 +13,10 @@ image:
 
 Links to material on the NEON website that you might have been looking for here:
 
-NEON data tutorials can be found in the <a href="https://www.neonscience.org/resources/learning-hub/tutorials" style="color: blue" target="_blank">NEON Learning Hub</a>
+NEON data tutorials can be found in the <a href="https://www.neonscience.org/resources/learning-hub/tutorials" style="color: darkcyan" target="_blank">NEON Learning Hub</a>
 
-NEON code resources can be found in the <a href="https://www.neonscience.org/resources/code-hub" style="color: blue" target="_blank">NEON Code Hub</a>
+NEON code resources can be found in the <a href="https://www.neonscience.org/resources/code-hub" style="color: darkcyan" target="_blank">NEON Code Hub</a>
 
-Future NEON workshops will be advertised in <a href="https://www.neonscience.org/get-involved/upcoming-events" style="color: blue" target="_blank">Upcoming Events</a>
+Future NEON workshops will be advertised in <a href="https://www.neonscience.org/get-involved/upcoming-events" style="color: darkcyan" target="_blank">Upcoming Events</a>
 
-<a href="https://www.neonscience.org" style="color: blue" target="_blank">NEON web portal home page</a>
+<a href="https://www.neonscience.org" style="color: darkcyan" target="_blank">NEON web portal home page</a>
